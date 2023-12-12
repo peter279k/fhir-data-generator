@@ -1,0 +1,4 @@
+dist/
+build/
+Pipfile.lock
+fhir_data_generator.egg-info/

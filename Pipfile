@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+poetry = "*"
+requests = "==2.31.0"
+fhir-data-generator = {editable = true, path = "."}
+
+[dev-packages]
+pytest = "==7.1.2"
+pytest-cov = "==3.0.0"
+
+[requires]
+python_version = "3.8"
