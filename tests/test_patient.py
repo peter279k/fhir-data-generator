@@ -132,3 +132,10 @@ def test_remove_telecom(patient_class, telecoms):
 
     assert patient_class.telecoms == expected
     assert len(patient_class.telecoms) == expected_len
+
+def test_set_patient_id(patient_class, patient_id):
+    expected = patient_id
+
+    patient_class.set_patient_id(patient_id)
+
+    assert patient_class.patient_id == expected
