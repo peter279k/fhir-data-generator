@@ -1,4 +1,4 @@
-from fixtures.patient_info import *
+from fixtures.patient_sc1_info import *
 
 
 def test_create(patient_class, profile_urls, identifiers, inactive, managing_organization, names, gender, birth_date, addresses, telecoms, patient_sc1_payload):

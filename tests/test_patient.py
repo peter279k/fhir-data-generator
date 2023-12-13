@@ -1,3 +1,6 @@
+from fixtures.patient_sc1_info import *
+
+
 def test_set_meta_profile(patient_class, profile_urls):
     expected = profile_urls
     expected_len = 1
@@ -97,8 +100,6 @@ def test_set_address(patient_class, addresses):
 
     assert patient_class.addresses == expected
     assert len(patient_class.addresses) == expected_len
-from fixtures.patient_info import *
-
 
 def test_remove_address(patient_class, addresses):
     expected = [addresses[1]]

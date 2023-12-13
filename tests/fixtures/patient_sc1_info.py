@@ -93,7 +93,7 @@ def telecoms():
             'use': 'home',
             'system': 'phone',
             'value': '0905285349',
-        }
+        },
     ]
 
 @pytest.fixture
