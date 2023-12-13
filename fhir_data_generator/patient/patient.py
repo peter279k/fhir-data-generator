@@ -10,6 +10,8 @@ class Patient:
 
         self.managing_organization_reference = ''
 
+        self.active = True
+
         self.names = []
         self.names_append = self.names.append
         self.names_remove = self.names.remove
@@ -68,6 +70,11 @@ class Patient:
 
         return True
 
+    def set_active(self, active: bool):
+        self.active = active
+
+        return True
+
     def set_managing_organization(self, managing_organization: str):
         self.managing_organization_reference = managing_organization
 
@@ -109,13 +116,13 @@ class Patient:
 
     def set_telecom(self, telecom: dict):
         if telecom not in self.telecoms:
-            self.addresses_append(telecom)
+            self.telecoms_append(telecom)
 
         return True
 
     def remove_telecom(self, telecom: dict):
         if telecom in self.telecoms:
-            self.addresses_remove(telecom)
+            self.telecoms_remove(telecom)
 
         return True
 
