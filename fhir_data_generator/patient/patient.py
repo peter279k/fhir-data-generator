@@ -28,6 +28,10 @@ class Patient:
         self.telecoms_append = self.telecoms.append
         self.telecoms_remove = self.telecoms.remove
 
+        self.contacts = []
+        self.contacts_append = self.contacts.append
+        self.contacts_remove = self.contacts.remove
+
         self.allowed_scenario = [1, 2, 3]
         self.payload_template = {
             'resourceType': 'Patient',
@@ -126,18 +130,34 @@ class Patient:
 
         return True
 
+    def set_contact(self, contact: dict):
+        if contact not in self.contacts:
+            self.contacts_append(contact)
+
+        return True
+
+    def remove_contact(self, contact: dict):
+        if contact in self.contacts:
+            self.contacts_remove(contact)
+
+        return True
+
     def create(self, scenario: int):
         if scenario not in self.allowed_scenario:
             raise Exception(f'The specific {scenario} is not invalid.')
 
-        if scenario == 1:
-            self.payload_template['meta']['profile'] = self.profile_urls
-            self.payload_template['identifier'] = self.identifiers
-            self.payload_template['managingOrganization']['reference'] = self.managing_organization_reference
-            self.payload_template['name'] = self.names
-            self.payload_template['gender'] = self.gender
-            self.payload_template['birthDate'] = self.birth_date
-            self.payload_template['address'] = self.addresses
-            self.payload_template['telecom'] = self.telecoms
+        self.payload_template['meta']['profile'] = self.profile_urls
+        self.payload_template['identifier'] = self.identifiers
+        self.payload_template['managingOrganization']['reference'] = self.managing_organization_reference
+        self.payload_template['name'] = self.names
+        self.payload_template['gender'] = self.gender
+        self.payload_template['birthDate'] = self.birth_date
+        self.payload_template['address'] = self.addresses
+        self.payload_template['telecom'] = self.telecoms
+
+        if scenario == 2:
+            self.payload_template['contact'] = self.contacts
 
         return self.payload_template
+
+    #def gen_query_param(self, query_params):
