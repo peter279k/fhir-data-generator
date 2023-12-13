@@ -45,10 +45,6 @@ def identifiers():
     return [identifier1, identifier2]
 
 @pytest.fixture
-def inactive():
-    return False
-
-@pytest.fixture
 def active():
     return True
 
@@ -164,7 +160,7 @@ def contacts():
 def patient_sc2_payload():
     profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2022-T1SC2']
 
-    return  {
+    return {
         'resourceType': 'Patient',
         'meta': {
             'profile': profile_urls,

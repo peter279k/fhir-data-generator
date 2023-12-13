@@ -148,6 +148,7 @@ class Patient:
 
         self.payload_template['meta']['profile'] = self.profile_urls
         self.payload_template['identifier'] = self.identifiers
+        self.payload_template['active'] = self.active
         self.payload_template['managingOrganization']['reference'] = self.managing_organization_reference
         self.payload_template['name'] = self.names
         self.payload_template['gender'] = self.gender
@@ -157,6 +158,13 @@ class Patient:
 
         if scenario == 2:
             self.payload_template['contact'] = self.contacts
+
+        if scenario == 3:
+            del self.payload_template['name']
+            del self.payload_template['gender']
+            del self.payload_template['birthDate']
+            del self.payload_template['address']
+            del self.payload_template['telecom']
 
         return self.payload_template
 

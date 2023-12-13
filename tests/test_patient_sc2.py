@@ -21,7 +21,7 @@ def test_remove_contact(patient_class, contacts):
     assert patient_class.contacts == expected
     assert len(patient_class.contacts) == expected_len
 
-def test_create(patient_class, profile_urls, identifiers, inactive, managing_organization, names, gender, birth_date, addresses, telecoms, contacts, patient_sc2_payload):
+def test_create(patient_class, profile_urls, identifiers, active, managing_organization, names, gender, birth_date, addresses, telecoms, contacts, patient_sc2_payload):
     expected = patient_sc2_payload
     scenario = 2
 
@@ -30,7 +30,7 @@ def test_create(patient_class, profile_urls, identifiers, inactive, managing_org
     patient_class.set_identifier(identifiers[0])
     patient_class.set_identifier(identifiers[1])
 
-    patient_class.set_active(inactive)
+    patient_class.set_active(active)
 
     patient_class.set_managing_organization(managing_organization)
 
