@@ -1,3 +1,6 @@
+from urllib.parse import urlencode
+
+
 class Patient:
     def __init__(self):
         self.profile_urls = []
@@ -49,6 +52,8 @@ class Patient:
             'address': [],
             'telecom': [],
         }
+
+        self.api_endpoint = ''
 
     def set_profile_url(self, profile_url: str):
         if profile_url not in self.profile_urls:
@@ -168,4 +173,13 @@ class Patient:
 
         return self.payload_template
 
-    #def gen_query_param(self, query_params):
+    def set_fhir_server_endpoint(self, api_endpoint: str):
+        self.api_endpoint = api_endpoint
+
+        return True
+
+    def build_patient_id_query(self, patient_id: str):
+        return urlencode({'_id': patient_id})
+
+    def build_search_param(self, query_params: dict):
+        return urlencode(query_params)
