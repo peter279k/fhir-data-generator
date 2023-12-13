@@ -3,6 +3,8 @@ from urllib.parse import urlencode
 
 class Patient:
     def __init__(self):
+        self.patient_id = ''
+
         self.profile_urls = []
         self.profile_urls_append = self.profile_urls.append
         self.profile_urls_remove = self.profile_urls.remove
@@ -147,7 +149,12 @@ class Patient:
 
         return True
 
-    def create(self, scenario: int):
+    def set_patient_id(self, patient_id: str):
+        self.patient_id = patient_id
+
+        return True
+
+    def create(self, scenario: int, update=False):
         if scenario not in self.allowed_scenario:
             raise Exception(f'The specific {scenario} is not invalid.')
 
@@ -160,6 +167,9 @@ class Patient:
         self.payload_template['birthDate'] = self.birth_date
         self.payload_template['address'] = self.addresses
         self.payload_template['telecom'] = self.telecoms
+
+        if update is True:
+            self.payload_template['id'] = self.patient_id
 
         if scenario == 2:
             self.payload_template['contact'] = self.contacts
