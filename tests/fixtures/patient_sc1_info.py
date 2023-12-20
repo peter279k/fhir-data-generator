@@ -1,15 +1,16 @@
+import uuid
 import pytest
 from fhir_data_generator import Patient
 
 
 @pytest.fixture
 def patient_class():
-    return Patient()
+    return Patient(patient_id=uuid.uuid4().hex)
 
 @pytest.fixture
 def profile_urls():
     return [
-        'https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2022-T1SC1',
+        'https://hapi.fhir.tw/fhir/StructureDefinition/MITW-T1-SC1-PatientCore',
     ]
 
 @pytest.fixture
@@ -20,28 +21,30 @@ def patient_id():
 def identifiers():
     identifier1 = {
         'use': 'official',
+        'system': 'http://www.boca.gov.tw',
         'type': {
             'coding': [
                 {
-                    'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
-                    'code': 'NI',
+                    'system': 'http://www.boca.gov.tw',
+                    'code': 'PPN',
+                    'display': 'Passport number',
                 },
             ],
         },
-        'system': 'http://www.moi.gov.tw/',
-        'value': 'E262344368',
+        'value': 'E262344368'[2:],
     }
     identifier2 = {
         'use': 'official',
+        'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
         'type': {
             'coding': [
                 {
                     'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                     'code': 'MR',
+                    'display': 'Medical record number',
                 },
             ]
         },
-        'system': 'https://www.tph.mohw.gov.tw/',
         'value': '123456789',
     }
 
@@ -102,7 +105,7 @@ def telecoms():
 
 @pytest.fixture
 def patient_sc1_payload():
-    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2022-T1SC1']
+    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/MITW-T1-SC1-PatientCore']
 
     return {
         'resourceType': 'Patient',
@@ -112,28 +115,30 @@ def patient_sc1_payload():
         'identifier': [
             {
                 'use': 'official',
+                'system': 'http://www.boca.gov.tw',
                 'type': {
                     'coding': [
                         {
-                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
-                            'code': 'NI',
+                            'system': 'http://www.boca.gov.tw',
+                            'code': 'PPN',
+                            'display': 'Passport number',
                         },
                     ],
                 },
-                'system': 'http://www.moi.gov.tw/',
-                'value': 'E262344368',
+                'value': 'E262344368'[2:],
             },
             {
                 'use': 'official',
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                 'type': {
                     'coding': [
                         {
                             'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                             'code': 'MR',
+                            'display': 'Medical record number',
                         },
                     ],
                 },
-                'system': 'https://www.tph.mohw.gov.tw/',
                 'value': '123456789',
             },
         ],
@@ -171,7 +176,7 @@ def patient_sc1_payload():
 
 @pytest.fixture
 def update_patient_sc1_payload():
-    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2022-T1SC1']
+    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/MITW-T1-SC1-PatientCore']
 
     return {
         'resourceType': 'Patient',
@@ -182,28 +187,30 @@ def update_patient_sc1_payload():
         'identifier': [
             {
                 'use': 'official',
+                'system': 'http://www.boca.gov.tw',
                 'type': {
                     'coding': [
                         {
-                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
-                            'code': 'NI',
+                            'system': 'http://www.boca.gov.tw',
+                            'code': 'PPN',
+                            'display': 'Passport number',
                         },
                     ],
                 },
-                'system': 'http://www.moi.gov.tw/',
-                'value': 'E262344368',
+                'value': 'E262344368'[2:],
             },
             {
                 'use': 'official',
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                 'type': {
                     'coding': [
                         {
                             'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                             'code': 'MR',
+                            'display': 'Medical record number',
                         },
                     ],
                 },
-                'system': 'https://www.tph.mohw.gov.tw/',
                 'value': '123456789',
             },
         ],

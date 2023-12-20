@@ -2,8 +2,8 @@ from urllib.parse import urlencode
 
 
 class Patient:
-    def __init__(self):
-        self.patient_id = ''
+    def __init__(self, patient_id=''):
+        self.patient_id = patient_id
 
         self.profile_urls = []
         self.profile_urls_append = self.profile_urls.append
@@ -171,15 +171,13 @@ class Patient:
         if update is True:
             self.payload_template['id'] = self.patient_id
 
-        if scenario == 2:
-            self.payload_template['contact'] = self.contacts
-
         if scenario == 3:
             del self.payload_template['name']
             del self.payload_template['gender']
             del self.payload_template['birthDate']
-            del self.payload_template['address']
             del self.payload_template['telecom']
+            del self.payload_template['address']
+            self.payload_template['contact'] = self.contacts
 
         return self.payload_template
 

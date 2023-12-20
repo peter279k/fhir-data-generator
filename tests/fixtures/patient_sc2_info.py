@@ -9,7 +9,7 @@ def patient_class():
 @pytest.fixture
 def profile_urls():
     return [
-        'https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2022-T1SC2',
+        'https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2023-T1SC2',
     ]
 
 @pytest.fixture
@@ -158,7 +158,7 @@ def contacts():
 
 @pytest.fixture
 def patient_sc2_payload():
-    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2022-T1SC2']
+    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2023-T1SC2']
 
     return {
         'resourceType': 'Patient',
@@ -218,51 +218,6 @@ def patient_sc2_payload():
                     'country': 'Taiwan',
             },
         ],
-        'contact': [
-            {
-                'relationship': [
-                    {
-                        'coding': [
-                            {
-                                'system': 'http://terminology.hl7.org/CodeSystem/v2-0131',
-                                'code': 'CP',
-                            },
-                        ],
-                        'text': 'Contact Person'
-                    },
-                ],
-                'name': {
-                    'text': 'Peter Li',
-                    'family': 'Li',
-                    'given': [
-                        'Peter',
-                    ],
-                },
-                'telecom': [
-                    {
-                        'system': 'phone',
-                        'value': '0905285349',
-                        'use': 'mobile',
-                    },
-                    {
-                        'system': 'email',
-                        'value': 'peter279k@gmail.com',
-                    },
-                    {
-                        'system': 'url',
-                        'value': '',
-                    },
-                ],
-                'address': {
-                    'text': '8F, No.133, Sec.4 MingSheng E. Rd, Taipei City 105, Taiwan.',
-                    'line': [''],
-                    'city': 'Taipei',
-                    'district': '',
-                    'postalCode': '105',
-                    'country': 'Taiwan',
-                },
-            },
-        ],
         'active': True,
         'managingOrganization': {
             'reference': 'Organization/MITW.ForContact'
@@ -283,7 +238,7 @@ def patient_sc2_payload():
 
 @pytest.fixture
 def update_patient_sc2_payload():
-    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2022-T1SC2']
+    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2023-T1SC2']
 
     return {
         'resourceType': 'Patient',
@@ -342,51 +297,6 @@ def update_patient_sc2_payload():
                     'district': '',
                     'postalCode': '105',
                     'country': 'Taiwan',
-            },
-        ],
-        'contact': [
-            {
-                'relationship': [
-                    {
-                        'coding': [
-                            {
-                                'system': 'http://terminology.hl7.org/CodeSystem/v2-0131',
-                                'code': 'CP',
-                            },
-                        ],
-                        'text': 'Contact Person'
-                    },
-                ],
-                'name': {
-                    'text': 'Peter Li',
-                    'family': 'Li',
-                    'given': [
-                        'Peter',
-                    ],
-                },
-                'telecom': [
-                    {
-                        'system': 'phone',
-                        'value': '0905285349',
-                        'use': 'mobile',
-                    },
-                    {
-                        'system': 'email',
-                        'value': 'peter279k@gmail.com',
-                    },
-                    {
-                        'system': 'url',
-                        'value': '',
-                    },
-                ],
-                'address': {
-                    'text': '8F, No.133, Sec.4 MingSheng E. Rd, Taipei City 105, Taiwan.',
-                    'line': [''],
-                    'city': 'Taipei',
-                    'district': '',
-                    'postalCode': '105',
-                    'country': 'Taiwan',
-                },
             },
         ],
         'active': True,
