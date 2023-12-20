@@ -37,6 +37,10 @@ class Patient:
         self.contacts_append = self.contacts.append
         self.contacts_remove = self.contacts.remove
 
+        self.communications = []
+        self.communications_append = self.communications.append
+        self.communications_remove = self.communications.remove
+
         self.allowed_scenario = [1, 2, 3]
         self.payload_template = {
             'resourceType': 'Patient',
@@ -149,6 +153,18 @@ class Patient:
 
         return True
 
+    def set_communication(self, communication: dict):
+        if communication not in self.communications:
+            self.communications_append(communication)
+
+        return True
+
+    def remove_communication(self, communication: dict):
+        if communication not in self.communications:
+            self.communications_remove(communication)
+
+        return True
+
     def set_patient_id(self, patient_id: str):
         self.patient_id = patient_id
 
@@ -170,6 +186,9 @@ class Patient:
 
         if update is True:
             self.payload_template['id'] = self.patient_id
+
+        if scenario == 2:
+            self.payload_template['communication'] = self.communications
 
         if scenario == 3:
             del self.payload_template['name']

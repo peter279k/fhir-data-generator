@@ -5,7 +5,7 @@ from fhir_data_generator import Patient
 
 @pytest.fixture
 def patient_class():
-    return Patient(patient_id=uuid.uuid4().hex)
+    return Patient(patient_id=str(uuid.uuid4()))
 
 @pytest.fixture
 def profile_urls():

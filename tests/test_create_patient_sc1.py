@@ -1,4 +1,3 @@
-import requests
 from fixtures.patient_sc1_info import *
 
 
