@@ -1,47 +1,70 @@
+import uuid
 import pytest
 from fhir_data_generator import Patient
 
 
 @pytest.fixture
 def patient_class():
-    return Patient()
+    return Patient(str(uuid.uuid4()))
 
 @pytest.fixture
 def profile_urls():
     return [
-        'https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2023-T1SC3',
+        'https://hapi.fhir.tw/fhir/StructureDefinition/MITW-T1-SC3-PatientContact',
     ]
 
 @pytest.fixture
 def identifiers():
     identifier1 = {
         'use': 'official',
+        'system': 'http://www.boca.gov.tw',
         'type': {
             'coding': [
                 {
-                    'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
-                    'code': 'NI',
+                    'system': 'http://www.boca.gov.tw',
+                    'code': 'PPN',
+                    'display': 'Passport number',
                 },
             ],
         },
-        'system': 'http://www.moi.gov.tw/',
-        'value': 'M123456789',
+        'value': 'E262344368'[2:],
     }
     identifier2 = {
         'use': 'official',
+        'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
         'type': {
             'coding': [
                 {
                     'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                     'code': 'MR',
+                    'display': 'Medical record number',
                 },
             ]
         },
-        'system': 'https://www.tph.mohw.gov.tw/',
         'value': '123456789',
     }
 
     return [identifier1, identifier2]
+
+@pytest.fixture
+def gender():
+    return 'male'
+
+@pytest.fixture
+def birth_date():
+    return '2023-12-13'
+
+@pytest.fixture
+def addresses():
+    return [
+        {
+            'use': 'home',
+            'text': '105台北市松山區民生東路四段133號',
+        },
+        {
+            'country': 'TW',
+        },
+    ]
 
 @pytest.fixture
 def contacts():
@@ -55,7 +78,7 @@ def contacts():
                             'code': 'CP',
                         },
                     ],
-                    'text': 'Contact Person'
+                    'text': 'Contact person',
                 },
             ],
             'name': {
@@ -75,21 +98,7 @@ def contacts():
                   'system': 'email',
                   'value': 'peter279k@gmail.com',
                 },
-                {
-                  'system': 'url',
-                  'value': '',
-                },
             ],
-            'address': {
-                'text': '8F, No.133, Sec.4 MingSheng E. Rd, Taipei City 105, Taiwan.',
-                'line': [
-                    ''
-                ],
-                'city': 'Taipei',
-                'district': '',
-                'postalCode': '105',
-                'country': 'Taiwan',
-            },
          },
     ]
 
@@ -103,7 +112,7 @@ def managing_organization():
 
 @pytest.fixture
 def patient_sc3_payload():
-    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2023-T1SC3']
+    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/MITW-T1-SC3-PatientContact']
 
     return {
         'resourceType': 'Patient',
@@ -113,28 +122,30 @@ def patient_sc3_payload():
         'identifier': [
             {
                 'use': 'official',
+                'system': 'http://www.boca.gov.tw',
                 'type': {
                     'coding': [
                         {
-                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
-                            'code': 'NI',
+                            'system': 'http://www.boca.gov.tw',
+                            'code': 'PPN',
+                            'display': 'Passport number',
                         },
                     ],
                 },
-                'system': 'http://www.moi.gov.tw/',
-                'value': 'M123456789',
+                'value': 'E262344368'[2:],
             },
             {
                 'use': 'official',
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                 'type': {
                     'coding': [
                         {
                             'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                             'code': 'MR',
+                            'display': 'Medical record number',
                         },
-                    ]
+                    ],
                 },
-                'system': 'https://www.tph.mohw.gov.tw/',
                 'value': '123456789',
             },
         ],
@@ -142,6 +153,8 @@ def patient_sc3_payload():
         'managingOrganization': {
             'reference': 'Organization/MITW.ForPHR',
         },
+        'birthDate': '2023-12-13',
+        'gender': 'male',
         'contact': [
             {
                 'relationship': [
@@ -152,7 +165,7 @@ def patient_sc3_payload():
                                 'code': 'CP',
                             },
                         ],
-                        'text': 'Contact Person'
+                        'text': 'Contact person',
                     },
                 ],
                 'name': {
@@ -172,26 +185,23 @@ def patient_sc3_payload():
                         'system': 'email',
                         'value': 'peter279k@gmail.com',
                     },
-                    {
-                        'system': 'url',
-                        'value': '',
-                    },
                 ],
-                'address': {
-                    'text': '8F, No.133, Sec.4 MingSheng E. Rd, Taipei City 105, Taiwan.',
-                    'line': [''],
-                    'city': 'Taipei',
-                    'district': '',
-                    'postalCode': '105',
-                    'country': 'Taiwan',
-                },
+            },
+        ],
+        'address': [
+            {
+                'use': 'home',
+                'text': '105台北市松山區民生東路四段133號',
+            },
+            {
+                'country': 'TW',
             },
         ],
     }
 
 @pytest.fixture
 def update_patient_sc3_payload():
-    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-MITW2023-T1SC3']
+    profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/MITW-T1-SC3-PatientContact']
 
     return {
         'resourceType': 'Patient',
@@ -202,32 +212,36 @@ def update_patient_sc3_payload():
         'identifier': [
             {
                 'use': 'official',
+                'system': 'http://www.boca.gov.tw',
                 'type': {
                     'coding': [
                         {
-                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
-                            'code': 'NI',
+                            'system': 'http://www.boca.gov.tw',
+                            'code': 'PPN',
+                            'display': 'Passport number',
                         },
                     ],
                 },
-                'system': 'http://www.moi.gov.tw/',
-                'value': 'M123456789',
+                'value': 'E262344368'[2:],
             },
             {
                 'use': 'official',
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                 'type': {
                     'coding': [
                         {
                             'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
                             'code': 'MR',
+                            'display': 'Medical record number',
                         },
-                    ]
+                    ],
                 },
-                'system': 'https://www.tph.mohw.gov.tw/',
                 'value': '123456789',
             },
         ],
         'active': True,
+        'birthDate': '2023-12-13',
+        'gender': 'male',
         'managingOrganization': {
             'reference': 'Organization/MITW.ForPHR',
         },
@@ -241,7 +255,7 @@ def update_patient_sc3_payload():
                                 'code': 'CP',
                             },
                         ],
-                        'text': 'Contact Person'
+                        'text': 'Contact person',
                     },
                 ],
                 'name': {
@@ -261,20 +275,16 @@ def update_patient_sc3_payload():
                         'system': 'email',
                         'value': 'peter279k@gmail.com',
                     },
-                    {
-                        'system': 'url',
-                        'value': '',
-                    },
                 ],
-                'address': {
-                    'text': '8F, No.133, Sec.4 MingSheng E. Rd, Taipei City 105, Taiwan.',
-                    'line': [''],
-                    'city': 'Taipei',
-                    'district': '',
-                    'postalCode': '105',
-                    'country': 'Taiwan',
-                },
             },
         ],
-
+        'address': [
+            {
+                'use': 'home',
+                'text': '105台北市松山區民生東路四段133號',
+            },
+            {
+                'country': 'TW',
+            },
+        ],
     }

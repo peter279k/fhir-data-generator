@@ -1,7 +1,7 @@
 from fixtures.patient_sc3_info import *
 
 
-def test_create(patient_class, profile_urls, identifiers, active, managing_organization, contacts, update_patient_sc3_payload):
+def test_create(patient_class, profile_urls, identifiers, active, managing_organization, contacts, gender, birth_date, addresses, update_patient_sc3_payload):
     expected = update_patient_sc3_payload
     scenario = 3
 
@@ -9,6 +9,13 @@ def test_create(patient_class, profile_urls, identifiers, active, managing_organ
 
     patient_class.set_identifier(identifiers[0])
     patient_class.set_identifier(identifiers[1])
+
+    patient_class.set_gender(gender)
+
+    patient_class.set_birth_date(birth_date)
+
+    patient_class.set_address(addresses[0])
+    patient_class.set_address(addresses[1])
 
     patient_class.set_contact(contacts[0])
 
