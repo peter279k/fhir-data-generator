@@ -24,6 +24,6 @@ jobs:
         run: pip install pipenv --user
       - name: Setup Python virtual environment
         run: |
-          python3 -m pipenv install -e .
+          pipenv --python=python install -e .
       - name: Run tests
-        run: python3 -m pipenv run pytest -vv
+        run: pipenv run pytest -vv
