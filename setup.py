@@ -6,7 +6,7 @@ setup(name='fhir-data-generator',
       url='https://github.com/peter279k/fhir-data-generator',
       author='peter279k',
       author_email='peter279k@gmail.com',
-      packages=['FHIR', 'Data'],
+      packages=['fhir_data_generator'],
       license='MIT',
       python_requires=">=3.8",
       zip_safe=False)
