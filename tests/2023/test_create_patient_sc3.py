@@ -1,4 +1,3 @@
-import requests
 from fixtures.patient_sc3_info import *
 
 
@@ -27,13 +26,3 @@ def test_create(patient_class, profile_urls, identifiers, active, managing_organ
     patient_class.create(scenario)
 
     assert patient_class.payload_template == expected
-
-def test_create_on_fhir_server(patient_class, patient_sc3_payload):
-    headers = {
-        'Accept': 'application/fhir+json',
-        'Content-Type': 'application/fhir+json',
-    }
-    patient_sc3_payload['id'] = patient_class.patient_id
-    response = requests.post('https://hapi.fhir.tw/fhir/Patient', json=patient_sc3_payload, headers=headers)
-    with open('sc3_response.text', 'w') as f:
-        f.write(response.text)
