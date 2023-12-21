@@ -1,8 +1,10 @@
 # Development setup
 
 - Running the `git clone` to clone the repository.
-- Preparing the `pipenv` environment.
-- Running the `pipenv install`.
+- Preparing for the `pipenv` environment.
+- Running the `pipenv install` command to install packages.
+- Running the `pipenv install -d` command to install development packages.
+- Running the `pipenv install .` command to install local package.
 - Running the `pipenv run pytest -vv` to run unit tests.
 - Running the `pipenv run pytest --cov --cov-report html` to run unit tests and generate coverage report with the HTML format. The report will be generated in the `htmlcov` directory.
 

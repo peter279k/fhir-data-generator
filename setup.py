@@ -1,5 +1,6 @@
 from setuptools import setup
 
+
 setup(name='fhir-data-generator',
       version='0.2.0',
       description='The FHIR data generator is compatible with the some MI-TW scenarios',
