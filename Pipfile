@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 poetry = "*"
 requests = "==2.31.0"
-fhir-data-generator = {editable = true, path = "."}
 
 [dev-packages]
 pytest = "==7.1.2"

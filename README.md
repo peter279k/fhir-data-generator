@@ -2,7 +2,7 @@
 
 - Running the `git clone` to clone the repository.
 - Preparing the `pipenv` environment.
-- Running the `pipenv install -e .`.
+- Running the `pipenv install`.
 - Running the `pipenv run pytest -vv` to run unit tests.
 - Running the `pipenv run pytest --cov --cov-report html` to run unit tests and generate coverage report with the HTML format. The report will be generated in the `htmlcov` directory.
 
