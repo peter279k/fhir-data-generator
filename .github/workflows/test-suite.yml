@@ -25,6 +25,7 @@ jobs:
       - name: Setup Python virtual environment
         run: |
           python -m pipenv install
+          python -m pipenv install -d
           python -m pipenv install build
           python -m pipenv run python -m build
       - name: Run tests
