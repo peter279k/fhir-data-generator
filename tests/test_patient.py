@@ -1,4 +1,5 @@
 from fixtures.patient_sc1_info import *
+from fixtures.patient_sc2_info import communications
 
 
 def test_set_meta_profile(patient_class, profile_urls):
@@ -132,6 +133,26 @@ def test_remove_telecom(patient_class, telecoms):
 
     assert patient_class.telecoms == expected
     assert len(patient_class.telecoms) == expected_len
+
+def test_set_communication(patient_class, communications):
+    expected = communications
+    expected_len = 1
+
+    patient_class.set_communication(communications[0])
+
+    assert patient_class.communications == expected
+    assert len(patient_class.communications) == expected_len
+
+def test_remove_communication(patient_class, communications):
+    expected = []
+    expected_len = 0
+
+    patient_class.set_communication(communications[0])
+
+    patient_class.remove_communication(communications[0])
+
+    assert patient_class.communications == expected
+    assert len(patient_class.communications) == expected_len
 
 def test_set_patient_id(patient_class, patient_id):
     expected = patient_id

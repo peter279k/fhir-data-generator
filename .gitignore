@@ -1,4 +1,5 @@
 dist/
 build/
+.coverage
 Pipfile.lock
 fhir_data_generator.egg-info/

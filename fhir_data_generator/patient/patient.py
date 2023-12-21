@@ -160,7 +160,7 @@ class Patient:
         return True
 
     def remove_communication(self, communication: dict):
-        if communication not in self.communications:
+        if communication in self.communications:
             self.communications_remove(communication)
 
         return True
