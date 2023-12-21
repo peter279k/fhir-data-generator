@@ -26,8 +26,6 @@ jobs:
         run: |
           python -m pipenv install
           python -m pipenv install -d
-          python -m pipenv install build
-          python -m pipenv run python -m build
-          python -m pipenv install dist/*.whl
+          python -m pipenv run poetry install
       - name: Run tests
         run: python -m pipenv run pytest
