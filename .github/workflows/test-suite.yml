@@ -28,5 +28,6 @@ jobs:
           python -m pipenv install -d
           python -m pipenv install build
           python -m pipenv run python -m build
+          python -m pipenv install dist/*.whl
       - name: Run tests
         run: python -m pipenv run pytest
