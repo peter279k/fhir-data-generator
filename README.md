@@ -10,8 +10,9 @@
 
 # Publishing package steps
 
-- Running the `poetry check` command.
-- Running the `poetry build --username <username> --password <password>` command.
+- Running the `poetry check` command to check whether everything is okay.
+- Running the `poetry build` command to build archived Python package file.
+- Running the `poetry publish` command to publish the Python package.
 
 # Refrences
 
