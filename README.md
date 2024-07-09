@@ -12,7 +12,14 @@
 
 - Running the `poetry check` command to check whether everything is okay.
 - Running the `poetry build` command to build archived Python package file.
+- Running the `poetry config pypi-token.pypi <pypi token>` command to configure Pypi token.
 - Running the `poetry publish` command to publish the Python package.
+
+# Publish package to testPyi
+
+- Running the `poetry config repositories.test-pypi https://test.pypi.org/legacy/` command to configure testPypi URL.
+- Running the `poetry config pypi-token.test-pypi <test_pypi_token>` command to configure testPypi token.
+- Running the `poetry publish -r test-pypi` command to publish the testPypi.
 
 # Refrences
 
