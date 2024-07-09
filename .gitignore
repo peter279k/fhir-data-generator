@@ -1,5 +1,6 @@
 dist/
 build/
 .coverage
+poetry.lock
 Pipfile.lock
 fhir_data_generator.egg-info/
