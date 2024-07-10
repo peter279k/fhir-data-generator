@@ -33,7 +33,6 @@ jobs:
         run: python -m pipenv run poetry build
       - name: Configure Pypi URL
         run: python -m pipenv run poetry config repositories.test-pypi https://test.pypi.org/legacy/
-      - name: Publishing Python package to pypi
       - name: Configure Pypi token
         run: python -m pipenv run poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
       - name: Publishing Python package to pypi
