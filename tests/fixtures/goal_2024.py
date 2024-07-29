@@ -32,14 +32,6 @@ def lifecycle_status():
     return 'proposed'
 
 @pytest.fixture
-def category_coding():
-    return [{
-        'system': 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode',
-        'code': 'PhysicalActivity',
-        'display': 'Physical Activity'
-    }]
-
-@pytest.fixture
 def description_text():
     return 'L5-S1椎間盤突出，在六個月內減少突出程度2-3毫米，疼痛評分減少50%'
 
