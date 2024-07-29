@@ -170,7 +170,7 @@ class Patient:
 
         return True
 
-    def create(self, scenario: int, update=False):
+    def create(self, scenario=1, update=False):
         if scenario not in self.allowed_scenario:
             raise Exception(f'The specific {scenario} is not invalid.')
 
