@@ -74,7 +74,7 @@ def contacts():
                 {
                     'coding': [
                         {
-                          'system': 'http://terminology.hl7.org/CodeSystem/v2-0131',
+                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0131',
                             'code': 'CP',
                         },
                     ],
