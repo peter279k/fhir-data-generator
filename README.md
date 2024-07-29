@@ -107,10 +107,199 @@ print(json.dumps(patient_json_dict))
 ```
 ## Patient SC2
 
-```sh
+```python
+import json
+import uuid
+from fhir_data_generator import Patient
+
+
+Patient = Patient(str(uuid.uuid4()))
+
+patient.set_profile_url('https://fhir.server/path/to/profile/path')
+
+identifier1 = {
+    'use': 'official',
+    'system': 'http://www.boca.gov.tw',
+    'type': {
+        'coding': [
+            {
+                'system': 'http://www.boca.gov.tw',
+                'code': 'PPN',
+                'display': 'Passport number',
+            },
+        ],
+    },
+    'value': 'E262344368'[2:],
+}
+identifier2 = {
+    'use': 'official',
+    'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+    'type': {
+        'coding': [
+            {
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                'code': 'MR',
+                'display': 'Medical record number',
+            },
+        ]
+    },
+    'value': '123456789',
+}
+
+patient_class.set_identifier(identifier1)
+patient_class.set_identifier(identifier2)
+
+patient_class.set_active(True)
+
+managing_organization = 'Organization/MITW.ForIdentifier'
+patient_class.set_managing_organization(managing_organization)
+
+names = [
+    {
+        'use': 'official',
+        'family': 'Li',
+        'given': [
+            'Peter'
+        ],
+        'text': 'Peter Li',
+    },
+]
+
+patient_class.set_name(names[0])
+
+gender = 'male'
+patient_class.set_gender(gender)
+
+birth_date = '2023-12-23'
+patient_class.set_birth_date(birth_date)
+
+addresses = [
+    {
+        'use': 'home',
+        'text': '105台北市松山區民生東路四段133號',
+    },
+    {
+        'country': 'TW',
+    },
+]
+
+patient_class.set_address(addresses[0])
+patient_class.set_address(addresses[1])
+
+telecom = {
+    'use': 'home',
+    'system': 'phone',
+    'value': '0905285349',
+}
+patient_class.set_telecom(telecom)
+
+communications = [
+    {
+        'language': {
+            'coding': [
+                {
+                    'system': 'http://terminology.hl7.org/CodeSystem/v3-ietf3066',
+                    'code': 'en-US',
+                },
+            ],
+            'text': 'English (US)',
+        },
+    },
+]
+
+patient_class.set_communication(communications[0])
+
+scenario = 2
+
+# Retrieving the Patient resource dict
+patient_json_dict = patient.create(scenario)
+print(patient_json_dict)
+
+# Retrieve the Patient resource JSON string
+print(json.dumps(patient_json_dict))
 ```
 
-# Refrences
+## Patient SC3
+
+```python
+import json
+import uuid
+from fhir_data_generator import Patient
+
+
+patient = Patient(str(uuid.uuid4()))
+patient.set_profile_url('https://fhir.server/path/to/profile/path')
+
+patient_class.set_profile_url(profile_urls[0])
+
+patient_class.set_identifier(identifiers[0])
+patient_class.set_identifier(identifiers[1])
+
+gender = 'male'
+patient_class.set_gender(gender)
+
+birth_date = '2023-12-23'
+patient_class.set_birth_date(birth_date)
+
+contacts = [
+    {
+        'relationship': [
+            {
+                'coding': [
+                    {
+                        'system': 'http://terminology.hl7.org/CodeSystem/v2-0131',
+                        'code': 'CP',
+                    },
+                ],
+                'text': 'Contact person',
+            },
+        ],
+        'name': {
+            'text': 'Peter Li',
+            'family': 'Li',
+            'given': [
+                'Peter',
+            ],
+        },
+        'telecom': [
+            {
+                'system': 'phone',
+                'value': '0905285349',
+                'use': 'mobile',
+            },
+            {
+                'system': 'email',
+                'value': 'peter279k@gmail.com',
+            },
+        ],
+    },
+]
+patient_class.set_contact(contacts[0])
+
+addresses = [
+    {
+        'use': 'home',
+        'text': '105台北市松山區民生東路四段133號',
+    },
+    {
+        'country': 'TW',
+    },
+]
+patient_class.set_address(addresses[0])
+patient_class.set_address(addresses[1])
+
+patient_class.set_active(True)
+
+managing_organization = 'Organization/MITW.ForIdentifier'
+patient_class.set_managing_organization(managing_organization)
+
+scenario = 3
+patient_class.create(scenario)
+```
+
+## Observation BMI Example
+
+# References
 
 - https://hackersandslackers.com/python-poetry-package-manager
 - https://www.digitalocean.com/community/tutorials/how-to-publish-python-packages-to-pypi-using-poetry-on-ubuntu-22-04
