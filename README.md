@@ -146,13 +146,13 @@ identifier2 = {
     'value': '123456789',
 }
 
-patient_class.set_identifier(identifier1)
-patient_class.set_identifier(identifier2)
+patient.set_identifier(identifier1)
+patient.set_identifier(identifier2)
 
-patient_class.set_active(True)
+patient.set_active(True)
 
 managing_organization = 'Organization/MITW.ForIdentifier'
-patient_class.set_managing_organization(managing_organization)
+patient.set_managing_organization(managing_organization)
 
 names = [
     {
@@ -165,13 +165,13 @@ names = [
     },
 ]
 
-patient_class.set_name(names[0])
+patient.set_name(names[0])
 
 gender = 'male'
-patient_class.set_gender(gender)
+patient.set_gender(gender)
 
 birth_date = '2023-12-23'
-patient_class.set_birth_date(birth_date)
+patient.set_birth_date(birth_date)
 
 addresses = [
     {
@@ -183,15 +183,15 @@ addresses = [
     },
 ]
 
-patient_class.set_address(addresses[0])
-patient_class.set_address(addresses[1])
+patient.set_address(addresses[0])
+patient.set_address(addresses[1])
 
 telecom = {
     'use': 'home',
     'system': 'phone',
     'value': '0905285349',
 }
-patient_class.set_telecom(telecom)
+patient.set_telecom(telecom)
 
 communications = [
     {
@@ -207,7 +207,7 @@ communications = [
     },
 ]
 
-patient_class.set_communication(communications[0])
+patient.set_communication(communications[0])
 
 scenario = 2
 
@@ -230,16 +230,14 @@ from fhir_data_generator import Patient
 patient = Patient(str(uuid.uuid4()))
 patient.set_profile_url('https://fhir.server/path/to/profile/path')
 
-patient_class.set_profile_url(profile_urls[0])
-
-patient_class.set_identifier(identifiers[0])
-patient_class.set_identifier(identifiers[1])
+patient.set_identifier(identifiers[0])
+patient.set_identifier(identifiers[1])
 
 gender = 'male'
-patient_class.set_gender(gender)
+patient.set_gender(gender)
 
 birth_date = '2023-12-23'
-patient_class.set_birth_date(birth_date)
+patient.set_birth_date(birth_date)
 
 contacts = [
     {
@@ -274,7 +272,7 @@ contacts = [
         ],
     },
 ]
-patient_class.set_contact(contacts[0])
+patient.set_contact(contacts[0])
 
 addresses = [
     {
@@ -285,19 +283,85 @@ addresses = [
         'country': 'TW',
     },
 ]
-patient_class.set_address(addresses[0])
-patient_class.set_address(addresses[1])
+patient.set_address(addresses[0])
+patient.set_address(addresses[1])
 
-patient_class.set_active(True)
+patient.set_active(True)
 
 managing_organization = 'Organization/MITW.ForIdentifier'
-patient_class.set_managing_organization(managing_organization)
+patient.set_managing_organization(managing_organization)
 
 scenario = 3
-patient_class.create(scenario)
+
+# Retrieving the Patient resource dict
+patient_json_dict = patient.create(scenario)
+print(patient_json_dict)
+
+# Retrieve the Patient resource JSON string
+print(json.dumps(patient_json_dict))
 ```
 
 ## Observation BMI Example
+
+```python
+import json
+import uuid
+from fhir_data_generator import Observation
+
+
+observation = Observation(str(uuid.uuid4()))
+
+profile_urls = ['https://fhir.server/path/to/profile/path']
+observation.set_profile_urls(profile_urls)
+
+status = 'final
+observation.set_status(status)
+
+category_coding = [{
+    'system': 'http://terminology.hl7.org/CodeSystem/observation-category',
+    'code': 'vital-signs',
+    'display': 'Vital Signs',
+}]
+observation.set_category_coding(category_coding)
+
+code_coding = [{
+    'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/loinc-tw',
+    'code': '39156-5',
+    'display': 'Body mass index (BMI) [Ratio]',
+}]
+observation.set_code_coding(code_coding)
+
+code_text = 'Body mass index (BMI) [Ratio]'
+observation.set_code_text(code_text)
+
+subject= {
+    'reference': 'Patient/pat-example',
+}
+observation.set_subject(subject)
+
+effective_datetime = '2023-12-23'
+observation.set_effective_datetime(effective_datetime)
+
+performer = [{
+    'reference': 'Practitioner/pra-dr-example',
+}]
+observation.set_performer(performer)
+
+value_quantity = {
+    'value': 18.3,
+    'unit': 'kg/m2',
+    'system': 'http://unitsofmeasure.org',
+    'code': 'kg/m2',
+}
+observation.set_value_quantity(value_quantity)
+
+# Retrieving the Observation resource dict
+observation_json_dict = observation.create()
+print(observation_json_dict)
+
+# Retrieve the Observation resource JSON string
+print(json.dumps(observation_json_dict))
+```
 
 # References
 
