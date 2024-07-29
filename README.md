@@ -363,6 +363,182 @@ print(observation_json_dict)
 print(json.dumps(observation_json_dict))
 ```
 
+### CarePlan Example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import CarePlan
+
+
+care_plan = CarePlan(str(uuid.uuid4()))
+
+profile_urls = [
+    'https://hapi.fhir.tw/fhir/StructureDefinition/Careplan-sport',
+]
+care_plan.set_profile_urls(profile_urls)
+
+status = 'active'
+care_plan.set_status(status)
+
+intent = 'plan'
+care_plan.set_intent(intent)
+
+category_coding = [
+    {
+        'system': 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode',
+        'code': 'PhysicalActivity',
+        'display': 'Physical Activity',
+    }
+]
+care_plan.set_category_coding(category_coding)
+
+description = '椎間盤間隔小/退化擠壓狀況 核心訓練以髖部(臀部)和腹部訓練為主'
+care_plan.set_description(description)
+
+subject = {
+    'reference': 'Patient/patient-tw-example',
+}
+care_plan.set_subject(subject)
+
+author = {
+    'reference': 'Practitioner/practitioner-c-example'
+}
+care_plan.set_author(author)
+
+goal = [{
+    'reference': 'Goal/goal-example',
+}]
+care_plan.set_goal(goal)
+
+activity_progress = [
+    {
+        'time': '2024-07-03',
+        'text': '滾筒放鬆：1.胸椎伸展 8趟 2.上背滾動 10趟 3.胸椎旋轉 左右各8次 核心：1.死蟲 後腳跟點地板 單邊各六下 兩組 2.橋式+彈力圈 20下 1組 3.徒手弓箭步單側負重6公斤10下一組,前腳墊高10下一組',
+    },
+]
+care_plan.set_activity_progress(activity_progress)
+
+activity_detail = {
+    'status': 'completed',
+    'description': '機械臀推/彈力箱臀推 感受度不佳 暫時不做',
+}
+care_plan.set_activity_detail(activity_detail)
+
+note = [{
+    'time': '2024-07-04',
+    'text': '肚臍對應後方腰椎摸會痛，活動筋骨及輕微推拿後有好一點',
+}]
+care_plan.set_note(note)
+
+# Retrieving the CarePlan resource dict
+care_plan_json_dict = care_plan.create()
+print(care_plan_json_dict)
+
+# Retrieve the CarePlan resource JSON string
+print(json.dumps(care_plan_json_dict))
+```
+
+### Goal Example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import Goal
+
+
+goal = Goal(str(uuid.uuid4()))
+
+profile_urls = [
+    'https://hapi.fhir.tw/fhir/StructureDefinition/Goal-sport',
+]
+goal.set_profile_urls(profile_urls)
+
+lifecycle_status = 'proposed'
+goal.set_lifecycle_status(lifecycle_status)
+
+category_coding = [{
+    'system': 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode',
+    'code': 'PhysicalActivity',
+    'display': 'Physical Activity'
+}]
+goal.set_category_coding(category_coding)
+
+description_text = 'L5-S1椎間盤突出，在六個月內減少突出程度2-3毫米，疼痛評分減少50%'
+goal.set_description_text(description_text)
+
+subject = {
+    'reference': 'Patient/patient-tw-example',
+}
+goal.set_subject(subject)
+
+target_measure_coding = [{
+    'system': 'http://loinc.org',
+    'code': '41950-7',
+    'display': 'Number of steps in 24 hour Measured',
+}]
+goal.set_target_measure_coding(target_measure_coding)
+
+target_detail_quantity = {
+    'value': 5000,
+    'unit': 'steps per day',
+    'system': 'http://unitsofmeasure.org',
+    'code': '/d',
+}
+goal.set_target_detail_quantity(target_detail_quantity)
+
+# Retrieving the Goal resource dict
+goal_json_dict = goal.create()
+print(goal_json_dict)
+
+# Retrieve the Goal resource JSON string
+print(json.dumps(goal_json_dict))
+```
+
+### Practitioner for Physical Activity Example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import PhysicalActivityPractitioner as Practitioner
+
+
+practitioner = Practitioner(str(uuid.uuid4()))
+
+profile_urls = [
+    'https://hapi.fhir.tw/fhir/StructureDefinition/TWCorePractitioner',
+]
+practitioner.set_profile_urls(profile_urls)
+
+identifiers = [
+    {
+        'use': 'official',
+        'type': {
+            'coding': [{
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                'code': 'MB'
+            }]
+        },
+        'system': 'https://www.morefit.com.tw/tw',
+        'value': 'S1006',
+    }
+]
+practitioner.set_identifiers(identifiers)
+
+active = True
+practitioner.set_active(active)
+
+name_text = '陳漸升'
+practitioner.set_name_text(name_text)
+
+# Retrieving the Practitioner for Physical Activity resource dict
+practitioner_json_dict = practitioner.create()
+print(practitioner_json_dict)
+
+# Retrieve the Practitioner for Physical Activity resource JSON string
+print(json.dumps(practitioner_json_dict))
+```
+
 # References
 
 - https://hackersandslackers.com/python-poetry-package-manager
