@@ -734,6 +734,89 @@ print(patient_ex_json_dict)
 print(json.dumps(patient_ex_json_dict))
 ```
 
+### Patient TW for physical Activity example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import PatientTW
+
+
+patient_tw = PatientTW(str(uuid.uuid4()))
+
+profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/TWCorePatient']
+patient_tw.set_profile_urls(profile_urls)
+
+extension_url = 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/person-age'
+patient_tw.set_extension_url(extension_url)
+
+extension_value_age = {
+    'value': 32,
+    'system': 'http://unitsofmeasure.org',
+    'code': 'a',
+}
+patient_tw.set_extension_value_age(extension_value_age)
+
+extension_extension_coding = [{
+    'system': 'urn:iso:std:iso:3166',
+    'code': 'TW',
+}]
+patient_tw.set_extension_extension_coding(extension_extension_coding)
+
+extension_extension_url = 'http://hl7.org/fhir/StructureDefinition/patient-nationality'
+patient_tw.set_extension_extension_url(extension_extension_url)
+
+identifiers = [{
+    'use': 'official',
+    'type': {
+        'coding': [{
+            'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+            'code': 'NNxxx',
+            '_code': {
+                'extension': [{
+                    'extension': [
+                        {
+                            'url': 'suffix',
+                            'valueString': 'TWN'
+                        },
+                        {
+                                'url': 'valueSet',
+                                'valueCanonical': 'http://hl7.org/fhir/ValueSet/iso3166-1-3'
+                        }
+                    ],
+                    'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/identifier-suffix'
+                }]
+            }
+        }]
+    },
+    'system': 'http://www.moi.gov.tw',
+    'value': 'A123456789'
+}]
+patient_tw.set_identifiers(identifiers)
+
+active = True
+patient_tw.set_active(active)
+
+name_user = 'official'
+patient_tw.set_name_use(name_use)
+
+name_text = '連小妹'
+patient_tw.set_name_text(name_text)
+
+gender = 'female'
+patient_tw.set_gender(gender)
+
+birth_date = '1990-01-01'
+patient_tw.set_birth_date(birth_date)
+
+# Retrieving the Patient TW for Physical Activity resource dict
+patient_tw_json_dict = patient_tw.create()
+print(patient_tw_json_dict)
+
+# Retrieve the Patient TW for Physical Activity resource JSON string
+print(json.dumps(patient_tw_json_dict))
+```
+
 # References
 
 - https://hackersandslackers.com/python-poetry-package-manager
