@@ -539,7 +539,7 @@ print(practitioner_json_dict)
 print(json.dumps(practitioner_json_dict))
 ```
 
-### Condition E for physical Activity Example (MITW 2024)
+### Condition E for Physical Activity Example (MITW 2024)
 
 ```python
 import json
@@ -593,6 +593,51 @@ print(condition_e_json_dict)
 
 # Retrieve the Condition E for Physical Activity resource JSON string
 print(json.dumps(condition_e_json_dict))
+```
+
+### Organization H for Physical Activity example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import OrganizationH
+
+
+organization_h = OrganizationH(str(uuid.uuid4()))
+
+profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/TWCoreOrganization']
+organization_h.set_profile_urls(profile_urls)
+
+identifiers = [
+    {
+        'use': 'official',
+        'type': {
+            'coding': [{
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                'code': 'PRN'
+            }],
+        },
+        'system': 'https://www.vghtpe.gov.tw',
+        'value': '0601160016',
+    },
+]
+organization_h.set_identifiers(identifiers)
+
+type_coding = [{
+    'system': 'http://terminology.hl7.org/CodeSystem/organization-type',
+    'code': 'prov',
+}]
+organization_h.set_type_coding(type_coding)
+
+name = '臺北醫院'
+organization_h.set_name(name)
+
+# Retrieving the Organization H for Physical Activity resource dict
+organization_h_json_dict = organization_h.create()
+print(organization_h_json_dict)
+
+# Retrieve the Organization H for Physical Activity resource JSON string
+print(json.dumps(organization_h_json_dict))
 ```
 
 # References
