@@ -113,7 +113,7 @@ import uuid
 from fhir_data_generator import Patient
 
 
-Patient = Patient(str(uuid.uuid4()))
+patient = Patient(str(uuid.uuid4()))
 
 patient.set_profile_url('https://fhir.server/path/to/profile/path')
 
