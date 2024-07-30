@@ -13,7 +13,7 @@ from fhir_data_generator.physical_activity.practitioner import Practitioner as P
 
 
 
-__version__ = '0.2.0-dev'
+__version__ = '1.0.0'
 __all__ = [
     'Http',
     'CarePlan',
