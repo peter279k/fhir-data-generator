@@ -46,7 +46,7 @@ identifier1 = {
             },
         ],
     },
-    'value': 'E262344368'[2:],
+    'value': '262344368',
 }
 identifier2 = {
     'use': 'official',
@@ -129,7 +129,7 @@ identifier1 = {
             },
         ],
     },
-    'value': 'E262344368'[2:],
+    'value': '262344368',
 }
 identifier2 = {
     'use': 'official',
