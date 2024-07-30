@@ -640,6 +640,53 @@ print(organization_h_json_dict)
 print(json.dumps(organization_h_json_dict))
 ```
 
+### Organization S for Physical Activity example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import OrganizationS
+
+
+organization_s = OrganizationS(str(uuid.uuid4()))
+
+profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/TWCoreOrganization']
+organization_s.set_profile_urls(profile_urls)
+
+identifiers = [
+    {
+        'use': 'official',
+        'type': {
+            'coding': [{
+                'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                'code': 'PRN'
+            }],
+        },
+        'system': 'https://www.morefit.com.tw',
+        'value': '85037366',
+    },
+]
+organization_s.set_identifiers(identifiers)
+
+type_coding = [{
+    'system': 'http://terminology.hl7.org/CodeSystem/organization-type',
+    'code': 'team',
+}]
+organization_s.set_type_coding(type_coding)
+
+name = 'morefit
+organization_s.set_name(name)
+
+organization_s.create()
+
+# Retrieving the Organization S for Physical Activity resource dict
+organization_s_json_dict = organization_s.create()
+print(organization_s_json_dict)
+
+# Retrieve the Organization S for Physical Activity resource JSON string
+print(json.dumps(organization_s_json_dict))
+```
+
 # References
 
 - https://hackersandslackers.com/python-poetry-package-manager
