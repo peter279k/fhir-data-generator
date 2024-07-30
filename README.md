@@ -687,6 +687,53 @@ print(organization_s_json_dict)
 print(json.dumps(organization_s_json_dict))
 ```
 
+### Patient EX for Physical Activity example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import PatientEX
+
+
+patient_ex = PatientEX(str(uuid.uuid4()))
+
+profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/Patient-sport']
+patient_ex.set_profile_urls(profile_urls)
+
+extension_url = 'https://hapi.fhir.tw/fhir/StructureDefinition/person-age'
+patient_ex.set_extension_url(extension_url)
+
+extension_value_age = {
+    'value': 32,
+    'unit': '32',
+    'system': 'http://unitsofmeasure.org',
+    'code': 'a',
+}
+patient_ex.set_extension_value_age(extension_value_age)
+
+identifiers = [{
+    'system': 'https://www.morefit.com.tw',
+    'value': '0938110330',
+}]
+patient_ex.set_identifiers(identifiers)
+
+name_text = '連小妹'
+patient_ex.set_name_text(name_text)
+
+gender = 'female'
+patient_ex.set_gender(gender)
+
+birth_date = '1990-01-01'
+patient_ex.set_birth_date(birth_date)
+
+# Retrieving the Patient EX for Physical Activity resource dict
+patient_ex_json_dict = patient_ex.create()
+print(patient_ex_json_dict)
+
+# Retrieve the Patient EX for Physical Activity resource JSON string
+print(json.dumps(patient_ex_json_dict))
+```
+
 # References
 
 - https://hackersandslackers.com/python-poetry-package-manager
