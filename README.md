@@ -539,6 +539,62 @@ print(practitioner_json_dict)
 print(json.dumps(practitioner_json_dict))
 ```
 
+### Condition E for physical Activity Example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import ConditionE
+
+
+condition_e = ConditionE(str(uuid.uuid4()))
+
+profile_urls = [
+    'https://hapi.fhir.tw/fhir/StructureDefinition/Condition-excercise-history',
+]
+condition_e.set_profile_urls(profile_urls)
+
+clinical_status_coding = [{
+    'system': 'http://terminology.hl7.org/CodeSystem/condition-clinical',
+    'code': 'active',
+}]
+condition_e.set_clinical_status_coding(clinical_status_coding)
+
+category_coding = [{
+    'system': 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode',
+    'code': 'PhysicalActivity',
+    'display': 'Physical Activity',
+}]
+condition_e.set_category_coding(category_coding)
+
+code_coding =[{
+    'system': 'http://snomed.info/sct',
+    'code': '229072005',
+    'display': 'Aerobic exercises',
+}]
+condition_e.set_code_coding(code_coding)
+
+code_text = '一週2次有氧運動 每次30分鐘'
+condition_e.set_code_text(code_text)
+
+subject = {
+    'reference': 'Patient/patient-tw-example',
+}
+condition_e.set_subject(subject)
+
+asserter = {
+    'reference': 'Practitioner/practitioner-d-example',
+}
+condition_e.set_asserter(asserter)
+
+# Retrieving the Condition E for Physical Activity resource dict
+condition_e_json_dict = condition_e.create()
+print(condition_e_json_dict)
+
+# Retrieve the Condition E for Physical Activity resource JSON string
+print(json.dumps(condition_e_json_dict))
+```
+
 # References
 
 - https://hackersandslackers.com/python-poetry-package-manager
