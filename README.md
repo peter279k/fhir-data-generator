@@ -314,7 +314,7 @@ observation = Observation(str(uuid.uuid4()))
 profile_urls = ['https://fhir.server/path/to/profile/path']
 observation.set_profile_urls(profile_urls)
 
-status = 'final
+status = 'final'
 observation.set_status(status)
 
 category_coding = [{
