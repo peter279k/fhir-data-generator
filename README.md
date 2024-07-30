@@ -734,7 +734,7 @@ print(patient_ex_json_dict)
 print(json.dumps(patient_ex_json_dict))
 ```
 
-### Patient TW for physical Activity example (MITW 2024)
+### Patient TW for Physical Activity example (MITW 2024)
 
 ```python
 import json
@@ -815,6 +815,66 @@ print(patient_tw_json_dict)
 
 # Retrieve the Patient TW for Physical Activity resource JSON string
 print(json.dumps(patient_tw_json_dict))
+```
+
+### ServiceRequest for Physical Activity example (MITW 2024)
+
+```python
+import json
+import uuid
+from fhir_data_generator import PhysicalActivityServiceRequest
+
+
+service_request = PhysicalActivityServiceRequest(str(uuid.uuid4()))
+
+profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/ServiceRequest-sport']
+service_request.set_profile_urls(profile_urls)
+
+identifiers = [{
+    'system': 'https://www.health.ntpc.gov.tw/',
+    'value': 's141526',
+}]
+service_request.set_identifiers(identifiers)
+
+status = 'completed'
+service_request.set_status(status)
+
+intent = 'order'
+service_request.set_intent(intent)
+
+category_coding = [{
+    'system': 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode',
+    'code': 'PhysicalActivity',
+    'display': 'Physical Activity'
+}]
+service_request.set_category_coding(category_coding)
+
+code_coding = [{
+    'system': 'http://snomed.info/sct',
+    'code': '229065009',
+    'display': 'Exercise therapy',
+}]
+service_request.set_code_coding(code_coding)
+
+subject= {
+    'reference': 'Patient/patient-tw-example',
+}
+service_request.set_subject(subject)
+
+authored_on = '2024-07-01'
+service_request.set_authored_on(authored_on)
+
+requester = {
+    'reference': 'Practitioner/practitioner-d-example',
+}
+service_request.set_requester(requester)
+
+# Retrieving the ServiceRequest for Physical Activity resource dict
+service_request_json_dict = service_request.create()
+print(service_request_json_dict)
+
+# Retrieve the ServiceRequest for Physical Activity resource JSON string
+print(json.dumps(service_request_json_dict))
 ```
 
 # References
