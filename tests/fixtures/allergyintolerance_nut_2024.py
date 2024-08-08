@@ -1,5 +1,5 @@
 import pytest
-from fhir_data_generator import AllergyIntoleranceNut
+from fhir_data_generator import TWCoreAllergyIntoleranceNut as AllergyIntoleranceNut
 
 
 @pytest.fixture

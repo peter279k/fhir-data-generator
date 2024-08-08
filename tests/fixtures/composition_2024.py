@@ -1,5 +1,5 @@
 import pytest
-from fhir_data_generator import Composition
+from fhir_data_generator import TWCoreComposition as Composition
 
 
 @pytest.fixture

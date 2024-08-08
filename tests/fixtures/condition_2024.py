@@ -1,5 +1,5 @@
 import pytest
-from fhir_data_generator import Condition
+from fhir_data_generator import TWCoreCondition as Condition
 
 
 @pytest.fixture
