@@ -6,6 +6,7 @@ from fhir_data_generator.physical_activity.care_plan import CarePlan
 from fhir_data_generator.physical_activity.patient_ex import PatientEX
 from fhir_data_generator.physical_activity.patient_tw import PatientTW
 from fhir_data_generator.physical_activity.condition_e import ConditionE
+from fhir_data_generator.tw_core_ig.condition.condition import Condition
 from fhir_data_generator.physical_activity.organization_h import OrganizationH
 from fhir_data_generator.physical_activity.organization_s import OrganizationS
 from fhir_data_generator.tw_core_ig.composition.composition import Composition
@@ -32,4 +33,5 @@ __all__ = [
 
     'AllergyIntoleranceNut',
     'Composition',
+    'Condition',
 ]
