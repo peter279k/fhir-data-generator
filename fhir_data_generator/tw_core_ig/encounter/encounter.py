@@ -48,9 +48,6 @@ class Encounter:
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
 
-    def set_status(self, status: str):
-        self.payload_template['status'] = status
-
     def set_identifier(self, identifier: list):
         self.payload_template['identifier'] = identifier
 
