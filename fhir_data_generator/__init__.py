@@ -12,6 +12,7 @@ from fhir_data_generator.physical_activity.service_request import PhysicalActivi
 from fhir_data_generator.physical_activity.practitioner import Practitioner as PhysicalActivityPractitioner
 
 
+from fhir_data_generator.tw_core_ig.encounter.encounter import Encounter as TWCoreEncounter
 from fhir_data_generator.tw_core_ig.condition.condition import Condition as TWCoreCondition
 from fhir_data_generator.tw_core_ig.composition.composition import Composition as TWCoreComposition
 from fhir_data_generator.tw_core_ig.diagnostic_report.diagnostic_report import DiagnosticReport as TWCoreDiagnosticReport
@@ -38,4 +39,5 @@ __all__ = [
     'TWCoreCondition',
     'TWCoreDiagnosticReport',
     'TWCoreDocumentReference',
+    'TWCoreEncounter',
 ]
