@@ -15,6 +15,7 @@ from fhir_data_generator.physical_activity.practitioner import Practitioner as P
 from fhir_data_generator.tw_core_ig.condition.condition import Condition as TWCoreCondition
 from fhir_data_generator.tw_core_ig.composition.composition import Composition as TWCoreComposition
 from fhir_data_generator.tw_core_ig.diagnostic_report.diagnostic_report import DiagnosticReport as TWCoreDiagnosticReport
+from fhir_data_generator.tw_core_ig.document_reference.document_reference import DocumentReference as TWCoreDocumentReference
 from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import AllergyIntoleranceNut as TWCoreAllergyIntoleranceNut
 
 __version__ = '1.0.0'
@@ -36,4 +37,5 @@ __all__ = [
     'TWCoreComposition',
     'TWCoreCondition',
     'TWCoreDiagnosticReport',
+    'TWCoreDocumentReference',
 ]
