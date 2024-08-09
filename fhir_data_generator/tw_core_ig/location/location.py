@@ -45,7 +45,7 @@ class Location:
     def set_mode(self, mode: str):
         self.payload_template['mode'] = mode
 
-    def set_type_coding(self, type_coding: str):
+    def set_type_coding(self, type_coding: list):
         self.payload_template['type'][0]['coding'] = type_coding
 
     def set_telecom(self, telecom: list):
