@@ -12,6 +12,7 @@ from fhir_data_generator.physical_activity.service_request import PhysicalActivi
 from fhir_data_generator.physical_activity.practitioner import Practitioner as PhysicalActivityPractitioner
 
 
+from fhir_data_generator.tw_core_ig.media.media import Media as TWCoreMedia
 from fhir_data_generator.tw_core_ig.location.location import Location as TWCoreLocation
 from fhir_data_generator.tw_core_ig.encounter.encounter import Encounter as TWCoreEncounter
 from fhir_data_generator.tw_core_ig.condition.condition import Condition as TWCoreCondition
@@ -44,4 +45,5 @@ __all__ = [
     'TWCoreEncounter',
     'TWCoreImagingStudy',
     'TWCoreLocation',
+    'TWCoreMedia',
 ]
