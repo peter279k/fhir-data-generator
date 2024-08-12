@@ -27,23 +27,20 @@ class Observation:
             'valueQuantity': {},
         }
 
-    def set_observation_id(self, observation_id):
-        self.observation_id = observation_id
-
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
 
     def set_status(self, status: str):
         self.payload_template['status'] = status
 
-    def set_category_coding(self, coding: list):
-        self.payload_template['category'][0]['coding'] = coding
+    def set_category_coding(self, category_coding: list):
+        self.payload_template['category'][0]['coding'] = category_coding
 
-    def set_code_coding(self, coding: list):
-        self.payload_template['code']['coding'] = coding
+    def set_code_coding(self, code_coding: list):
+        self.payload_template['code']['coding'] = code_coding
 
-    def set_code_text(self, text: str):
-        self.payload_template['code']['text'] = text
+    def set_code_text(self, code_text: str):
+        self.payload_template['code']['text'] = code_text
 
     def set_subject(self, subject: dict):
         self.payload_template['subject'] = subject
@@ -60,8 +57,8 @@ class Observation:
     def create(self):
         return self.payload_template
 
-    def build_observation_id_query(self, observation_id: str):
-        return urlencode({'_id': observation_id})
+    def build_medication_statement_id_query(self, medication_statement_id: str):
+        return urlencode({'_id': medication_statement_id})
 
     def build_search_param(self, query_params: dict):
         return urlencode(query_params)
