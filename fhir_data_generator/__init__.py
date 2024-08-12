@@ -20,6 +20,7 @@ from fhir_data_generator.tw_core_ig.medication.medication import Medication as T
 from fhir_data_generator.tw_core_ig.composition.composition import Composition as TWCoreComposition
 from fhir_data_generator.tw_core_ig.imaging_study.imaging_study import ImagingStudy as TWCoreImagingStudy
 from fhir_data_generator.tw_core_ig.diagnostic_report.diagnostic_report import DiagnosticReport as TWCoreDiagnosticReport
+from fhir_data_generator.tw_core_ig.medication_request.medication_request import MedicationRequest as TWCoreMedicationRequest
 from fhir_data_generator.tw_core_ig.document_reference.document_reference import DocumentReference as TWCoreDocumentReference
 from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import AllergyIntoleranceNut as TWCoreAllergyIntoleranceNut
 
@@ -48,4 +49,5 @@ __all__ = [
     'TWCoreLocation',
     'TWCoreMedia',
     'TWCoreMedication',
+    'TWCoreMedicationRequest',
 ]
