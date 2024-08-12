@@ -69,8 +69,8 @@ class Location:
     def create(self):
         return self.payload_template
 
-    def build_encounter_id_query(self, encounter_id: str):
-        return urlencode({'_id': encounter_id})
+    def build_location_id_query(self, location_id: str):
+        return urlencode({'_id': location_id})
 
     def build_search_param(self, query_params: dict):
         return urlencode(query_params)

@@ -89,8 +89,8 @@ class Media:
     def create(self):
         return self.payload_template
 
-    def build_encounter_id_query(self, encounter_id: str):
-        return urlencode({'_id': encounter_id})
+    def build_media_id_query(self, media_id: str):
+        return urlencode({'_id': media_id})
 
     def build_search_param(self, query_params: dict):
         return urlencode(query_params)
