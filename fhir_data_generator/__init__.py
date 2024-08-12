@@ -19,6 +19,7 @@ from fhir_data_generator.tw_core_ig.condition.condition import Condition as TWCo
 from fhir_data_generator.tw_core_ig.medication.medication import Medication as TWCoreMedication
 from fhir_data_generator.tw_core_ig.observation.observation import Observation as TWCoreObservation
 from fhir_data_generator.tw_core_ig.composition.composition import Composition as TWCoreComposition
+from fhir_data_generator.tw_core_ig.organization.organization import Organization as TWCoreOrganization
 from fhir_data_generator.tw_core_ig.imaging_study.imaging_study import ImagingStudy as TWCoreImagingStudy
 from fhir_data_generator.tw_core_ig.diagnostic_report.diagnostic_report import DiagnosticReport as TWCoreDiagnosticReport
 from fhir_data_generator.tw_core_ig.medication_request.medication_request import MedicationRequest as TWCoreMedicationRequest
@@ -56,4 +57,5 @@ __all__ = [
     'TWCoreMedicationDispense',
     'TWCoreMedicationStatement',
     'TWCoreObservation',
+    'TWCoreOrganization',
 ]
