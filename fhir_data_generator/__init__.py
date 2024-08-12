@@ -22,6 +22,7 @@ from fhir_data_generator.tw_core_ig.imaging_study.imaging_study import ImagingSt
 from fhir_data_generator.tw_core_ig.diagnostic_report.diagnostic_report import DiagnosticReport as TWCoreDiagnosticReport
 from fhir_data_generator.tw_core_ig.medication_request.medication_request import MedicationRequest as TWCoreMedicationRequest
 from fhir_data_generator.tw_core_ig.document_reference.document_reference import DocumentReference as TWCoreDocumentReference
+from fhir_data_generator.tw_core_ig.medication_dispense.medication_dispense import MedicationDispense as TWCoreMedicationDispense
 from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import AllergyIntoleranceNut as TWCoreAllergyIntoleranceNut
 
 __version__ = '1.0.0'
@@ -50,4 +51,5 @@ __all__ = [
     'TWCoreMedia',
     'TWCoreMedication',
     'TWCoreMedicationRequest',
+    'TWCoreMedicationDispense',
 ]
