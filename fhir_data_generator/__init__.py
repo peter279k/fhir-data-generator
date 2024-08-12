@@ -16,6 +16,7 @@ from fhir_data_generator.tw_core_ig.media.media import Media as TWCoreMedia
 from fhir_data_generator.tw_core_ig.location.location import Location as TWCoreLocation
 from fhir_data_generator.tw_core_ig.encounter.encounter import Encounter as TWCoreEncounter
 from fhir_data_generator.tw_core_ig.condition.condition import Condition as TWCoreCondition
+from fhir_data_generator.tw_core_ig.medication.medication import Medication as TWCoreMedication
 from fhir_data_generator.tw_core_ig.composition.composition import Composition as TWCoreComposition
 from fhir_data_generator.tw_core_ig.imaging_study.imaging_study import ImagingStudy as TWCoreImagingStudy
 from fhir_data_generator.tw_core_ig.diagnostic_report.diagnostic_report import DiagnosticReport as TWCoreDiagnosticReport
@@ -46,4 +47,5 @@ __all__ = [
     'TWCoreImagingStudy',
     'TWCoreLocation',
     'TWCoreMedia',
+    'TWCoreMedication',
 ]
