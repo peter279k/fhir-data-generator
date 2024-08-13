@@ -33,7 +33,7 @@ from fhir_data_generator.tw_core_ig.medication_dispense.medication_dispense impo
 from fhir_data_generator.tw_core_ig.medication_statement.medication_statement import MedicationStatement as TWCoreMedicationStatement
 from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import AllergyIntoleranceNut as TWCoreAllergyIntoleranceNut
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 __all__ = [
     'Http',
     'CarePlan',
