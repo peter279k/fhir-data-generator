@@ -57,8 +57,8 @@ class Procedure:
     def create(self):
         return self.payload_template
 
-    def build_practitioner_role_id_query(self, practitioner_role_id: str):
-        return urlencode({'_id': practitioner_role_id})
+    def build_procedure_role_id_query(self, procedure_id: str):
+        return urlencode({'_id': procedure_id})
 
     def build_search_param(self, query_params: dict):
         return urlencode(query_params)
