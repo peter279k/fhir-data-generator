@@ -37,8 +37,8 @@ jobs:
           python -m pipenv install -d
           python -m pipenv run poetry install
 
-      - name: Keycloak Admin CLI
-      - uses: carlosthe19916/keycloak-action@master
+      - name: Keycloak Admin CLI Setup
+        uses: carlosthe19916/keycloak-action@master
         with:
           version: 25.0.2
           server: http://localhost:8080
