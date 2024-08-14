@@ -42,6 +42,7 @@ jobs:
         with:
           version: 25.0.2
           server: http://localhost:8080
+          server-wait-timeout: 180
           username: admin
           password: admin
           kcadm: |
