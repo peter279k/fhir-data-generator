@@ -45,7 +45,7 @@ jobs:
           username: admin
           password: admin
           kcadm: |
-            config credentials --server http://localhost:8080 --realm master --user admin --password admi
+            config credentials --server http://localhost:8080 --realm master --user admin --password admin
             update realms/master -s sslRequired=NONE --server http://localhost:8080
 
       - name: Run the one_time_configure_client_credentials
