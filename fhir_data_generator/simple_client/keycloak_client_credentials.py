@@ -1,4 +1,5 @@
 import requests
+from urllib.parse import urlencode
 
 
 class ClientCredentials:
@@ -14,17 +15,19 @@ class ClientCredentials:
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json'
         }
-        self.payload = f'client_id={self.client_id}&client_secret={self.client_secret}&grant_type={self.grant_type}&scope={self.scope}'
 
         self.response = None
 
     def send(self):
-        response = requests.post(self.req_url, headers=self.headers, data=self.payload)
+        payload = f'client_id={self.client_id}&client_secret={self.client_secret}&grant_type={self.grant_type}&scope={self.scope}'
+
+        response = requests.post(self.req_url, headers=self.headers, data=payload)
         self.response = response
 
         return response
 
     def retrieve_token(self):
+        print(self.response.text)
         if self.response.status_code != 200:
             raise Exception(f'The response status code is {self.response.status_code}')
 

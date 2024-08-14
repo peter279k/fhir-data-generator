@@ -31,16 +31,7 @@ def authorization_code_class():
     client_id = 'admin-cli'
     client_secret = ''
     redirect_uri = 'http://redirect.uri'
-    encoded_query = urlencode(
-        {
-            'client_id': client_id,
-            'client_secret': client_secret,
-            'scope': 'openid',
-            'response_type': 'code',
-            'redirect_uri': redirect_uri,
-        }
-    )
-    req_auth_code_url = f'http://localhost:8080/realms/master/protocol/openid-connect/auth?{encoded_query}'
+    req_auth_code_url = 'http://localhost:8080/realms/master/protocol/openid-connect/auth'
     access_token_req_url = 'http://localhost:8080/realms/master/protocol/openid-connect/token'
     form_action_payload = {
         'username': 'admin',

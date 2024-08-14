@@ -1,4 +1,4 @@
-from fixtures.http import *
+from fixtures.simple_client import *
 
 
 def test_http_instance(http_class):

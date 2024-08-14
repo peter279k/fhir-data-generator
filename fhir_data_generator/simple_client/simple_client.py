@@ -2,7 +2,7 @@ import json
 import requests
 
 
-class Http:
+class SimpleClient:
     def __init__(self, server_url):
         self.server_url = server_url
         self.headers = {
