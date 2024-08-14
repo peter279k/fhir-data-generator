@@ -33,6 +33,11 @@ from fhir_data_generator.tw_core_ig.medication_dispense.medication_dispense impo
 from fhir_data_generator.tw_core_ig.medication_statement.medication_statement import MedicationStatement as TWCoreMedicationStatement
 from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import AllergyIntoleranceNut as TWCoreAllergyIntoleranceNut
 
+from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
+from fhir_data_generator.simple_client.keycloak_client_credentials import ClientCredentials
+from fhir_data_generator.simple_client.keycloak_authorization_code import AuthorizationCode
+
+
 __version__ = '1.1.0'
 __all__ = [
     'Http',
@@ -68,4 +73,8 @@ __all__ = [
     'TWCorePractitionerRole',
     'TWCoreProcedure',
     'TWCoreSpecimen',
+
+    'VerifyToken',
+    'ClientCredentials',
+    'AuthorizationCode',
 ]

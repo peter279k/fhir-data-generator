@@ -27,5 +27,19 @@ jobs:
           python -m pipenv install
           python -m pipenv install -d
           python -m pipenv run poetry install
+      - name: Setup the Keycloak server
+        uses: carlosthe19916/keycloak-action@master
+        with:
+          version: 25.0.2
+          server: http://localhost:8080
+          username: admin
+          password: admin
+          kcadm: |
+            config credentials --server http://localhost:8080 --realm master --user admin --password admi
+            update realms/master -s sslRequired=NONE --server http://localhost:8080
+
+      -name: Run the one_time_configure_client_credentials
+        run: python -m pipenv run python ./tests/fixtures/one_time_configure_client_credentials.py
+
       - name: Run tests
         run: python -m pipenv run pytest
