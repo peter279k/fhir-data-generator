@@ -10,14 +10,6 @@ jobs:
   tests:
     name: "Python ${{ matrix.python-version }}"
     runs-on: "ubuntu-latest"
-    services:
-      keycloak:
-        image: quay.io/keycloak/keycloak:25.0.2
-        ports:
-          - 8180:8080
-        env:
-          KEYCLOAK_USER: admin
-          KEYCLOAK_PASSWORD: admin
 
     strategy:
       matrix:
@@ -37,17 +29,12 @@ jobs:
           python -m pipenv install -d
           python -m pipenv run poetry install
 
-      - name: Keycloak Admin CLI Setup
-        uses: carlosthe19916/keycloak-action@master
-        with:
-          version: 25.0.2
-          server: http://localhost:8080
-          server-wait-timeout: 180
-          username: admin
-          password: admin
-          kcadm: |
-            config credentials --server http://localhost:8080 --realm master --user admin --password admin
-            update realms/master -s sslRequired=NONE --server http://localhost:8080
+      - name: Keycloak Admin Setup with Docker
+        run: |
+          docker run --name keycloak_server -d -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:25.0.2 start-dev
+          sleep 180
+          docker exec keycloak_server /bin/bash -c "cd /opt/keycloak/bin && ./kcadm.sh config credentials --server http://localhost:8080 --realm master --user admin --password admin"
+          docker exec keycloak_server /bin/bash -c "cd /opt/keycloak/bin && ./kcadm.sh update realms/master -s sslRequired=NONE --server http://localhost:8080"
 
       - name: Run the one_time_configure_client_credentials
         run: python -m pipenv run python ./tests/fixtures/one_time_configure_client_credentials.py
