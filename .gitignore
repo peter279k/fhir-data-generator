@@ -4,3 +4,4 @@ build/
 poetry.lock
 Pipfile.lock
 fhir_data_generator.egg-info/
+tests/fixtures/client_secret.txt
