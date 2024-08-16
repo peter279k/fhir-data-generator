@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="This is the web demonstration for MITW Connectathon" />
+        <meta name="author" content="" />
+        <title>MITW 2024 Track2 Patient</title>
+        <link href="../../css/styles.css" rel="stylesheet" />
+        <script src="../../js/all.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+
+        <link rel="apple-touch-icon" href="../../assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="../../assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="../../assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="mask-icon" href="../../assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+        <link rel="icon" href="../../assets/img/favicons/favicon.ico">
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.html">fhir-data-generator</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Patient Resource</div>
+                            <a class="nav-link" href="../index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                基本設定
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Resources</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#1
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#2
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="track2/patient.html">Patient</a>
+                                    <a class="nav-link" href="track2/vital_signs.html">Vital Signs</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#13
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Patient</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">PAT_Consumer_SC1_JSON_2023</li>
+                        </ol>
+                        <ol class="breadcrumb mb-4">
+                            <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
+                            <li class="text-secondary">*請使用大會核發UserID向大會授權主機 (Keycloak OAuth Server)取得存取授權Token後之Token，並放入HTTP header。</li>
+                        </ol>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a id="pat-consumer-sc1-json-2023-tab" class="nav-link active" aria-current="page" href="#">Consumer_SC1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="pat-consumer-sc2-json-2023-tab" class="nav-link" href="#">Consumer_SC2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="pat-consumer-sc3-json-2023-tab" class="nav-link" href="#">Consumer_SC3</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="pat-source-sc1-json-2023-tab" class="nav-link" aria-current="page" href="#">Source_SC1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="pat-source-sc2-json-2023-tab" class="nav-link" href="#">Source_SC2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="pat-source-sc3-json-2023-tab" class="nav-link" href="#">Source_SC3</a>
+                            </li>
+                        </ul>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form class="d-none" id="pat-consumer-sc1-json-2023-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="token-level" class="form-label">請選擇驗證層級</label>
+                                        <select id="token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-id" class="form-label">請輸入patient id參數</label>
+                                        <input type="text" class="form-control" placeholder="patient id" id="patient-id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-identifier" class="form-label">請輸入patient identifier參數</label>
+                                        <input type="text" class="form-control" placeholder="patient identifier" id="patient-identifier">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-organization" class="form-label">請輸入patient managingOrganization參數</label>
+                                        <input type="text" class="form-control" placeholder="patient organization" id="patient-organization">
+                                    </div>
+
+                                    <button form_name="pat-consumer-sc1-json-2023-form" name="submit-btn" type="button" class="btn btn-primary">查詢</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button form_name="pat-consumer-sc1-json-2023-form" name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="pat-consumer-sc2-json-2023-form" role="form">
+                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="pat-consumer-sc3-json-2023-form" role="form">
+                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="pat-source-sc1-json-2023-form" role="form">
+                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="pat-source-sc2-json-2023-form" role="form">
+                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="pat-source-sc3-json-2023-form" role="form">
+                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="search-result-card" class="card mb-4 d-none">
+                            <div id="result-card-header" class="card-header">查詢結果</div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="meta-version" class="form-label">請選擇歷史紀錄版本</label>
+                                    <select id="meta-version" class="form-select" aria-label=""></select>
+                                </div>
+                                <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary"></span></p>
+                                <p class="card-text">id: <span id="result-patient-id" class="text-primary"></span></p>
+
+                                <ul id="result-patient-identifier" class="card-text"></ul>
+
+                                <p class="card-text">病患名稱name: <span id="result-patient-name" class="text-primary"></span></p>
+                                <p class="card-text">狀態active: <span id="result-patient-active" class="text-primary"></span></p>
+                                <p class="card-text">病患性別gender: <span id="result-patient-gender" class="text-primary"></span></p>
+                                <p class="card-text">病患生日日期birthDate: <span id="result-patient-birth-date" class="text-primary"></span></p>
+                                <p class="card-text">病患資料管理的組織managingOrganization: <span id="result-patient-managing-organization" class="text-primary"></span></p>
+                                <p class="card-text">病患用的語言communication: <span id="result-patient-communication" class="text-primary"></span></p>
+                                <p class="card-text">病患手機telecom: <span id="result-patient-telecom" class="text-primary"></span></p>
+                                <p class="card-text">病患住址address: <span id="result-patient-address" class="text-primary"></span></p>
+                                <p class="card-text">病患聯絡資訊contact: <span id="result-patient-contact" class="text-primary"></span></p>
+                                <p class="card-text">病患是否死亡deceased: <span id="result-patient-deceased" class="text-primary"></span></p>
+                                <p class="card-text">病患婚姻狀態maritalStatus: <span id="result-patient-marital-status" class="text-primary"></span></p>
+                                <p id="result-patient-photo" class="card-text">病患照片photo: </p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; fhir-data-generator 2024</div>
+                            <div>
+                                <a target="_blank" href="https://github.com/peter279k/fhir-data-generator">GitHub連結</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../../js/scripts.js"></script>
+        <script src="../../js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="../../js/sweetalert2.all.min.js"></script>
+        <script src="../../js/html2canvas.min.js"></script>
+        <script src="../../js/FileSaver.min.js"></script>
+        <script>
+            $(() => {
+                localStorage.setItem('pat_2024_scenarios', JSON.stringify(
+                    {
+                        Consumer_SC1: 'PAT_Consumer_SC1_JSON_2023',
+                        Consumer_SC2: 'PAT_Consumer_SC2_JSON_2023',
+                        Consumer_SC3: 'PAT_Consumer_SC3_JSON_2023',
+
+                        Source_SC1: 'PAT_SOURCE_SC1_JSON_2023',
+                        Source_SC2: 'PAT_SOURCE_SC2_JSON_2023',
+                        Source_SC3: 'PAT_SOURCE_SC3_JSON_2023',
+                    }
+                ));
+
+                let scenarioName = '';
+                let scenarioForm = '';
+                let patientScenarios = JSON.parse(localStorage.getItem('pat_2024_scenarios'));
+                for (patientScenariosKey in patientScenarios) {
+                    scenarioName = patientScenarios[patientScenariosKey];
+                    scenarioForm = scenarioName.toLocaleLowerCase().replace(/_/g, '-') + '-form';
+                    if (patientScenariosKey !== 'Consumer_SC1') {
+                        $(`#${scenarioForm}`).addClass('d-none');
+                    } else {
+                        $(`#${scenarioForm}`).removeClass('d-none');
+                    }
+                }
+
+                $('button[name="submit-btn"]').click(async (e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '請輸入至少一個查詢參數！',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let searchParameters = '?';
+                    let patientId = $('#patient-id').val();
+                    let patientIdentifier = $('#patient-identifier').val();
+                    let patientManagingOrganization = $('#patient-organization').val();
+
+                    if (patientId !== '') {
+                        searchParameters += `_id=${patientId}&`;
+                    }
+                    if (patientIdentifier !== '') {
+                        searchParameters += `identifier=${patientIdentifier}&`;
+                    }
+                    if (patientManagingOrganization !== '') {
+                        searchParameters += `organization=${patientManagingOrganization}&`;
+                    }
+                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
+
+                    if (searchParameters === '') {
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    $('#result-search-parameters').text(searchParameters);
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+                    $(e.currentTarget).html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>查詢中...'
+                    );
+
+                    $('#meta-version').attr('form_name', currentFormName);
+
+                    await $.ajax({
+                        url: `/track2/2024/${currentFormName}`,
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify({
+                            fhir_server: trackServerEndpoint.track2_server,
+                            oauth_token_info: oauthServerEndpoint['track#2'],
+                            oauth_level: $('#token-level :selected').val(),
+                            search_parameters: searchParameters,
+                        }),
+                    }).done((data) => {
+                        let jsonData = data.json;
+                        if (data.status !== 200) {
+                            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+                            Swal.fire(errorMessage);
+
+                            return false;
+                        }
+                        if (jsonData.total < 1) {
+                            warningMessage['text'] = `使用查詢參數${searchParameters}未找到紀錄！`;
+                            Swal.fire(warningMessage);
+                            $('#search-result-card').addClass('d-none');
+                        } else {
+                            let patientResource = jsonData.entry[0].resource;
+                            $('#search-result-card').removeClass('d-none');
+
+                            let prefix = '#result-patient-';
+                            $(`${prefix}id`).text(patientResource['id']);
+
+                            $('#meta-version').attr('patient_id', patientResource['id']);
+
+                            let identifiers = patientResource['identifier'];
+                            let identifier = null;
+                            let identifierHtml = '';
+                            for (index in identifiers) {
+                                identifier = identifiers[index];
+                                let codingSystem = [];
+                                if (identifier['type']) {
+                                    let codingSystem = [
+                                        identifier['type']['coding'][0]['system'],
+                                        identifier['type']['coding'][0]['code'],
+                                    ];
+                                    identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1]})</span></li>`;
+                                } else {
+                                    identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}</span></li>`;
+                                }
+                            }
+                            $(`${prefix}identifier`).html(identifierHtml);
+
+                            let active = patientResource.active;
+                            if (active === true) {
+                                active = '使用中';
+                            }
+                            if (active === false) {
+                                active = '未使用';
+                            }
+
+                            let gender = patientResource.gender;
+                            if (gender === 'male') {
+                                gender = '男性';
+                            }
+                            if (gender === 'female') {
+                                gender = '女性';
+                            }
+
+                            $(`${prefix}name`).text(`${patientResource.name[0].text}`);
+                            $(`${prefix}active`).text(`${active || '未填寫'}`);
+                            $(`${prefix}gender`).text(`${gender || '未填寫'}`);
+                            $(`${prefix}birth-date`).text(`${patientResource.birthDate || '未填寫'}`);
+
+                            if (patientResource.managingOrganization) {
+                                $(`${prefix}managing-organization`).text(`${patientResource.managingOrganization.reference}`);
+                            } else {
+                                $(`${prefix}managing-organization`).text('未填寫');
+                            }
+
+                            if (patientResource.communication) {
+                                $(`${prefix}communication`).text(`${patientResource.communication[0].language.coding[0].code}(代碼標籤：${patientResource.communication[0].language.coding[0].system})`);
+                            } else {
+                                $(`${prefix}communication`).text('未填寫');
+                            }
+
+                            if (patientResource.telecom) {
+                                $(`${prefix}telecom`).text(`${patientResource.telecom[0].value}`);
+                            } else {
+                                $(`${prefix}telecom`).text('未填寫');
+                            }
+
+                            if (patientResource.address) {
+                                $(`${prefix}address`).text(`${patientResource.address[0].text}`);
+                            } else {
+                                $(`${prefix}address`).text('未填寫');
+                            }
+
+                            if (patientResource.contact) {
+                                $(`${prefix}contact`).text(`${patientResource.contact[0].name.text}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system}, ${patientResource.contact[0].relationship[0].coding[0].code})`);
+                            } else {
+                                $(`${prefix}contact`).text('未填寫');
+                            }
+
+                            if (patientResource.deceasedBoolean) {
+                                $(`${prefix}deceased`).text(`${patientResource.deceasedBoolean}`);
+                            } else {
+                                $(`${prefix}deceased`).text('未填寫');
+                            }
+
+                            if (patientResource.maritalStatus) {
+                                $(`${prefix}marital-status`).text(`${patientResource.maritalStatus.coding[0].code}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system})`);
+                            } else {
+                                $(`${prefix}marital-status`).text('未填寫');
+                            }
+
+                            if (patientResource.photo) {
+                                let patientPhoto = `data:${patientResource.photo[0].contentType};base64,${patientResource.photo[0].data}`;
+                                $(`${prefix}photo`).html(
+                                    `病患照片photo: <img src="${patientPhoto}" class="img-thumbnail" alt="result patient photo">`
+                                );
+                            } else {
+                                $(`${prefix}photo`).html('病患照片photo: <span class="text-primary">未填寫</span>');
+                            }
+
+                            let metaVersions = Number(patientResource.meta.versionId);
+                            let metaVersionOptions = '';
+                            for (let index=1; index<=metaVersions; index++) {
+                                metaVersionOptions += `<option value="${index}">版本${index}</option>`;
+                            }
+                            $('#meta-version').html(metaVersionOptions);
+                        }
+                    }).fail((error) => {
+                        errorMessage['text'] = `${error.status} ${error.statusText}`;
+                        Swal.fire(errorMessage);
+                    });
+
+                    $(e.currentTarget).removeAttr('disabled');
+                    $(e.currentTarget).html('查詢');
+                });
+
+                $('button[name="capture-image"]').click((e) => {
+                    e.preventDefault();
+                    html2canvas(document.querySelector('#layoutSidenav_content')).then(canvas => {
+                        canvas.toBlob((blob) => {
+                            window.saveAs(blob, 'image.png');
+                        });
+                    });
+                });
+                $('#meta-version').change(async (e) => {
+                    e.preventDefault();
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let patientId = e.currentTarget.getAttribute('patient_id');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '請輸入至少一個查詢參數！',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let metaVersionId = $('#meta-version :selected').val();
+
+                    let searchParameters = `/${patientId}/_history/${metaVersionId}`;
+                    $('#result-search-parameters').text(searchParameters);
+
+                    await $.ajax({
+                        url: `/track2/2024/${currentFormName}`,
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify({
+                            fhir_server: trackServerEndpoint.track2_server,
+                            oauth_token_info: oauthServerEndpoint['track#2'],
+                            oauth_level: $('#token-level :selected').val(),
+                            search_parameters: searchParameters,
+                        })
+                    }).done((data) => {
+                        let jsonData = data.json;
+                        if (data.status !== 200) {
+                            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+                            Swal.fire(errorMessage);
+
+                            return false;
+                        }
+
+                        let patientResource = jsonData;
+                        $('#search-result-card').removeClass('d-none');
+
+                        let prefix = '#result-patient-';
+                        $(`${prefix}id`).text(patientResource['id']);
+
+                        let identifiers = patientResource['identifier'];
+                        let identifier = null;
+                        let identifierHtml = '';
+                        for (index in identifiers) {
+                            identifier = identifiers[index];
+                            let codingSystem = [];
+                            if (identifier['type']) {
+                                let codingSystem = [
+                                    identifier['type']['coding'][0]['system'],
+                                    identifier['type']['coding'][0]['code'],
+                                ];
+                                identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1]})</span></li>`;
+                            } else {
+                                identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}</span></li>`;
+                            }
+                        }
+                        $(`${prefix}identifier`).html(identifierHtml);
+
+                        let active = patientResource.active;
+                        if (active === true) {
+                            active = '使用中';
+                        }
+                        if (active === false) {
+                            active = '未使用';
+                        }
+
+                        let gender = patientResource.gender;
+                        if (gender === 'male') {
+                            gender = '男性';
+                        }
+                        if (gender === 'female') {
+                            gender = '女性';
+                        }
+
+                        $(`${prefix}name`).text(`${patientResource.name[0].text}`);
+                        $(`${prefix}active`).text(`${active || '未填寫'}`);
+                        $(`${prefix}gender`).text(`${gender || '未填寫'}`);
+                        $(`${prefix}birth-date`).text(`${patientResource.birthDate || '未填寫'}`);
+
+                        if (patientResource.managingOrganization) {
+                            $(`${prefix}managing-organization`).text(`${patientResource.managingOrganization.reference}`);
+                        } else {
+                            $(`${prefix}managing-organization`).text('未填寫');
+                        }
+
+                        if (patientResource.communication) {
+                            $(`${prefix}communication`).text(`${patientResource.communication[0].language.coding[0].code}(代碼標籤：${patientResource.communication[0].language.coding[0].system})`);
+                        } else {
+                            $(`${prefix}communication`).text('未填寫');
+                        }
+
+                        if (patientResource.telecom) {
+                            $(`${prefix}telecom`).text(`${patientResource.telecom[0].value}`);
+                        } else {
+                            $(`${prefix}telecom`).text('未填寫');
+                        }
+
+                        if (patientResource.address) {
+                            $(`${prefix}address`).text(`${patientResource.address[0].text}`);
+                        } else {
+                            $(`${prefix}address`).text('未填寫');
+                        }
+
+                        if (patientResource.contact) {
+                            $(`${prefix}contact`).text(`${patientResource.contact[0].name.text}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system}, ${patientResource.contact[0].relationship[0].coding[0].code})`);
+                        } else {
+                            $(`${prefix}contact`).text('未填寫');
+                        }
+
+                        if (patientResource.deceasedBoolean) {
+                            $(`${prefix}deceased`).text(`${patientResource.deceasedBoolean}`);
+                        } else {
+                            $(`${prefix}deceased`).text('未填寫');
+                        }
+
+                        if (patientResource.maritalStatus) {
+                            $(`${prefix}marital-status`).text(`${patientResource.maritalStatus.coding[0].code}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system})`);
+                        } else {
+                            $(`${prefix}marital-status`).text('未填寫');
+                        }
+
+                        if (patientResource.photo) {
+                            let patientPhoto = `data:${patientResource.photo[0].contentType};base64,${patientResource.photo[0].data}`;
+                            $(`${prefix}photo`).html(
+                                `病患照片photo: <img src="${patientPhoto}" class="img-thumbnail" alt="result patient photo">`
+                            );
+                        } else {
+                            $(`${prefix}photo`).html('病患照片photo: <span class="text-primary">未填寫</span>');
+                        }
+
+                    }).fail((error) => {
+                        errorMessage['text'] = `${error.status} ${error.statusText}`;
+                        Swal.fire(errorMessage);
+                    });
+                    });
+
+                $('[id*=-tab]').click((e) => {
+                    e.preventDefault();
+                    let patientScenarios = JSON.parse(localStorage.getItem('pat_2024_scenarios'));
+                    $('#scenario-name').text(patientScenarios[$(e.currentTarget).text()]);
+                    $(e.currentTarget).attr('class', 'nav-link active');
+
+                    let scenarioName = '';
+                    let scenarioTab = '';
+                    let scenarioForm = '';
+                    for (patientScenariosKey in patientScenarios) {
+                        scenarioName = patientScenarios[patientScenariosKey];
+                        scenarioTab = scenarioName.toLocaleLowerCase().replace(/_/g, '-') + '-tab';
+                        scenarioForm = scenarioName.toLocaleLowerCase().replace(/_/g, '-') + '-form';
+                        if (scenarioTab !== String(e.currentTarget.id)) {
+                            $(`#${scenarioTab}`).attr('class', 'nav-link');
+                            $(`#${scenarioForm}`).addClass('d-none');
+                        } else {
+                            $(`#${scenarioForm}`).removeClass('d-none');
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

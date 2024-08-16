@@ -1,0 +1,10 @@
+.env
+*.txt
+*.pye
+*.lock
+*.backup
+*.ini
+nohup.out
+*.egg-info/
+__pycache__/
+.vscode/
