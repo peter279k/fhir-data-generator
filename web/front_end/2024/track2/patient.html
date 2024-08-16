@@ -272,7 +272,7 @@
                         return false;
                     }
 
-                    $('#result-search-parameters').text(searchParameters);
+                    $('#result-search-parameters').text(searchParameters.substring(1));
 
                     $(e.currentTarget).attr('disabled', 'disabled');
                     $(e.currentTarget).html(
@@ -364,7 +364,7 @@
                             }
 
                             if (patientResource.telecom) {
-                                $(`${prefix}telecom`).text(`${patientResource.telecom[0].value}`);
+                                $(`${prefix}telecom`).text(`${patientResource.telecom[0].value}(${patientResource.telecom[0].use})`);
                             } else {
                                 $(`${prefix}telecom`).text('未填寫');
                             }
@@ -388,7 +388,7 @@
                             }
 
                             if (patientResource.maritalStatus) {
-                                $(`${prefix}marital-status`).text(`${patientResource.maritalStatus.coding[0].code}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system})`);
+                                $(`${prefix}marital-status`).text(`${patientResource.maritalStatus.coding[0].code}(代碼系統：${patientResource.maritalStatus.coding[0].system})`);
                             } else {
                                 $(`${prefix}marital-status`).text('未填寫');
                             }
