@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(name='fhir-data-generator',
-      version='1.1.0',
+      version='1.2.0',
       description='The FHIR data generator is compatible with the some MI-TW scenarios',
       url='https://github.com/peter279k/fhir-data-generator',
       author='peter279k',
