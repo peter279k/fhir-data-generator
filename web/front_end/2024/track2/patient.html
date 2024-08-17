@@ -10,6 +10,7 @@
         <link href="../../css/styles.css" rel="stylesheet" />
         <script src="../../js/all.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 
         <link rel="apple-touch-icon" href="../../assets/img/favicons/apple-touch-icon.png" sizes="180x180">
         <link rel="icon" href="../../assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -82,6 +83,7 @@
                         <ol class="breadcrumb mb-4">
                             <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
                             <li class="text-secondary">*請使用大會核發UserID向大會授權主機 (Keycloak OAuth Server)取得存取授權Token後之Token，並放入HTTP header。</li>
+                            <li class="text-secondary">*若是PAT_SOURCE相關，則上傳前確認有加入「meta.profile」</li>
                         </ol>
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
@@ -107,7 +109,7 @@
                             <div class="card-body">
                                 <form class="d-none" id="pat-consumer-sc1-json-2023-form" role="form">
                                     <div class="mb-3">
-                                        <label for="token-level" class="form-label">請選擇驗證層級</label>
+                                        <label for="token-level" class="form-label">請選擇Access Token驗證層級</label>
                                         <select id="token-level" class="form-select" aria-label="">
                                             <option value="level1">Level 1</option>
                                             <option value="level3">Level 3</option>
@@ -117,6 +119,42 @@
                                     <div class="mb-3">
                                         <label for="patient-id" class="form-label">請輸入patient id參數</label>
                                         <input type="text" class="form-control" placeholder="patient id" id="patient-id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-active" class="form-label">請輸入patient active參數</label>
+                                        <input type="text" class="form-control" placeholder="patient active" id="patient-active">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-telecom" class="form-label">請輸入patient telecom參數</label>
+                                        <input type="text" class="form-control" placeholder="patient telecom" id="patient-telecom">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-phone" class="form-label">請輸入patient phone參數</label>
+                                        <input type="text" class="form-control" placeholder="patient phone" id="patient-phone">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address" class="form-label">請輸入patient address參數</label>
+                                        <input type="text" class="form-control" placeholder="patient address" id="patient-address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-city" class="form-label">請輸入patient address-city參數</label>
+                                        <input type="text" class="form-control" placeholder="patient address city" id="patient-address-city">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-country" class="form-label">請輸入patient address country參數</label>
+                                        <input type="text" class="form-control" placeholder="patient address country" id="patient-address-country">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-postalcode" class="form-label">請輸入patient address postal code參數</label>
+                                        <input type="text" class="form-control" placeholder="patient address postal code" id="patient-address-postalcode">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-state" class="form-label">請輸入patient address state參數</label>
+                                        <input type="text" class="form-control" placeholder="patient address state" id="patient-address-state">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-use" class="form-label">請輸入patient address use參數</label>
+                                        <input type="text" class="form-control" placeholder="patient address use" id="patient-address-use">
                                     </div>
                                     <div class="mb-3">
                                         <label for="patient-identifier" class="form-label">請輸入patient identifier參數</label>
@@ -132,17 +170,88 @@
                                     <button form_name="pat-consumer-sc1-json-2023-form" name="capture-image" type="button" class="btn btn-warning">截圖</button>
                                 </form>
                                 <form class="d-none" id="pat-consumer-sc2-json-2023-form" role="form">
-                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
-                                    <button type="reset" class="btn btn-secondary">重設</button>
-                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <h5 class="text-primary">請使用Consumer_SC1的頁籤表單進行操作！</h5>
+                                    <h5 class="text-primary">查詢的Patient resource需查詢先前建立的Patient resource</h5>
                                 </form>
                                 <form class="d-none" id="pat-consumer-sc3-json-2023-form" role="form">
-                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
-                                    <button type="reset" class="btn btn-secondary">重設</button>
-                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <h5 class="text-primary">請使用Consumer_SC1的頁籤表單進行操作！</h5>
+                                    <h5 class="text-primary">需要先通過Consumer_SC1！</h5>
+                                    <h5 class="text-primary">查詢的Patient resource需查詢先前建立的Patient resource</h5>
                                 </form>
                                 <form class="d-none" id="pat-source-sc1-json-2023-form" role="form">
-                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
+                                    <div class="mb-3">
+                                        <label for="source-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="source-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="put-patient-id">請輸入patient id</label>
+                                        <input type="text" class="form-control" id="put-patient-id" placeholder="空白則自動產生">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meta-profile-url">請選擇profile URL</label>
+                                        <select id="meta-profile-url" class="form-select" aria-label="">
+                                            <option value="https://simplifier.net/mitw.ems.ig/mitw_t1_sc1_patientcore">mitw_t1_sc1_patientcore</option>
+                                            <option value="https://simplifier.net/mitw.ems.ig/mitw_t1_sc2_patientidentification">mitw_t1_sc2_patientidentification</option>
+                                            <option value=" https://simplifier.net/mitw.ems.ig/mitw_t1_sc3_patientcontact">mitw_t1_sc3_patientcontact</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="passport-identifier">請輸入identifier(護照編號)</label>
+                                        <input type="text" class="form-control" id="passport-identifier" placeholder="262344368">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tw-identifier">請輸入identifier(身份證字號)</label>
+                                        <input type="text" class="form-control" id="tw-identifier" placeholder="A123456789">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="mr-identifier">請輸入identifier(MR Medial Record Number)</label>
+                                        <input type="text" class="form-control" id="mr-identifier" placeholder="8862168">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="active">請選擇active(true或false)</label>
+                                        <select id="active" class="form-select" aria-label="">
+                                            <option value="true">使用中</option>
+                                            <option value="false">未使用</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="family">請輸入姓氏</label>
+                                        <input type="text" class="form-control" id="family" placeholder="李">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name">請輸入名字</label>
+                                        <input type="text" class="form-control" id="name" placeholder="小明">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="gender">請選擇性別(male、female或unknown)</label>
+                                        <select id="gender" class="form-select" aria-label="">
+                                            <option value="male">男性</option>
+                                            <option value="female">女性</option>
+                                            <option value="unknown">未知</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="birth-date">請選擇出生日期</label>
+                                        <input type="text" class="form-control" id="birth-date" placeholder="2024-08-17">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="address">請輸入地址</label>
+                                        <input type="text" class="form-control" id="address" placeholder="105台北市松山區民生東路四段133號">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="telecom">請輸入手機(phone)</label>
+                                        <input type="text" class="form-control" id="telecom" placeholder="0905285349">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="managinig-organization">請輸入managingOrganization</label>
+                                        <input type="text" class="form-control" id="managing-organization" placeholder="Organization/org-hosp-example">
+                                    </div>
+
+                                    <button form_name="pat-source-sc1-json-2023-form" name="generate-btn" type="button" class="btn btn-primary">送出</button>
                                     <button type="reset" class="btn btn-secondary">重設</button>
                                     <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
                                 </form>
@@ -161,12 +270,13 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">查詢結果</div>
                             <div class="card-body">
-                                <div class="mb-3">
+                                <div id="meta-version-selector" class="mb-3">
                                     <label for="meta-version" class="form-label">請選擇歷史紀錄版本</label>
                                     <select id="meta-version" class="form-select" aria-label=""></select>
                                 </div>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary"></span></p>
                                 <p class="card-text">id: <span id="result-patient-id" class="text-primary"></span></p>
+                                <p class="card-text">版本(meta version id): <span id="result-meta-version-id" class="text-primary"></span></p>
 
                                 <ul id="result-patient-identifier" class="card-text"></ul>
 
@@ -201,11 +311,25 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../../js/scripts.js"></script>
         <script src="../../js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="../../js/jquery-ui.js"></script>
+        <script src="../../js/jquery.ui.datepicker-zh-TW.min.js"></script>
         <script src="../../js/sweetalert2.all.min.js"></script>
         <script src="../../js/html2canvas.min.js"></script>
         <script src="../../js/FileSaver.min.js"></script>
+        <script src="../../js/track2.2024.js"></script>
         <script>
             $(() => {
+                $("#birth-date").datepicker(
+                    $.datepicker.regional['zh-TW']
+                );
+                $('#birth-date').change((e) => {
+                    e.preventDefault();
+
+                    let selected = $(e.currentTarget).val();
+                    selected = selected.replace(/\//g, '-');
+                    $(e.currentTarget).val(selected);
+                });
+
                 localStorage.setItem('pat_2024_scenarios', JSON.stringify(
                     {
                         Consumer_SC1: 'PAT_Consumer_SC1_JSON_2023',
@@ -230,6 +354,204 @@
                         $(`#${scenarioForm}`).removeClass('d-none');
                     }
                 }
+
+                $('button[name="generate-btn"]').click(async(e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let passportIdentifier = $('#passport-identifier').val();
+                    let twIdentifier = $('#tw-identifier').val();
+                    let mrIdentifier = $('#mr-identifier').val();
+
+                    if (passportIdentifier === '') {
+                        $('#passport-identifier').val(
+                            $('#passport-identifier').attr('placeholder')
+                        );
+                        passportIdentifier = $('#passport-identifier').attr('placeholder');
+                    }
+                    if (twIdentifier === '') {
+                        $('#tw-identifier').val(
+                            $('#tw-identifier').attr('placeholder')
+                        );
+                        twIdentifier = $('#tw-identifier').attr('placeholder');
+                    }
+                    if (mrIdentifier === '') {
+                        $('#mr-identifier').val(
+                            $('#mr-identifier').attr('placeholder')
+                        );
+                        mrIdentifier = $('#mr-identifier').attr('placeholder');
+                    }
+
+                    let active = $('#active :selected').val();
+                    let family = $('#family').val();
+                    let name = $('#name').val();
+
+                    if (family === '') {
+                        $('#family').val(
+                            $('#family').attr('placeholder')
+                        );
+                        family = $('#family').attr('placeholder');
+                    }
+                    if (name === '') {
+                        $('#name').val(
+                            $('#name').attr('placeholder')
+                        );
+                        name = $('#name').attr('placeholder');
+                    }
+
+                    let gender = $('#gender :selected').val();
+                    let birthDate = $('#birth-date').val();
+
+                    if (birthDate === '') {
+                        $('#birth-date').val(
+                            $('#birth-date').attr('placeholder')
+                        );
+                        birthDate = $('#birth-date').attr('placeholder');
+                    }
+
+                    let address = $('#address').val();
+                    if (address === '') {
+                        $('#address').val(
+                            $('#address').attr('placeholder')
+                        );
+                        address = $('#address').attr('placeholder');
+                    }
+
+                    let telecom = $('#telecom').val();
+                    if (telecom === '') {
+                        $('#telecom').val(
+                            $('#telecom').attr('placeholder')
+                        );
+                        telecom = $('#telecom').attr('placeholder');
+                    }
+
+                    let managingOrganization = $('#managing-organization').val();
+                    if (managingOrganization === '') {
+                        $('#managing-organization').val(
+                            $('#managing-organization').attr('placeholder')
+                        );
+                        managingOrganization = $('#managing-organization').attr('placeholder')
+                    }
+
+                    let identifierArr = [
+                        {
+                            'use': 'official',
+                            'system': 'http://www.boca.gov.tw',
+                            'type': {
+                                'coding': [
+                                    {
+                                        'system': 'http://www.boca.gov.tw',
+                                        'code': 'PPN',
+                                        'display': 'Passport number',
+                                    },
+                                ],
+                            },
+                            'value': passportIdentifier,
+                        },
+                        {
+                            'use': 'official',
+                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                            'type': {
+                                'coding': [
+                                    {
+                                        'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                                        'code': 'MR',
+                                        'display': 'Medical record number',
+                                    },
+                                ]
+                            },
+                            'value': mrIdentifier,
+                        },
+                        {
+                            'use': 'official',
+                            'type': {
+                                'coding': [
+                                    {
+                                        'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                                        'code': 'NNxxx',
+                                        '_code': {
+                                        'extension': [
+                                            {
+                                                'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/identifier-suffix',
+                                                'extension': [
+                                                    {
+                                                        'url': 'suffix',
+                                                        'valueString': 'TWN',
+                                                    },
+                                                    {
+                                                        'url': 'valueSet',
+                                                        'valueCanonical': 'http://hl7.org/fhir/ValueSet/iso3166-1-3',
+                                                    },
+                                                ]
+                                            }]
+                                        }
+                                    }
+                                ]
+                            },
+                            'system': 'http://www.moi.gov.tw/',
+                            'value': twIdentifier,
+                        },
+                    ];
+
+                    let patientPayload = {
+                        'profile_url': $('#meta-profile-url :selected').val(),
+                        'identifiers': identifierArr,
+                        'active': $('#active').val(),
+                        'managing_organization': managingOrganization,
+                        'name': {
+                            'use': 'official',
+                            'text': `${family}${name}`,
+                            'family': family,
+                            'given': [name],
+                        },
+                        'gender': $('#gender').val(),
+                        'birth_date': $('#birth-date').val(),
+                        'addresses': [
+                            {
+                                'use': 'home',
+                                'text': address,
+                            },
+                            {
+                                'country': 'TW',
+                            },
+                        ],
+                        'telecom': {
+                            'use': 'home',
+                            'system': 'phone',
+                            'value': telecom,
+                        },
+                    };
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+
+                    if ($('#put-patient-id').val() !== '') {
+                        patientPayload['id'] = $('#put-patient-id').val();
+                    }
+
+                    await doGenerateRequest(currentFormName, trackServerEndpoint, oauthServerEndpoint, patientPayload, errorMessage);
+                    let patientId = localStorage.getItem('created_patient_id');
+                    if (patientId !== null) {
+                        let searchParameters = `?_id=${patientId}`;
+                        await doSubmitRequest(currentFormName.replace('source', 'consumer'), warningMessage, errorMessage, trackServerEndpoint, oauthServerEndpoint, searchParameters, 'source');
+                    }
+                    $(e.currentTarget).removeAttr('disabled');
+                });
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
@@ -256,6 +578,24 @@
                     let patientIdentifier = $('#patient-identifier').val();
                     let patientManagingOrganization = $('#patient-organization').val();
 
+                    let searchArr = [
+                        '-active',
+                        '-telecom',
+                        '-phone',
+                        '-address',
+                        '-address-city',
+                        '-address-country',
+                        '-address-state',
+                        '-address-postalcode',
+                        '-address-use',
+                    ];
+                    for (index in searchArr) {
+                        let value = $(`#patient${searchArr[index]}`).val();
+                        if (value !== '') {
+                            searchParameters += `${searchArr[index].substring(1)}=${value}&`;
+                        }
+                    }
+
                     if (patientId !== '') {
                         searchParameters += `_id=${patientId}&`;
                     }
@@ -281,138 +621,7 @@
 
                     $('#meta-version').attr('form_name', currentFormName);
 
-                    await $.ajax({
-                        url: `/track2/2024/${currentFormName}`,
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify({
-                            fhir_server: trackServerEndpoint.track2_server,
-                            oauth_token_info: oauthServerEndpoint['track#2'],
-                            oauth_level: $('#token-level :selected').val(),
-                            search_parameters: searchParameters,
-                        }),
-                    }).done((data) => {
-                        let jsonData = data.json;
-                        if (data.status !== 200) {
-                            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
-                            Swal.fire(errorMessage);
-
-                            return false;
-                        }
-                        if (jsonData.total < 1) {
-                            warningMessage['text'] = `使用查詢參數${searchParameters}未找到紀錄！`;
-                            Swal.fire(warningMessage);
-                            $('#search-result-card').addClass('d-none');
-                        } else {
-                            let patientResource = jsonData.entry[0].resource;
-                            $('#search-result-card').removeClass('d-none');
-
-                            let prefix = '#result-patient-';
-                            $(`${prefix}id`).text(patientResource['id']);
-
-                            $('#meta-version').attr('patient_id', patientResource['id']);
-
-                            let identifiers = patientResource['identifier'];
-                            let identifier = null;
-                            let identifierHtml = '';
-                            for (index in identifiers) {
-                                identifier = identifiers[index];
-                                let codingSystem = [];
-                                if (identifier['type']) {
-                                    let codingSystem = [
-                                        identifier['type']['coding'][0]['system'],
-                                        identifier['type']['coding'][0]['code'],
-                                    ];
-                                    identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1]})</span></li>`;
-                                } else {
-                                    identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}</span></li>`;
-                                }
-                            }
-                            $(`${prefix}identifier`).html(identifierHtml);
-
-                            let active = patientResource.active;
-                            if (active === true) {
-                                active = '使用中';
-                            }
-                            if (active === false) {
-                                active = '未使用';
-                            }
-
-                            let gender = patientResource.gender;
-                            if (gender === 'male') {
-                                gender = '男性';
-                            }
-                            if (gender === 'female') {
-                                gender = '女性';
-                            }
-
-                            $(`${prefix}name`).text(`${patientResource.name[0].text}`);
-                            $(`${prefix}active`).text(`${active || '未填寫'}`);
-                            $(`${prefix}gender`).text(`${gender || '未填寫'}`);
-                            $(`${prefix}birth-date`).text(`${patientResource.birthDate || '未填寫'}`);
-
-                            if (patientResource.managingOrganization) {
-                                $(`${prefix}managing-organization`).text(`${patientResource.managingOrganization.reference}`);
-                            } else {
-                                $(`${prefix}managing-organization`).text('未填寫');
-                            }
-
-                            if (patientResource.communication) {
-                                $(`${prefix}communication`).text(`${patientResource.communication[0].language.coding[0].code}(代碼標籤：${patientResource.communication[0].language.coding[0].system})`);
-                            } else {
-                                $(`${prefix}communication`).text('未填寫');
-                            }
-
-                            if (patientResource.telecom) {
-                                $(`${prefix}telecom`).text(`${patientResource.telecom[0].value}(${patientResource.telecom[0].use})`);
-                            } else {
-                                $(`${prefix}telecom`).text('未填寫');
-                            }
-
-                            if (patientResource.address) {
-                                $(`${prefix}address`).text(`${patientResource.address[0].text}`);
-                            } else {
-                                $(`${prefix}address`).text('未填寫');
-                            }
-
-                            if (patientResource.contact) {
-                                $(`${prefix}contact`).text(`${patientResource.contact[0].name.text}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system}, ${patientResource.contact[0].relationship[0].coding[0].code})`);
-                            } else {
-                                $(`${prefix}contact`).text('未填寫');
-                            }
-
-                            if (patientResource.deceasedBoolean) {
-                                $(`${prefix}deceased`).text(`${patientResource.deceasedBoolean}`);
-                            } else {
-                                $(`${prefix}deceased`).text('未填寫');
-                            }
-
-                            if (patientResource.maritalStatus) {
-                                $(`${prefix}marital-status`).text(`${patientResource.maritalStatus.coding[0].code}(代碼系統：${patientResource.maritalStatus.coding[0].system})`);
-                            } else {
-                                $(`${prefix}marital-status`).text('未填寫');
-                            }
-
-                            if (patientResource.photo) {
-                                let patientPhoto = `data:${patientResource.photo[0].contentType};base64,${patientResource.photo[0].data}`;
-                                $(`${prefix}photo`).html(
-                                    `病患照片photo: <img src="${patientPhoto}" class="img-thumbnail" alt="result patient photo">`
-                                );
-                            } else {
-                                $(`${prefix}photo`).html('病患照片photo: <span class="text-primary">未填寫</span>');
-                            }
-
-                            let metaVersions = Number(patientResource.meta.versionId);
-                            let metaVersionOptions = '';
-                            for (let index=1; index<=metaVersions; index++) {
-                                metaVersionOptions += `<option value="${index}">版本${index}</option>`;
-                            }
-                            $('#meta-version').html(metaVersionOptions);
-                        }
-                    }).fail((error) => {
-                        errorMessage['text'] = `${error.status} ${error.statusText}`;
-                        Swal.fire(errorMessage);
-                    });
+                    await doSubmitRequest(currentFormName, warningMessage, errorMessage, trackServerEndpoint, oauthServerEndpoint, searchParameters);
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
@@ -440,137 +649,31 @@
                         icon: 'error',
                         confirmButtonText: '確定',
                     };
-                    let metaVersionId = $('#meta-version :selected').val();
+                    let metaVersionId = Number($('#meta-version :selected').val());
+
+                    if (metaVersionId === 0) {
+                        errorMessage['text'] = '請選擇歷史紀錄版本！';
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
 
                     let searchParameters = `/${patientId}/_history/${metaVersionId}`;
                     $('#result-search-parameters').text(searchParameters);
 
-                    await $.ajax({
-                        url: `/track2/2024/${currentFormName}`,
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify({
-                            fhir_server: trackServerEndpoint.track2_server,
-                            oauth_token_info: oauthServerEndpoint['track#2'],
-                            oauth_level: $('#token-level :selected').val(),
-                            search_parameters: searchParameters,
-                        })
-                    }).done((data) => {
-                        let jsonData = data.json;
-                        if (data.status !== 200) {
-                            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
-                            Swal.fire(errorMessage);
+                    $('#meta-version').attr('disabled', 'disabled');
 
-                            return false;
-                        }
+                    await doMetaVersionRequest(currentFormName, trackServerEndpoint, oauthServerEndpoint, searchParameters, errorMessage);
 
-                        let patientResource = jsonData;
-                        $('#search-result-card').removeClass('d-none');
-
-                        let prefix = '#result-patient-';
-                        $(`${prefix}id`).text(patientResource['id']);
-
-                        let identifiers = patientResource['identifier'];
-                        let identifier = null;
-                        let identifierHtml = '';
-                        for (index in identifiers) {
-                            identifier = identifiers[index];
-                            let codingSystem = [];
-                            if (identifier['type']) {
-                                let codingSystem = [
-                                    identifier['type']['coding'][0]['system'],
-                                    identifier['type']['coding'][0]['code'],
-                                ];
-                                identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1]})</span></li>`;
-                            } else {
-                                identifierHtml += `<li>病患識別碼identifier: <span id="result-patient-identifier" class="text-primary">${identifier['value']}</span></li>`;
-                            }
-                        }
-                        $(`${prefix}identifier`).html(identifierHtml);
-
-                        let active = patientResource.active;
-                        if (active === true) {
-                            active = '使用中';
-                        }
-                        if (active === false) {
-                            active = '未使用';
-                        }
-
-                        let gender = patientResource.gender;
-                        if (gender === 'male') {
-                            gender = '男性';
-                        }
-                        if (gender === 'female') {
-                            gender = '女性';
-                        }
-
-                        $(`${prefix}name`).text(`${patientResource.name[0].text}`);
-                        $(`${prefix}active`).text(`${active || '未填寫'}`);
-                        $(`${prefix}gender`).text(`${gender || '未填寫'}`);
-                        $(`${prefix}birth-date`).text(`${patientResource.birthDate || '未填寫'}`);
-
-                        if (patientResource.managingOrganization) {
-                            $(`${prefix}managing-organization`).text(`${patientResource.managingOrganization.reference}`);
-                        } else {
-                            $(`${prefix}managing-organization`).text('未填寫');
-                        }
-
-                        if (patientResource.communication) {
-                            $(`${prefix}communication`).text(`${patientResource.communication[0].language.coding[0].code}(代碼標籤：${patientResource.communication[0].language.coding[0].system})`);
-                        } else {
-                            $(`${prefix}communication`).text('未填寫');
-                        }
-
-                        if (patientResource.telecom) {
-                            $(`${prefix}telecom`).text(`${patientResource.telecom[0].value}`);
-                        } else {
-                            $(`${prefix}telecom`).text('未填寫');
-                        }
-
-                        if (patientResource.address) {
-                            $(`${prefix}address`).text(`${patientResource.address[0].text}`);
-                        } else {
-                            $(`${prefix}address`).text('未填寫');
-                        }
-
-                        if (patientResource.contact) {
-                            $(`${prefix}contact`).text(`${patientResource.contact[0].name.text}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system}, ${patientResource.contact[0].relationship[0].coding[0].code})`);
-                        } else {
-                            $(`${prefix}contact`).text('未填寫');
-                        }
-
-                        if (patientResource.deceasedBoolean) {
-                            $(`${prefix}deceased`).text(`${patientResource.deceasedBoolean}`);
-                        } else {
-                            $(`${prefix}deceased`).text('未填寫');
-                        }
-
-                        if (patientResource.maritalStatus) {
-                            $(`${prefix}marital-status`).text(`${patientResource.maritalStatus.coding[0].code}(代碼系統：${patientResource.contact[0].relationship[0].coding[0].system})`);
-                        } else {
-                            $(`${prefix}marital-status`).text('未填寫');
-                        }
-
-                        if (patientResource.photo) {
-                            let patientPhoto = `data:${patientResource.photo[0].contentType};base64,${patientResource.photo[0].data}`;
-                            $(`${prefix}photo`).html(
-                                `病患照片photo: <img src="${patientPhoto}" class="img-thumbnail" alt="result patient photo">`
-                            );
-                        } else {
-                            $(`${prefix}photo`).html('病患照片photo: <span class="text-primary">未填寫</span>');
-                        }
-
-                    }).fail((error) => {
-                        errorMessage['text'] = `${error.status} ${error.statusText}`;
-                        Swal.fire(errorMessage);
-                    });
-                    });
+                    $('#meta-version').removeAttr('disabled');
+                });
 
                 $('[id*=-tab]').click((e) => {
                     e.preventDefault();
                     let patientScenarios = JSON.parse(localStorage.getItem('pat_2024_scenarios'));
                     $('#scenario-name').text(patientScenarios[$(e.currentTarget).text()]);
                     $(e.currentTarget).attr('class', 'nav-link active');
+                    $('#search-result-card').addClass('d-none');
+                    $('#meta-version-selector').removeClass('d-none');
 
                     let scenarioName = '';
                     let scenarioTab = '';
