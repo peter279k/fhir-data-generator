@@ -254,6 +254,7 @@
                                     <button form_name="pat-source-sc1-json-2023-form" name="generate-btn" type="button" class="btn btn-primary">送出</button>
                                     <button type="reset" class="btn btn-secondary">重設</button>
                                     <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <button form_name="pat-source-sc1-json-2023-form" name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
                                 </form>
                                 <form class="d-none" id="pat-source-sc2-json-2023-form" role="form">
                                     <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
@@ -354,6 +355,46 @@
                         $(`#${scenarioForm}`).removeClass('d-none');
                     }
                 }
+
+                $('button[name="delete-btn"]').click((e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+
+                    let patientId = localStorage.getItem('created_patient_id');
+                    let confirmMessage = {
+                        title: '訊息',
+                        text: `確定刪除Patient id ${patientId}？`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '是',
+                        cancelButtonText: '取消',
+                    };
+
+                    let successMessage = {
+                        title: '已經刪除！',
+                        text: '',
+                        icon: "success",
+                        confirmButtonText: '確定',
+                    }
+
+                    Swal.fire(confirmMessage).then(async(result) => {
+                        let currentFormName = e.currentTarget.getAttribute('form_name');
+                        let patientId = localStorage.getItem('created_patient_id');
+                        let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                        let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+                        if (result.isConfirmed) {
+                            await doDeleteRequest(currentFormName, trackServerEndpoint, oauthServerEndpoint, patientId, errorMessage, successMessage);
+                        }
+                    });
+                });
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();

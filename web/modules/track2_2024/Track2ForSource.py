@@ -3,15 +3,65 @@ from fhir_data_generator import SimpleClient, ClientCredentials, AuthorizationCo
 
 
 class Track2ForSource:
-    def __init__(self, current_form_name: str, item_dict: dict):
+    def __init__(self, current_form_name: str, item_dict: dict, to_delete=False):
         self.current_form_name = current_form_name
         self.item_dict = item_dict
         self.resource = '/Patient'
         self.patient_payload = item_dict.get('patient_payload')
+        self.to_delete = to_delete
 
         self.http_method = 'PUT'
-        if self.patient_payload.get('id') is None:
+        if to_delete is False and self.patient_payload.get('id') is None:
             self.http_method = 'POST'
+
+    def delete_resource(self):
+        oauth_level = self.item_dict.get('oauth_level')
+        req_url = self.item_dict.get('fhir_server')
+        simple_client = SimpleClient(req_url)
+
+        oauth_token_info = self.item_dict.get('oauth_token_info')
+        client_id = oauth_token_info['client_id']
+        client_secret = oauth_token_info['client_secret']
+        token_url = oauth_token_info['token_url']
+        authorization_code_url = oauth_token_info['authorization_code_url']
+        redirect_callback_url = oauth_token_info['redirect_callback_url']
+        username = oauth_token_info['username']
+        password = oauth_token_info['password']
+
+        if oauth_level == 'level1':
+            client_credentials = ClientCredentials(
+                client_id=client_id,
+                client_secret=client_secret,
+                req_url=token_url
+            )
+            client_credentials.send()
+            access_token = client_credentials.retrieve_token()
+            simple_client.headers['Authorization'] = f'Bearer {access_token}'
+        elif oauth_level == 'level3':
+            authorization_code = AuthorizationCode(
+                client_id=client_id,
+                client_secret=client_secret,
+                redirect_uri=redirect_callback_url,
+                req_auth_code_url=authorization_code_url,
+                access_token_req_url=token_url,
+                form_action_payload={'username': username, 'password': password},
+            )
+            authorization_code.retrieve_authorization_code()
+            authorization_code.send()
+            access_token = authorization_code.retrieve_token()
+            simple_client.headers['Authorization'] = f'Bearer {access_token}'
+
+        patient_id = self.item_dict['patient_id']
+        req_path = f'{self.resource}/{patient_id}'
+        self.http_method = 'DELETE'
+
+        response = simple_client.send(
+            path=req_path,
+            http_method=self.http_method.lower(),
+            headers=simple_client.headers
+        )
+
+        return simple_client.handle_response(response)
 
     def get_response_content(self):
         oauth_level = self.item_dict.get('oauth_level')

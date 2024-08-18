@@ -26,7 +26,10 @@ async function doSubmitRequest(currentFormName, warningMessage, errorMessage, tr
         } else {
             let patientResource = jsonData.entry[0].resource;
             $('#search-result-card').removeClass('d-none');
-            $('#result-card-header').text('查詢結果');
+            if (type === 'consumer') {
+                $('#result-card-header').text('查詢結果');
+                $('button[name="delete-btn"]').addClass('d-none');
+            }
 
             let prefix = '#result-patient-';
             $(`${prefix}id`).text(patientResource['id']);
@@ -161,6 +164,7 @@ async function doMetaVersionRequest(currentFormName, trackServerEndpoint, oauthS
         let patientResource = jsonData;
         $('#search-result-card').removeClass('d-none');
         $('#result-card-header').text('查詢結果');
+        $('button[name="delete-btn"]').addClass('d-none');
 
         let prefix = '#result-patient-';
         $(`${prefix}id`).text(patientResource['id']);
@@ -263,6 +267,14 @@ async function doMetaVersionRequest(currentFormName, trackServerEndpoint, oauthS
 }
 
 async function doGenerateRequest(currentFormName, trackServerEndpoint, oauthServerEndpoint, patientPayload, errorMessage) {
+    if (patientPayload.id) {
+        $('#result-card-header').text('更新結果');
+        $('#result-search-parameters').text('更新資料，故無查詢參數');
+    } else {
+        $('#result-card-header').text('新增結果');
+        $('#result-search-parameters').text('新增資料，故無查詢參數');
+    }
+
     await $.ajax({
         url: `/track2/2024/source/${currentFormName}`,
         method: 'POST',
@@ -285,9 +297,42 @@ async function doGenerateRequest(currentFormName, trackServerEndpoint, oauthServ
         let patientResource = jsonData;
         $('#search-result-card').removeClass('d-none');
         $('#meta-version-selector').addClass('d-none');
+        $('button[name="delete-btn"]').removeClass('d-none');
 
         localStorage.setItem('created_patient_id', patientResource['id']);
         $('#put-patient-id').val(patientResource['id']);
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
+
+async function doDeleteRequest(currentFormName, trackServerEndpoint, oauthServerEndpoint, patientId, errorMessage, successMessage) {
+    await $.ajax({
+        url: `/track2/2024/delete_source/${currentFormName}`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#2'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_id: patientId,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+            console.log(jsonData);
+
+            return false;
+        }
+
+        successMessage['text'] = `Patient id：${patientId}已經刪除！`;
+        Swal.fire(successMessage);
+        $('#search-result-card').addClass('d-none');
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);

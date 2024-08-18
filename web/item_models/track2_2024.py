@@ -13,3 +13,9 @@ class ContentSourceScenario1Model(BaseModel):
     oauth_token_info: Dict
     oauth_level: str
     patient_payload: Dict
+
+class DeleteContentSourceScenario1Model(BaseModel):
+    fhir_server: str
+    oauth_token_info: Dict
+    oauth_level: str
+    patient_id: str
