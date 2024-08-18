@@ -307,6 +307,24 @@ addresses = [
  ]
 patient.set_address(addresses[0])
 
+telecoms = [
+    {
+        'system': 'phone',
+        'value': '0905285349',
+        'use': 'mobile',
+    },
+    {
+        'system': 'email', 'value': 'kamsung@company.com'
+    },
+    {
+        'system': 'url',
+        'value': 'https://line.me/ti/p/34b2c384l5'
+    }
+]
+patient.set_telecom(telecoms[0])
+patient.set_telecom(telecoms[1])
+patient.set_telecom(telecoms[2])
+
 patient.set_active(True)
 
 managing_organization = 'Organization/MITW.ForIdentifier'
