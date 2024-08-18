@@ -235,6 +235,11 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
+                                        <p class="text-secondary">代碼參考：http://terminology.hl7.org/CodeSystem/v3-ietf3066</p>
+                                        <label for="communication">請輸入病患溝通使用語言之代碼</label>
+                                        <input type="text" class="form-control" id="communication" placeholder="en-US">
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="birth-date">請選擇出生日期</label>
                                         <input type="text" class="form-control" id="birth-date" placeholder="2024-08-17">
                                     </div>
@@ -257,9 +262,9 @@
                                     <button form_name="pat-source-sc1-json-2023-form" name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
                                 </form>
                                 <form class="d-none" id="pat-source-sc2-json-2023-form" role="form">
-                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
-                                    <button type="reset" class="btn btn-secondary">重設</button>
-                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <h5 class="text-primary">請使用Source_SC1的頁籤表單進行操作！</h5>
+                                    <h5 class="text-primary">Source_SC1的頁籤表單記得填入Communication欄位！</h5>
+                                    <h5 class="text-primary">請先通過Source SC1</h5>
                                 </form>
                                 <form class="d-none" id="pat-source-sc3-json-2023-form" role="form">
                                     <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
@@ -318,6 +323,7 @@
         <script src="../../js/html2canvas.min.js"></script>
         <script src="../../js/FileSaver.min.js"></script>
         <script src="../../js/track2.2024.js"></script>
+        <script src="../../js/commLangCode.js"></script>
         <script>
             $(() => {
                 $("#birth-date").datepicker(
@@ -392,6 +398,7 @@
                         let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
                         if (result.isConfirmed) {
                             await doDeleteRequest(currentFormName, trackServerEndpoint, oauthServerEndpoint, patientId, errorMessage, successMessage);
+                            $(e.currentTarget).addClass('d-none');
                         }
                     });
                 });
@@ -550,8 +557,53 @@
                         },
                     ];
 
+                    let communications = [];
+                    let communication = $('#communication').val();
+                    let metaProfileUrl = $('#meta-profile-url :selected').val();
+                    if (metaProfileUrl.includes('sc2')) {
+                        if (communication === '') {
+                            $('#communication').val(
+                                $('#communication').attr('placeholder')
+                            );
+                            communication = $('#communication').attr('placeholder');
+                        }
+
+                        let languageCodeLists = languageCodes();
+                        let langCodeIsMapped = false;
+                        let langCode = {};
+                        for (index in languageCodeLists) {
+                            langCode = languageCodeLists[index];
+                            if (langCode.code === communication.toLocaleLowerCase()) {
+                                langCodeIsMapped = true;
+                                break;
+                            }
+                        }
+
+                        if (langCodeIsMapped === false) {
+                            errorMessage['text'] = `語言代碼：${communication}錯誤！`;
+                            Swal.fire(errorMessage);
+
+                            return false;
+                        }
+
+                        communications = [
+                            {
+                                'language': {
+                                    'coding': [
+                                        {
+                                            'system': 'http://terminology.hl7.org/CodeSystem/v3-ietf3066',
+                                            'code': communication,
+                                        },
+                                    ],
+                                    'text': langCode.name,
+                                },
+                            },
+                        ];
+                    }
+
                     let patientPayload = {
                         'profile_url': $('#meta-profile-url :selected').val(),
+                        'communications': communications,
                         'identifiers': identifierArr,
                         'active': $('#active').val(),
                         'managing_organization': managingOrganization,

@@ -124,8 +124,16 @@ class Track2ForSource:
 
         patient.set_profile_url(self.patient_payload['profile_url'])
 
+        scenario = 1
+
         for identifier_info in self.patient_payload['identifiers']:
             patient.set_identifier(identifier_info)
+
+        if len(self.patient_payload['communications']) > 0:
+            scenario = 2
+
+        for communication_info in self.patient_payload['communications']:
+            patient.set_communication(communication_info)
 
         patient.set_active(bool(self.patient_payload['active']))
         patient.set_managing_organization(self.patient_payload['managing_organization'])
@@ -137,6 +145,6 @@ class Track2ForSource:
         patient.set_telecom(self.patient_payload['telecom'])
 
         if self.http_method == 'PUT':
-            return patient.create(1, update=True)
+            return patient.create(scenario, update=True)
 
-        return patient.create(1)
+        return patient.create(scenario)
