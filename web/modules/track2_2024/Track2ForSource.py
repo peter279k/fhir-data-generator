@@ -129,8 +129,10 @@ class Track2ForSource:
         for identifier_info in self.patient_payload['identifiers']:
             patient.set_identifier(identifier_info)
 
-        if len(self.patient_payload['communications']) > 0:
+        if len(self.patient_payload['communications']) > 0 and self.patient_payload.get('contact') is None:
             scenario = 2
+        else:
+            scenario = 3
 
         for communication_info in self.patient_payload['communications']:
             patient.set_communication(communication_info)
@@ -140,9 +142,16 @@ class Track2ForSource:
         patient.set_name(self.patient_payload['name'])
         patient.set_gender(self.patient_payload['gender'])
         patient.set_birth_date(self.patient_payload['birth_date'])
-        patient.set_address(self.patient_payload['addresses'][0])
-        patient.set_address(self.patient_payload['addresses'][1])
-        patient.set_telecom(self.patient_payload['telecom'])
+
+        if scenario == 3:
+            patient.set_address(self.patient_payload['addresses'][0])
+            patient.set_contact(self.patient_payload['contact'][0])
+
+        else:
+            patient.set_address(self.patient_payload['addresses'][0])
+            patient.set_address(self.patient_payload['addresses'][1])
+            for telecom_val in self.patient_payload['telecom']:
+                patient.set_telecom(telecom_val)
 
         if self.http_method == 'PUT':
             return patient.create(scenario, update=True)

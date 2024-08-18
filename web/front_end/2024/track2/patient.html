@@ -227,6 +227,22 @@
                                         <input type="text" class="form-control" id="name" placeholder="小明">
                                     </div>
                                     <div class="mb-3">
+                                        <label for="contact-family">請輸入聯絡人姓氏(SC3)</label>
+                                        <input type="text" class="form-control" id="contact-family" placeholder="許">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contact-name">請輸入聯絡人名字(SC3)</label>
+                                        <input type="text" class="form-control" id="contact-name" placeholder="庭偉">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contact-telecom">請輸入聯絡人手機(SC3)</label>
+                                        <input type="text" class="form-control" id="contact-telecom" placeholder="0905285349">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contact-email">請輸入聯絡人信箱(SC3)</label>
+                                        <input type="email" class="form-control" id="contact-email" placeholder="peter279k@gmail.com">
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="gender">請選擇性別(male、female或unknown)</label>
                                         <select id="gender" class="form-select" aria-label="">
                                             <option value="male">男性</option>
@@ -236,7 +252,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <p class="text-secondary">代碼參考：http://terminology.hl7.org/CodeSystem/v3-ietf3066</p>
-                                        <label for="communication">請輸入病患溝通使用語言之代碼</label>
+                                        <label for="communication">請輸入病患溝通使用語言之代碼(SC2與SC3)</label>
                                         <input type="text" class="form-control" id="communication" placeholder="en-US">
                                     </div>
                                     <div class="mb-3">
@@ -248,8 +264,32 @@
                                         <input type="text" class="form-control" id="address" placeholder="105台北市松山區民生東路四段133號">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="telecom">請輸入手機(phone)</label>
+                                        <label for="address-postal">請輸入郵遞區號(SC3)</label>
+                                        <input type="text" class="form-control" id="address-postal" placeholder="105">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="address-line">請輸入路名(SC3)</label>
+                                        <input type="text" class="form-control" id="address-line" placeholder="民生東路">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="address-city">請輸入城市名稱(SC3)</label>
+                                        <input type="text" class="form-control" id="address-city" placeholder="台北市">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="address-district">請輸入區域名稱(SC3)</label>
+                                        <input type="text" class="form-control" id="address-district" placeholder="松山區">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="telecom">請輸入個人手機(phone)</label>
                                         <input type="text" class="form-control" id="telecom" placeholder="0905285349">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email">請輸入個人email(email)(SC3)</label>
+                                        <input type="email" class="form-control" id="email" placeholder="kamsung@company.com">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="url">請輸入個人網址(url)(SC3)</label>
+                                        <input type="text" class="form-control" id="url" placeholder="https://line.me/ti/p/34b2c384l5">
                                     </div>
                                     <div class="mb-3">
                                         <label for="managinig-organization">請輸入managingOrganization</label>
@@ -263,14 +303,13 @@
                                 </form>
                                 <form class="d-none" id="pat-source-sc2-json-2023-form" role="form">
                                     <h5 class="text-primary">請使用Source_SC1的頁籤表單進行操作！</h5>
-                                    <h5 class="text-primary">Source_SC1的頁籤表單記得填入Communication欄位！</h5>
+                                    <h5 class="text-primary">Source_SC1的頁籤表單記得填入標記有SC2關鍵字的欄位！</h5>
                                     <h5 class="text-primary">請先通過Source SC1</h5>
                                 </form>
                                 <form class="d-none" id="pat-source-sc3-json-2023-form" role="form">
-                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
-                                    <button type="reset" class="btn btn-secondary">重設</button>
-                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
-                                </form>
+                                    <h5 class="text-primary">請使用Source_SC1的頁籤表單進行操作！</h5>
+                                    <h5 class="text-primary">Source_SC1的頁籤表單記得填入標有SC3關鍵字的欄位！</h5>
+                                    <h5 class="text-primary">請先通過Source SC1與Source SC2</h5>                                </form>
                             </div>
                         </div>
                         <div id="search-result-card" class="card mb-4 d-none">
@@ -560,7 +599,7 @@
                     let communications = [];
                     let communication = $('#communication').val();
                     let metaProfileUrl = $('#meta-profile-url :selected').val();
-                    if (metaProfileUrl.includes('sc2')) {
+                    if (metaProfileUrl.includes('sc2') || metaProfileUrl.includes('sc3')) {
                         if (communication === '') {
                             $('#communication').val(
                                 $('#communication').attr('placeholder')
@@ -630,6 +669,154 @@
                             'value': telecom,
                         },
                     };
+
+                    if (metaProfileUrl.includes('sc3')) {
+                        let email = $('#email').val();
+                        let url = $('#url').val();
+                        if (email === '') {
+                            $('#email').val(
+                                $('#email').attr('placeholder')
+                            );
+                            email = $('#email').attr('placeholder');
+                        }
+                        if (url === '') {
+                            $('#url').val(
+                                $('#url').attr('placeholder')
+                            );
+                            url = $('#url').attr('placeholder');
+                        }
+
+                        let addressLine = $('#address-line').val();
+                        if (addressLine === '') {
+                            $('#address-line').val(
+                                $('#address-line').attr('placeholder')
+                            );
+                            addressLine = $('#address-line').attr('placeholder');
+                        }
+
+                        let addressCity = $('#address-city').val();
+                        if (addressCity === '') {
+                            $('#address-city').val(
+                                $('#address-city').attr('placeholder')
+                            );
+                            addressCity = $('#address-city').attr('placeholder');
+                        }
+
+                        let addressDistrict = $('#address-district').val();
+                        if (addressDistrict === '') {
+                            $('#address-district').val(
+                                $('#address-district').attr('placeholder')
+                            );
+                            addressDistrict = $('#address-district').attr('placeholder');
+                        }
+
+                        let addressPostal = $('#address-postal').val();
+                        if (addressPostal === '') {
+                            $('#address-postal').val(
+                                $('#address-postal').attr('placeholder')
+                            );
+                            addressPostal = $('#address-postal').attr('placeholder');
+                        }
+
+                        patientPayload.telecom = [
+                            {
+                                'system': 'phone',
+                                'value': telecom,
+                                'use': 'mobile',
+                            },
+                            {
+                                'system': 'email',
+                                'value': email,
+                            },
+                            {
+                                'system': 'url',
+                                'value': url,
+                            },
+                        ];
+                        patientPayload.addresses = [{
+                            'use': 'home',
+                            'text': address,
+                            'line': [addressLine],
+                            'city': addressCity,
+                            'district': addressDistrict,
+                            '_postalCode': {
+                                'extension': [{
+                                    'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/tw-postal-code',
+                                    'valueCodeableConcept': {
+                                        'coding': [{
+                                            'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/postal-code3-tw',
+                                            'code': addressPostal,
+                                        }]
+                                    }
+                                }]
+                            },
+                            'country': 'TW',
+                        }];
+
+                        let contactFamily = $('#contact-family').val();
+                        if (contactFamily === '') {
+                            $('#contact-family').val(
+                                $('#contact-family').attr('placeholder')
+                            );
+                            contactFamily = $('#contact-family').attr('placeholder');
+                        }
+
+                        let contactName = $('#contact-name').val();
+                        if (contactName === '') {
+                            $('#contact-name').val(
+                                $('#contact-name').attr('placeholder')
+                            );
+                            contactName = $('#contact-name').attr('placeholder');
+                        }
+
+                        let contactTelecom= $('#contact-telecom').val();
+                        if (contactTelecom === '') {
+                            $('#contact-telecom').val(
+                                $('#contact-telecom').attr('placeholder')
+                            );
+                            contactTelecom = $('#contact-telecom').attr('placeholder');
+                        }
+
+                        let contactEmail= $('#contact-email').val();
+                        if (contactEmail === '') {
+                            $('#contact-email').val(
+                                $('#contact-email').attr('placeholder')
+                            );
+                            contactEmail = $('#contact-email').attr('placeholder');
+                        }
+
+                        patientPayload.contact = [{
+                            'relationship': [
+                                {
+                                    'coding': [
+                                        {
+                                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0131',
+                                            'code': 'CP',
+                                        },
+                                    ],
+                                    'text': 'Contact person',
+                                },
+                            ],
+                            'name': {
+                                'text': `${contactFamily}${contactName}`,
+                                'family': contactFamily,
+                                'given': [
+                                    contactName,
+                                ],
+                            },
+                            'telecom': [
+                                {
+                                    'system': 'phone',
+                                    'value': contactTelecom,
+                                    'use': 'mobile',
+                                },
+                                {
+                                    'system': 'email',
+                                    'value': contactEmail,
+                                },
+                            ],
+                        }];
+                    }
 
                     $(e.currentTarget).attr('disabled', 'disabled');
 
