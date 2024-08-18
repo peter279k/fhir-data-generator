@@ -40,12 +40,7 @@
                                 Track#1
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                                </nav>
-                            </div>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"></div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
                                 Track#2
@@ -166,8 +161,10 @@
         <script src="../js/scripts.js"></script>
         <script src="../js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="../js/sweetalert2.all.min.js"></script>
+        <script src="../js/loadTWCoreIGNavLink.js"></script>
         <script>
             $(() => {
+                loadTWCoreIGNavLink();
                 $('#track-server-form').removeClass('d-none');
                 $('#oauth-server-form').addClass('d-none');
 

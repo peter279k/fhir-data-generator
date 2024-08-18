@@ -362,8 +362,11 @@
         <script src="../../js/FileSaver.min.js"></script>
         <script src="../../js/track2.2024.js"></script>
         <script src="../../js/commLangCode.js"></script>
+        <script src="../../js/loadTWCoreIGNavLink.js"></script>
         <script>
             $(() => {
+                loadTWCoreIGNavLink();
+
                 $("#birth-date").datepicker(
                     $.datepicker.regional['zh-TW']
                 );
