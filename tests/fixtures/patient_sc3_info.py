@@ -66,18 +66,6 @@ def birth_date():
     return '2023-12-13'
 
 @pytest.fixture
-def addresses():
-    return [
-        {
-            'use': 'home',
-            'text': '105台北市松山區民生東路四段133號',
-        },
-        {
-            'country': 'TW',
-        },
-    ]
-
-@pytest.fixture
 def contacts():
     return [
         {
