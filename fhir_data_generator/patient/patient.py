@@ -191,8 +191,6 @@ class Patient:
             self.payload_template['communication'] = self.communications
 
         if scenario == 3:
-            del self.payload_template['name']
-            del self.payload_template['telecom']
             self.payload_template['contact'] = self.contacts
 
         return self.payload_template

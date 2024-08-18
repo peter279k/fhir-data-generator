@@ -14,6 +14,17 @@ def profile_urls():
     ]
 
 @pytest.fixture
+def names():
+    return [
+        {
+            'use': 'official',
+            'text': '李小明',
+            'family': '李',
+            'given': ['小明'],
+        },
+    ]
+
+@pytest.fixture
 def identifiers():
     identifier1 = {
         'use': 'official',
@@ -111,6 +122,47 @@ def managing_organization():
     return 'Organization/MITW.ForPHR'
 
 @pytest.fixture
+def telecoms():
+    return [
+        {
+            'system': 'phone',
+            'value': '0905285349',
+            'use': 'mobile',
+        },
+        {
+            'system': 'email', 'value': 'kamsung@company.com'
+        },
+        {
+            'system': 'url',
+            'value': 'https://line.me/ti/p/34b2c384l5'
+        }
+    ]
+
+@pytest.fixture
+def addresses():
+    return [
+        {
+            'use': 'home',
+            'text': '105台北市松山區民生東路四段133號',
+            'line': ['民生東路'],
+            'city': '台北市',
+            'district': '松山區',
+            '_postalCode': {
+                'extension': [{
+                    'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/tw-postal-code',
+                    'valueCodeableConcept': {
+                        'coding': [{
+                            'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/postal-code3-tw',
+                            'code': '105'
+                        }]
+                    }
+                }]
+            },
+            'country': 'TW',
+        }
+    ]
+
+@pytest.fixture
 def patient_sc3_payload():
     profile_urls = ['https://hapi.fhir.tw/fhir/StructureDefinition/MITW-T1-SC3-PatientContact']
 
@@ -147,6 +199,14 @@ def patient_sc3_payload():
                     ],
                 },
                 'value': '123456789',
+            },
+        ],
+        'name': [
+            {
+                'use': 'official',
+                'text': '李小明',
+                'family': '李',
+                'given': ['小明'],
             },
         ],
         'active': True,
@@ -188,12 +248,38 @@ def patient_sc3_payload():
                 ],
             },
         ],
+        'telecom': [
+            {
+                'system': 'phone',
+                'value': '0905285349',
+                'use': 'mobile',
+            },
+            {
+                'system': 'email', 'value': 'kamsung@company.com'
+            },
+            {
+                'system': 'url',
+                'value': 'https://line.me/ti/p/34b2c384l5'
+            }
+        ],
         'address': [
             {
                 'use': 'home',
                 'text': '105台北市松山區民生東路四段133號',
-            },
-            {
+                'line': ['民生東路'],
+                'city': '台北市',
+                'district': '松山區',
+                '_postalCode': {
+                    'extension': [{
+                        'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/tw-postal-code',
+                        'valueCodeableConcept': {
+                            'coding': [{
+                                'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/postal-code3-tw',
+                                'code': '105'
+                            }]
+                        }
+                    }]
+                },
                 'country': 'TW',
             },
         ],
@@ -239,6 +325,14 @@ def update_patient_sc3_payload():
                 'value': '123456789',
             },
         ],
+        'name': [
+            {
+                'use': 'official',
+                'text': '李小明',
+                'family': '李',
+                'given': ['小明'],
+            },
+        ],
         'active': True,
         'birthDate': '2023-12-13',
         'gender': 'male',
@@ -278,12 +372,38 @@ def update_patient_sc3_payload():
                 ],
             },
         ],
+        'telecom': [
+            {
+                'system': 'phone',
+                'value': '0905285349',
+                'use': 'mobile',
+            },
+            {
+                'system': 'email', 'value': 'kamsung@company.com'
+            },
+            {
+                'system': 'url',
+                'value': 'https://line.me/ti/p/34b2c384l5'
+            }
+        ],
         'address': [
             {
                 'use': 'home',
                 'text': '105台北市松山區民生東路四段133號',
-            },
-            {
+                'line': ['民生東路'],
+                'city': '台北市',
+                'district': '松山區',
+                '_postalCode': {
+                    'extension': [{
+                        'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/tw-postal-code',
+                        'valueCodeableConcept': {
+                            'coding': [{
+                                'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/postal-code3-tw',
+                                'code': '105'
+                            }]
+                        }
+                    }]
+                },
                 'country': 'TW',
             },
         ],
