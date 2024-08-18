@@ -269,17 +269,6 @@ contacts = [
                 'Peter',
             ],
         },
-        'telecom': [
-            {
-                'system': 'phone',
-                'value': '0905285349',
-                'use': 'mobile',
-            },
-            {
-                'system': 'email',
-                'value': 'peter279k@gmail.com',
-            },
-        ],
     },
 ]
 patient.set_contact(contacts[0])
