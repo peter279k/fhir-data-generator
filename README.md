@@ -233,6 +233,16 @@ patient.set_profile_url('https://fhir.server/path/to/profile/path')
 patient.set_identifier(identifiers[0])
 patient.set_identifier(identifiers[1])
 
+names = [
+    {
+        'use': 'official',
+        'text': '李小明',
+        'family': '李',
+        'given': ['小明'],
+    },
+]
+patient_class.set_name(names[0])
+
 gender = 'male'
 patient.set_gender(gender)
 
@@ -278,13 +288,24 @@ addresses = [
     {
         'use': 'home',
         'text': '105台北市松山區民生東路四段133號',
-    },
-    {
+        'line': ['民生東路'],
+        'city': '台北市',
+        'district': '松山區',
+        '_postalCode': {
+            'extension': [{
+                'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/tw-postal-code',
+                'valueCodeableConcept': {
+                    'coding': [{
+                        'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/postal-code3-tw',
+                        'code': '105'
+                    }]
+                }
+            }]
+        },
         'country': 'TW',
-    },
-]
+    }
+ ]
 patient.set_address(addresses[0])
-patient.set_address(addresses[1])
 
 patient.set_active(True)
 
