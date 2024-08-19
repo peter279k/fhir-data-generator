@@ -1,1 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="This is the web demonstration for MITW Connectathon" />
+        <meta name="author" content="" />
+        <title>MITW 2024 Track1 Patient</title>
+        <link href="../../css/styles.css" rel="stylesheet" />
+        <script src="../../js/all.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 
+        <link rel="apple-touch-icon" href="../../assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="../../assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="../../assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="mask-icon" href="../../assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+        <link rel="icon" href="../../assets/img/favicons/favicon.ico">
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.html">fhir-data-generator</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Patient Resource</div>
+                            <a class="nav-link" href="../index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                基本設定
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Resources</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#1
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#2
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="patient.html">Patient</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#13
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Patient</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">TWCore Patient</li>
+                        </ol>
+                        <ol class="breadcrumb mb-4">
+                            <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
+                            <li class="text-secondary">*請使用大會核發UserID向大會授權主機 (Keycloak OAuth Server)取得存取授權Token後之Token，並放入HTTP header。</li>
+                        </ol>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a id="tw-core-creator-tab" class="nav-link active" aria-current="page" href="#">Creator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="tw-core-consumer-tab" class="nav-link" href="#">Consumer</a>
+                            </li>
+                        </ul>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form class="d-none" id="source-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="source-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="source-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-id" class="form-label">請輸入patient id</label>
+                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="patient-id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meta-profile-url">請選擇meta profile URL</label>
+                                        <select id="meta-profile-url" class="form-select" aria-label="">
+                                            <option value="https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Patient-twcore">Patient-twcore</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tw-identifier" class="form-label">請輸入身份證字號(NNXXX)</label>
+                                        <input type="text" class="form-control" placeholder="A123456789" id="tw-identifier">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="mr-identifier" class="form-label">請輸入Medical Record Number</label>
+                                        <input type="text" class="form-control" placeholder="8862168" id="mr-identifier">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-active" class="form-label">請選擇病人的紀錄(active)</label>
+                                        <select class="form-select" aria-label="" id="patient-active">
+                                            <option value="true">使用中</option>
+                                            <option value="false">未使用</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-name" class="form-label">請輸入中文姓氏+名字</label>
+                                        <input type="text" class="form-control" placeholder="陳加玲" id="patient-name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-en-family" class="form-label">請輸入英文姓氏</label>
+                                        <input type="text" class="form-control" placeholder="Chen" id="patient-en-family">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-en-name" class="form-label">請輸入英文名字</label>
+                                        <input type="text" class="form-control" placeholder="Chia Lin" id="patient-en-name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-gender" class="form-label">請選擇性別</label>
+                                        <select id="patient-gender" class="form-select" aria-label="">
+                                            <option value="male">男性</option>
+                                            <option value="female">女性</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-birth-date">請選擇出生日期</label>
+                                        <input type="text" class="form-control" id="patient-birth-date" placeholder="1990-01-01">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-age" class="form-label">請輸入年齡</label>
+                                        <input type="text" class="form-control" placeholder="32" id="patient-age">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-country" class="form-label">請輸入國籍代碼(iso3166-1-3)</label>
+                                        <input type="text" class="form-control" placeholder="TW" id="patient-country">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-telecom" class="form-label">請輸入手機</label>
+                                        <input type="text" class="form-control" placeholder="0911327999" id="patient-telecom">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-telecom-start" class="form-label">請選擇手機開始使用效期</label>
+                                        <input type="text" class="form-control" placeholder="2022-07-31" id="patient-telecom-start">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-telecom-end" class="form-label">請選擇手機結束使用效期</label>
+                                        <input type="text" class="form-control" placeholder="2024-07-31" id="patient-telecom-end">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address" class="form-label">請輸入地址</label>
+                                        <input type="text" class="form-control" placeholder="臺北市大同區大有里19鄰承德路三段52巷6弄210號2樓B室" id="patient-address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-line" class="form-label">請輸入路名</label>
+                                        <input type="text" class="form-control" placeholder="承德路" id="patient-address-line">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-city" class="form-label">請輸入城市名</label>
+                                        <input type="text" class="form-control" placeholder="臺北市" id="patient-address-city">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-district" class="form-label">請輸入行政區域名稱</label>
+                                        <input type="text" class="form-control" placeholder="大同區" id="patient-address-district">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-address-postal" class="form-label">請輸入三碼郵遞區號</label>
+                                        <input type="text" class="form-control" placeholder="103" id="patient-address-postal">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-martial-status" class="form-label">請輸入婚姻狀態代碼(http://terminology.hl7.org/CodeSystem/v3-MaritalStatus)</label>
+                                        <input type="text" class="form-control" id="patient-martial-status" placeholder="U">
+                                        <input type="hidden" class="form-control" id="patient-martial-status-coding">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-contact-name" class="form-label">請輸入聯絡人姓名</label>
+                                        <input type="text" class="form-control" id="patient-contact-name" placeholder="李立偉">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-contact-en-family" class="form-label">請輸入聯絡人英文姓氏</label>
+                                        <input type="text" class="form-control" id="patient-contact-en-family" placeholder="Li">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-contact-en-name" class="form-label">請輸入聯絡人英文姓名</label>
+                                        <input type="text" class="form-control" id="patient-contact-en-name" placeholder="Li Wei">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-contact-relationship-coding" class="form-label">請輸入聯絡人關係代碼(http://terminology.hl7.org/CodeSystem/v3-RoleCode)</label>
+                                        <input type="text" class="form-control" id="patient-contact-relationship-coding" placeholder="FTH">
+                                        <input type="hidden" class="form-control" id="contact-relationship-coding">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-contact-telecom" class="form-label">請輸入聯絡人手機</label>
+                                        <input type="text" class="form-control" id="patient-contact-telecom" placeholder="0917159753">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-contact-start" class="form-label">請輸入聯絡人手機開始有效期</label>
+                                        <input type="text" class="form-control" id="patient-contact-start" placeholder="2022-07-31">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-contact-end" class="form-label">請輸入聯絡人手機結束有效期</label>
+                                        <input type="text" class="form-control" id="patient-contact-end" placeholder="2024-07-31">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-communication" class="form-label">請輸入病人說明健康狀態語言代碼(urn:ietf:bcp:47)</label>
+                                        <input type="text" class="form-control" id="patient-communication" placeholder="zh-TW">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-organization" class="form-label">請輸入patient managingOrganization</label>
+                                        <input type="text" class="form-control" id="patient-organization" placeholder="Organization/org-hosp-example">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-photo" class="form-label">請輸入patient照片PNG路徑(請確定已經放到/assets/img目錄下)</label>
+                                        <input type="text" class="form-control" id="patient-photo" placeholder="patient.png">
+                                    </div>
+
+                                    <button form_name="source-form" name="generate-btn" type="button" class="btn btn-primary">產生</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button form_name="source-form" name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="consumer-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="consumer-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="consumer-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+
+                                    <button form_name="pat-source-sc1-json-2023-form" name="generate-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <button form_name="pat-source-sc1-json-2023-form" name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="search-result-card" class="card mb-4 d-none">
+                            <div id="result-card-header" class="card-header">結果</div>
+                            <div class="card-body">
+                                <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
+                                <p class="card-text">id: <span id="result-patient-id" class="text-primary"></span></p>
+
+                                <ul id="result-patient-identifier1" class="card-text"></ul>
+                                <ul id="result-patient-identifier2" class="card-text"></ul>
+
+                                <p class="card-text">病人紀錄active: <span id="result-patient-active" class="text-primary"></span></p>
+                                <p class="card-text">病患名稱name(official): <span id="result-patient-name" class="text-primary"></span></p>
+                                <p class="card-text">病患性別gender: <span id="result-patient-gender" class="text-primary"></span></p>
+                                <p class="card-text">病患出生日期birthDate: <span id="result-patient-birth-date" class="text-primary"></span></p>
+                                <p class="card-text">病患年齡: <span id="result-patient-age" class="text-primary"></span></p>
+                                <p class="card-text">病患國籍: <span id="result-patient-nationality" class="text-primary"></span></p>
+                                <p class="card-text">病患聯絡方式: <span id="result-patient-phone" class="text-primary"></span></p>
+                                <p class="card-text">病患聯絡電話: <span id="result-patient-mobile" class="text-primary"></span></p>
+                                <p class="card-text">病患聯絡電話使用效期: <span id="result-patient-period" class="text-primary"></span></p>
+                                <p class="card-text">聯絡地址: <span id="result-patient-address" class="text-primary"></span></p>
+                                <p class="card-text">郵遞區號: <span id="result-patient-address-postal" class="text-primary"></span></p>
+                                <p class="card-text">縣/市: <span id="result-patient-address-city" class="text-primary"></span></p>
+                                <p class="card-text">鄉/鎮/市/區: <span id="result-patient-address-district" class="text-primary"></span></p>
+                                <p class="card-text">村(里): <span id="result-patient-address-village" class="text-primary"></span></p>
+                                <p class="card-text">鄰: <span id="result-patient-address-neighborhood" class="text-primary"></span></p>
+                                <p class="card-text">路/街: <span id="result-patient-address-line" class="text-primary"></span></p>
+                                <p class="card-text">段: <span id="result-patient-address-section" class="text-primary"></span></p>
+                                <p class="card-text">巷: <span id="result-patient-address-lane" class="text-primary"></span></p>
+                                <p class="card-text">弄: <span id="result-patient-address-alley" class="text-primary"></span></p>
+                                <p class="card-text">號: <span id="result-patient-address-number" class="text-primary"></span></p>
+                                <p class="card-text">樓: <span id="result-patient-address-floor" class="text-primary"></span></p>
+                                <p class="card-text">室: <span id="result-patient-address-room" class="text-primary"></span></p>
+                                <p class="card-text">國家: <span id="result-patient-address-country" class="text-primary"></span></p>
+                                <p class="card-text">婚姻狀態代碼: <span id="result-patient-address-martial" class="text-primary"></span></p>
+                                <p class="card-text">聯絡人(official): <span id="result-patient-contact-name" class="text-primary"></span></p>
+                                <p class="card-text">聯絡人關係代碼: <span id="result-patient-contact-relationship" class="text-primary"></span></p>
+                                <p class="card-text">聯絡人聯絡方式: <span id="result-patient-contact-phone" class="text-primary"></span></p>
+                                <p class="card-text">聯絡人聯絡電話: <span id="result-patient-contact-mobile" class="text-primary"></span></p>
+                                <p class="card-text">聯絡人聯絡電話使用效期: <span id="result-patient-contact-period" class="text-primary"></span></p>
+                                <p class="card-text">病人說明健康狀態使用的語言: <span id="result-patient-communication" class="text-primary"></span></p>
+                                <p class="card-text">紀錄的保管機構參照: <span id="result-patient-managing-organization" class="text-primary"></span></p>
+                                <p class="card-text">病人影像:</p>
+                                <img src="" alt="patient image" id="result-patient-photo" class="thumbnail img-responsive">
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; fhir-data-generator 2024</div>
+                            <div>
+                                <a target="_blank" href="https://github.com/peter279k/fhir-data-generator">GitHub連結</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../../js/scripts.js"></script>
+        <script src="../../js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="../../js/jquery-ui.js"></script>
+        <script src="../../js/jquery.ui.datepicker-zh-TW.min.js"></script>
+        <script src="../../js/sweetalert2.all.min.js"></script>
+        <script src="../../js/html2canvas.min.js"></script>
+        <script src="../../js/FileSaver.min.js"></script>
+        <script src="../../js/track1.coding.js"></script>
+        <script src="../../js/track1.utility.js"></script>
+        <script src="../../js/track1.2024.js"></script>
+        <script src="../../js/commLangCode.js"></script>
+        <script src="../../js/loadTWCoreIGNavLink.js"></script>
+        <script>
+            $(async () => {
+                loadTWCoreIGNavLink();
+                await loadMartialStatus();
+                await loadRelationshipCoding();
+
+                $("#patient-birth-date,#patient-telecom-start,#patient-telecom-end,#patient-contact-start,#patient-contact-end").datepicker(
+                    $.datepicker.regional['zh-TW']
+                );
+                $('#patient-birth-date,#patient-telecom-start,#patient-telecom-end,#patient-contact-start,#patient-contact-end').change((e) => {
+                    e.preventDefault();
+
+                    let selected = $(e.currentTarget).val();
+                    selected = selected.replace(/\//g, '-');
+                    $(e.currentTarget).val(selected);
+                });
+
+                $('#source-form').removeClass('d-none');
+
+                $('button[name="delete-btn"]').click((e) => {});
+
+                $('button[name="generate-btn"]').click(async(e) => {
+                    e.preventDefault();
+
+                    let martialStatusCoding = JSON.parse($('#patient-martial-status-coding').val());
+                    let contactRelationshipCoding = JSON.parse($('#contact-relationship-coding').val());
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let twIdentifier = $('#tw-identifier').val();
+                    let mrIdentifier = $('#mr-identifier').val();
+
+                    if (twIdentifier === '') {
+                        $('#tw-identifier').val(
+                            $('#tw-identifier').attr('placeholder')
+                        );
+                        twIdentifier = $('#tw-identifier').attr('placeholder');
+                    }
+                    if (mrIdentifier === '') {
+                        $('#mr-identifier').val(
+                            $('#mr-identifier').attr('placeholder')
+                        );
+                        mrIdentifier = $('#mr-identifier').attr('placeholder');
+                    }
+
+                    let active = $('#patient-active :selected').val();
+
+                    let patientName = $('#patient-name').val();
+                    if (patientName === '') {
+                        $('#patient-name').val(
+                            $('#patient-name').attr('placeholder')
+                        );
+                        patientName = $('#patient-name').attr('placeholder');
+                    }
+
+                    let patientEnFamily = $('#patient-en-family').val();
+                    if (patientEnFamily === '') {
+                        $('#patient-en-family').val(
+                            $('#patient-en-family').attr('placeholder')
+                        );
+                        patientEnFamily = $('#patient-en-family').attr('placeholder');
+                    }
+                    let patientEnName = $('#patient-en-name').val();
+                    if (patientEnName === '') {
+                        $('#patient-en-name').val(
+                            $('#patient-en-name').attr('placeholder')
+                        );
+                        patientEnName = $('#patient-en-name').attr('placeholder');
+                    }
+
+                    let gender = $('#patient-gender :selected').val();
+                    let age = $('#patient-age').val();
+                    if (age === '') {
+                        $('#patient-age').val(
+                            $('#patient-age').attr('placeholder')
+                        );
+                        age = $('#patient-age').attr('placeholder');
+                    }
+
+                    let birthDate = $('#patient-birth-date').val();
+
+                    if (birthDate === '') {
+                        $('#patient-birth-date').val(
+                            $('#patient-birth-date').attr('placeholder')
+                        );
+                        birthDate = $('#patient-birth-date').attr('placeholder');
+                    }
+
+                    let address = $('#patient-address').val();
+                    if (address === '') {
+                        $('#patient-address').val(
+                            $('#patient-address').attr('placeholder')
+                        );
+                        address = $('#patient-address').attr('placeholder');
+                    }
+                    let addressLine = $('#patient-address-line').val();
+                    if (addressLine === '') {
+                        $('#patient-address-line').val(
+                            $('#patient-address-line').attr('placeholder')
+                        );
+                        addressLine = $('#patient-address-line').attr('placeholder');
+                    }
+                    let addressCity = $('#patient-address-city').val();
+                    if (addressCity === '') {
+                        $('#patient-address-city').val(
+                            $('#patient-address-city').attr('placeholder')
+                        );
+                        addressCity = $('#patient-address-city').attr('placeholder');
+                    }
+                    let addressDistrict = $('#patient-address-district').val();
+                    if (addressDistrict === '') {
+                        $('#patient-address-district').val(
+                            $('#patient-address-district').attr('placeholder')
+                        );
+                        addressDistrict = $('#patient-address-district').attr('placeholder');
+                    }
+                    let addressPostal = $('#patient-address-postal').val();
+                    if (addressPostal === '') {
+                        $('#patient-address-postal').val(
+                            $('#patient-address-postal').attr('placeholder')
+                        );
+                        addressPostal = $('#patient-address-postal').attr('placeholder');
+                    }
+
+                    let patientMartialStatus = $('#patient-martial-status').val();
+                    if (patientMartialStatus === '') {
+                        $('#patient-martial-status').val(
+                            $('#patient-martial-status').attr('placeholder')
+                        );
+                        patientMartialStatus = $('#patient-martial-status').attr('placeholder');
+                    }
+                    let isMatched = false;
+                    for (index in martialStatusCoding) {
+                        if (martialStatusCoding[index].code === patientMartialStatus) {
+                            isMatched = true;
+                            break;
+                        }
+                    }
+                    if (isMatched === false) {
+                        errorMessage['text'] = `婚姻狀態代碼${patientMartialStatus}不存在！`
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    let patientTelecom = $('#patient-telecom').val();
+                    if (patientTelecom === '') {
+                        $('#patient-telecom').val(
+                            $('#patient-telecom').attr('placeholder')
+                        );
+                        patientTelecom = $('#patient-telecom').attr('placeholder');
+                    }
+                    let patientTelecomStart = $('#patient-telecom-start').val();
+                    if (patientTelecomStart === '') {
+                        $('#patient-telecom-start').val(
+                            $('#patient-telecom-start').attr('placeholder')
+                        );
+                        patientTelecomStart = $('#patient-telecom-start').attr('placeholder');
+                    }
+                    let patientTelecomEnd = $('#patient-telecom-end').val();
+                    if (patientTelecomEnd === '') {
+                        $('#patient-telecom-end').val(
+                            $('#patient-telecom-end').attr('placeholder')
+                        );
+                        patientTelecomEnd = $('#patient-telecom-end').attr('placeholder');
+                    }
+
+                    let contactName = $('#patient-contact-name').val();
+                    if (contactName === '') {
+                        $('#patient-contact-name').val(
+                            $('#patient-contact-name').attr('placeholder')
+                        );
+                        contactName = $('#patient-contact-name').attr('placeholder');
+                    }
+                    let contactEnFamily = $('#patient-contact-en-family').val();
+                    if (contactEnFamily === '') {
+                        $('#patient-contact-en-family').val(
+                            $('#patient-contact-en-family').attr('placeholder')
+                        );
+                        contactEnFamily = $('#patient-contact-en-family').attr('placeholder');
+                    }
+                    let contactEnName = $('#patient-contact-en-name').val();
+                    if (contactEnName === '') {
+                        $('#patient-contact-en-name').val(
+                            $('#patient-contact-en-name').attr('placeholder')
+                        );
+                        contactEnName = $('#patient-contact-en-name').attr('placeholder');
+                    }
+
+                    let patientContactRelationshipCoding = $('#patient-contact-relationship-coding').val();
+                    if (patientContactRelationshipCoding === '') {
+                        $('#patient-contact-relationship-coding').val(
+                            $('#patient-contact-relationship-coding').attr('placeholder')
+                        );
+                        patientContactRelationshipCoding = $('#patient-contact-relationship-coding').attr('placeholder');
+                    }
+
+                    isMatched = false;
+                    for (index in contactRelationshipCoding) {
+                        if (contactRelationshipCoding[index].code === patientContactRelationshipCoding) {
+                            isMatched = true;
+                            break;
+                        }
+                    }
+                    if (isMatched === false) {
+                        errorMessage['text'] = `聯絡人關係代碼${patientContactRelationshipCoding}錯誤！`;
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    let patientContactTelecom = $('#patient-contact-telecom').val();
+                    if (patientContactTelecom === '') {
+                        $('#patient-contact-telecom').val(
+                            $('#patient-contact-telecom').attr('placeholder')
+                        );
+                        patientContactTelecom = $('#patient-contact-telecom').attr('placeholder');
+                    }
+                    let patientContactStart = $('#patient-contact-start').val();
+                    if (patientContactStart === '') {
+                        $('#patient-contact-start').val(
+                            $('#patient-contact-start').attr('placeholder')
+                        );
+                        patientContactStart = $('#patient-contact-start').attr('placeholder');
+                    }
+                    let patientContactEnd = $('#patient-contact-end').val();
+                    if (patientContactEnd === '') {
+                        $('#patient-contact-end').val(
+                            $('#patient-contact-end').attr('placeholder')
+                        );
+                        patientContactEnd = $('#patient-contact-end').attr('placeholder');
+                    }
+
+                    let managingOrganization = $('#patient-organization').val();
+                    if (managingOrganization === '') {
+                        $('#patient-organization').val(
+                            $('#patient-organization').attr('placeholder')
+                        );
+                        managingOrganization = $('#patient-organization').attr('placeholder')
+                    }
+
+                    let communication = $('#patient-communication').val();
+                    let metaProfileUrl = $('#meta-profile-url :selected').val();
+                    if (communication === '') {
+                        $('#patient-communication').val(
+                            $('#patient-communication').attr('placeholder')
+                        );
+                        communication = $('#patient-communication').attr('placeholder');
+                    }
+
+                    let languageCodeLists = languageCodes();
+                    let langCodeIsMapped = false;
+                    let langCode = {};
+                    for (index in languageCodeLists) {
+                        langCode = languageCodeLists[index];
+                        if (langCode.code === communication.toLocaleLowerCase()) {
+                            langCodeIsMapped = true;
+                            break;
+                        }
+                    }
+                    if (langCodeIsMapped === false) {
+                        errorMessage['text'] = `語言代碼：${communication}錯誤！`;
+                        Swal.fire(errorMessage);
+
+                        return false;
+                    }
+
+                    let patientCountry = $('#patient-country').val();
+                    if (patientCountry === '') {
+                        $('#patient-country').val(
+                            $('#patient-country').attr('placeholder')
+                        );
+                        patientCountry = $('#patient-country').attr('placeholder');
+                    }
+                    langCodeIsMapped = false;
+                    langCode = {};
+                    for (index in languageCodeLists) {
+                        langCode = languageCodeLists[index];
+                        if (langCode.code === patientCountry.toLocaleLowerCase()) {
+                            langCodeIsMapped = true;
+                            break;
+                        }
+                    }
+                    if (langCodeIsMapped === false) {
+                        errorMessage['text'] = `國籍代碼：${patientCountry}錯誤！`;
+                        Swal.fire(errorMessage);
+
+                        return false;
+                    }
+
+                    let patientPhoto = $('#patient-photo').val();
+                    if (patientPhoto === '') {
+                        $('#patient-photo').val(
+                            $('#patient-photo').attr('placeholder')
+                        );
+                        patientPhoto = $('#patient-photo').attr('placeholder');
+                    }
+
+                    let patientPayload = {
+                        'profile_urls': [$('#meta-profile-url :selected').val()],
+                        'extension_url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/person-age',
+                        'extension_value_age': {
+                            'value': age,
+                            'system': 'http://unitsofmeasure.org',
+                            'code': 'a',
+                        },
+                        'extension_extension_coding': [{
+                            'system': 'urn:iso:std:iso:3166',
+                            'code': patientCountry,
+                        }],
+                        'extension_extension_url': 'http://hl7.org/fhir/StructureDefinition/patient-nationality',
+                        'identifiers': [
+                            {
+                                'use': 'official',
+                                'type': {
+                                    'coding': [{
+                                        'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                                        'code': 'NNxxx',
+                                        '_code': {
+                                            'extension': [{
+                                                'extension': [
+                                                    {
+                                                        'url': 'suffix',
+                                                        'valueString': 'TWN'
+                                                    },
+                                                    {
+                                                        'url': 'valueSet',
+                                                        'valueCanonical': 'http://hl7.org/fhir/ValueSet/iso3166-1-3'
+                                                    }
+                                                ],
+                                                'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/identifier-suffix'
+                                            }]
+                                        }
+                                    }]
+                                },
+                                'system': 'http://www.moi.gov.tw',
+                                'value': twIdentifier,
+                            },
+                            {
+                                'use': 'official',
+                                'type': {
+                                    'coding': [{
+                                        'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                                        'code': 'MR'
+                                    }]
+                                },
+                                'system': 'https://www.tph.mohw.gov.tw/',
+                                'value': mrIdentifier,
+                            }
+                        ],
+                        'active': Boolean(active),
+                        'name_use': 'official',
+                        'name_text': patientName,
+                        'name_family': patientEnFamily,
+                        'name_given': [patientEnName],
+                        'telecom': [{
+                            'system': 'phone',
+                            'value': patientTelecom,
+                            'use': 'mobile',
+                            'period': {
+                                'start': patientTelecomStart,
+                                'end': patientTelecomEnd,
+                            }
+                        }],
+                        'gender': gender,
+                        'birth_date': birthDate,
+                        'address_extension': extractAddress(address),
+                        'address_text': address,
+                        'address_line': [addressLine],
+                        'address_city': addressCity,
+                        'address_district': addressDistrict,
+                        'address_postal_code_extension': [{
+                            'url': 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/tw-postal-code',
+                            'valueCodeableConcept': {
+                                'coding': [{
+                                    'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/postal-code3-tw',
+                                    'code': addressPostal,
+                                }]
+                            }
+                        }],
+                        'marital_status_coding': [{
+                            'system': 'http://terminology.hl7.org/CodeSystem/v3-MaritalStatus',
+                            'code': patientMartialStatus,
+                        }],
+                        'photo': [{
+                            'contentType': 'image/png',
+                            'data': patientPhoto,
+                            'url': 'patient.png'
+                        }],
+                        'contact': [{
+                            'system': 'http://terminology.hl7.org/CodeSystem/v3-RoleCode',
+                            'code': patientContactRelationshipCoding,
+                        }],
+                        'contact_name': {
+                            'use': 'official',
+                            'text': contactName,
+                            'family': contactEnFamily,
+                            'given': [contactEnName],
+                        },
+                        'contact_telecom': [{
+                            'system': 'phone',
+                            'value': patientContactTelecom,
+                            'use': 'mobile',
+                            'period': {
+                                'start': patientContactStart,
+                                'end': patientContactEnd,
+                            }
+                        }],
+                        'communication_language_coding': [{
+                            'system': 'urn:ietf:bcp:47',
+                            'code': communication,
+                        }],
+                        'managing_organization': {
+                            'reference': managingOrganization,
+                        },
+                    };
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+
+                    if ($('#patient-id').val() !== '') {
+                        patientPayload['id'] = $('#patient-id').val();
+                    }
+
+                    await doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patientPayload, errorMessage);
+                    let patientId = localStorage.getItem('created_patient_id');
+                    if (patientId !== null) {
+                        let searchParameters = `?_id=${patientId}`;
+                        // await doQueryRequest(currentFormName.replace('source', 'consumer'), warningMessage, errorMessage, trackServerEndpoint, oauthServerEndpoint, searchParameters, 'source');
+                    }
+                    $(e.currentTarget).removeAttr('disabled');
+                });
+
+                $('button[name="submit-btn"]').click(async (e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '請輸入至少一個查詢參數！',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let searchParameters = '?';
+                    let patientId = $('#patient-id').val();
+                    let patientIdentifier = $('#patient-identifier').val();
+                    let patientManagingOrganization = $('#patient-organization').val();
+
+                    let searchArr = [
+                        '-active',
+                        '-telecom',
+                        '-phone',
+                        '-address',
+                        '-address-city',
+                        '-address-country',
+                        '-address-state',
+                        '-address-postalcode',
+                        '-address-use',
+                    ];
+                    for (index in searchArr) {
+                        let value = $(`#patient${searchArr[index]}`).val();
+                        if (value !== '') {
+                            searchParameters += `${searchArr[index].substring(1)}=${value}&`;
+                        }
+                    }
+
+                    if (patientId !== '') {
+                        searchParameters += `_id=${patientId}&`;
+                    }
+                    if (patientIdentifier !== '') {
+                        searchParameters += `identifier=${patientIdentifier}&`;
+                    }
+                    if (patientManagingOrganization !== '') {
+                        searchParameters += `organization=${patientManagingOrganization}&`;
+                    }
+                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
+
+                    if (searchParameters === '') {
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    $('#result-search-parameters').text(searchParameters.substring(1));
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+                    $(e.currentTarget).html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>查詢中...'
+                    );
+
+                    $('#meta-version').attr('form_name', currentFormName);
+
+                    await doSubmitRequest(currentFormName, warningMessage, errorMessage, trackServerEndpoint, oauthServerEndpoint, searchParameters);
+
+                    $(e.currentTarget).removeAttr('disabled');
+                    $(e.currentTarget).html('查詢');
+                });
+
+                $('button[name="capture-image"]').click((e) => {
+                    e.preventDefault();
+                    html2canvas(document.querySelector('#layoutSidenav_content')).then(canvas => {
+                        canvas.toBlob((blob) => {
+                            window.saveAs(blob, 'image.png');
+                        });
+                    });
+                });
+
+                $('[id*=-tab]').click((e) => {
+                    $(e.currentTarget).addClass('active');
+                    let currentId = e.currentTarget.id;
+                    if (currentId.includes('consumer')) {
+                        $('#tw-core-creator-tab').removeClass('active');
+                        $('#source-form').addClass('d-none');
+                        $('#consumer-form').removeClass('d-none');
+                    } else {
+                        $('#tw-core-consumer-tab').removeClass('active');
+                        $('#source-form').removeClass('d-none');
+                        $('#consumer-form').addClass('d-none');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

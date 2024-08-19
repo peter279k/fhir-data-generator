@@ -1,6 +1,8 @@
+from item_models.track1_2024 import *
 from item_models.track2_2024 import *
 from fastapi.responses import JSONResponse
 from modules.track2_2024.Track2ForSource import Track2ForSource
+from modules.track1_2024.Track1ForPatient import Track1ForPatient
 from modules.track2_2024.Track2ForConsumer import Track2ForConsumer
 
 
@@ -33,3 +35,9 @@ def delete_pat_source_consumer(item: DeleteContentSourceScenario1Model, current_
         track = Track2ForSource(current_form_name, item.model_dump(), True)
 
     return JSONResponse(content=track.delete_resource())
+
+def track1_source_creator(item: ContentSourceModel, resource_name):
+    if resource_name == 'Patient':
+        track = Track1ForPatient(resource_name, item.model_dump())
+
+    return JSONResponse(content=track.get_response_content())

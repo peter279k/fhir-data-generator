@@ -1,0 +1,248 @@
+{
+  "resourceType" : "CodeSystem",
+  "id" : "v3-MaritalStatus",
+  "language" : "en",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem v3-MaritalStatus</b></p><a name=\"v3-MaritalStatus\"> </a><a name=\"hcv3-MaritalStatus\"> </a><a name=\"v3-MaritalStatus-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Language: en</p></div><p><b>Properties</b></p><p><b>This code system defines the following properties for its concepts</b></p><table class=\"grid\"><tr><td><b>Name</b></td><td><b>Code</b></td><td><b>URI</b></td><td><b>Type</b></td><td><b>Description</b></td></tr><tr><td>Specializes</td><td>Specializes</td><td/><td>Coding</td><td>The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.</td></tr><tr><td>Generalizes</td><td>Generalizes</td><td/><td>Coding</td><td>Inverse of Specializes.  Only included as a derived relationship.</td></tr><tr><td>internalId</td><td>internalId</td><td>http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id</td><td>code</td><td>The internal identifier for the concept in the HL7 Access database repository.</td></tr><tr><td>Status</td><td>status</td><td>http://hl7.org/fhir/concept-properties#status</td><td>code</td><td>Designation of a concept's state. Normally is not populated unless the state is retired.</td></tr></table><p><b>Concepts</b></p><p>This case-sensitive code system <code>http://terminology.hl7.org/CodeSystem/v3-MaritalStatus</code> defines the following codes in a Is-A hierarchy:</p><table class=\"codes\"><tr><td><b>Lvl</b></td><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td><td><b>internalId</b></td><td><b>Status</b></td></tr><tr><td>1</td><td style=\"white-space:nowrap\">A<a name=\"v3-MaritalStatus-A\"> </a></td><td>Annulled</td><td><div><p>Marriage contract has been declared null and to not have existed</p>\n</div></td><td>12213</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">D<a name=\"v3-MaritalStatus-D\"> </a></td><td>Divorced</td><td><div><p>Marriage contract has been declared dissolved and inactive</p>\n</div></td><td>12214</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">I<a name=\"v3-MaritalStatus-I\"> </a></td><td>Interlocutory</td><td><div><p>Subject to an Interlocutory Decree.</p>\n</div></td><td>12215</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">L<a name=\"v3-MaritalStatus-L\"> </a></td><td>Legally Separated</td><td/><td>12216</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">M<a name=\"v3-MaritalStatus-M\"> </a></td><td>Married</td><td><div><p>A current marriage contract is active</p>\n</div></td><td>12217</td><td>active</td></tr><tr><td>2</td><td style=\"white-space:nowrap\">\u00a0\u00a0C<a name=\"v3-MaritalStatus-C\"> </a></td><td>Common Law</td><td><div><p>a marriage recognized in some jurisdictions and based on the parties' agreement to consider themselves married and can also be based on documentation of cohabitation.</p>\n<p>This definition was based on https://www.merriam-webster.com/dictionary/common-law%20marriage.</p>\n</div></td><td>24122</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">P<a name=\"v3-MaritalStatus-P\"> </a></td><td>Polygamous</td><td><div><p>More than 1 current spouse</p>\n</div></td><td>12220</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">T<a name=\"v3-MaritalStatus-T\"> </a></td><td>Domestic partner</td><td><div><p>Person declares that a domestic partner relationship exists.</p>\n</div></td><td>15981</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">U<a name=\"v3-MaritalStatus-U\"> </a></td><td>unmarried</td><td><div><p>Currently not in a marriage contract.</p>\n</div></td><td>23624</td><td>active</td></tr><tr><td>2</td><td style=\"white-space:nowrap\">\u00a0\u00a0S<a name=\"v3-MaritalStatus-S\"> </a></td><td>Never Married</td><td><div><p>No marriage contract has ever been entered</p>\n</div></td><td>12218</td><td>active</td></tr><tr><td>1</td><td style=\"white-space:nowrap\">W<a name=\"v3-MaritalStatus-W\"> </a></td><td>Widowed</td><td><div><p>The spouse has died</p>\n</div></td><td>12219</td><td>active</td></tr></table></div>"
+  },
+  "url" : "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
+  "identifier" : [{
+    "system" : "urn:ietf:rfc:3986",
+    "value" : "urn:oid:2.16.840.1.113883.5.2"
+  }],
+  "version" : "3.0.0",
+  "name" : "MaritalStatus",
+  "title" : "MaritalStatus",
+  "status" : "active",
+  "experimental" : false,
+  "date" : "2019-03-20",
+  "publisher" : "Health Level Seven International",
+  "contact" : [{
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://hl7.org"
+    },
+    {
+      "system" : "email",
+      "value" : "hq@HL7.org"
+    }]
+  }],
+  "description" : "\\* \\* \\* No description supplied \\* \\* \\*\r\n\r\n*Open Issue:* The specific meanings of these codes can vary somewhat by jurisdiction and implementation so caution should be used when determining equivalency.\r\n\r\n*Open Issue:* fixing and completion of the hierarchy and proper good definitions of all the concepts is badly needed.",
+  "copyright" : "This material derives from the HL7 Terminology THO. THO is copyright ©1989+ Health Level Seven International and is made available under the CC0 designation. For more licensing information see: https://terminology.hl7.org/license.html",
+  "caseSensitive" : true,
+  "hierarchyMeaning" : "is-a",
+  "content" : "complete",
+  "property" : [{
+    "extension" : [{
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+      "valueCode" : "antisymmetric"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+      "valueCode" : "transitive"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+      "valueCode" : "irreflexive"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+      "valueBoolean" : true
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+      "valueCode" : "Specializes"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+      "valueString" : "Generalizes"
+    }],
+    "code" : "Specializes",
+    "description" : "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+    "type" : "Coding"
+  },
+  {
+    "extension" : [{
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+      "valueCode" : "antisymmetric"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+      "valueCode" : "transitive"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+      "valueCode" : "irreflexive"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+      "valueBoolean" : true
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+      "valueCode" : "Generalizes"
+    },
+    {
+      "url" : "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+      "valueString" : "Specializes"
+    }],
+    "code" : "Generalizes",
+    "description" : "Inverse of Specializes.  Only included as a derived relationship.",
+    "type" : "Coding"
+  },
+  {
+    "code" : "internalId",
+    "uri" : "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+    "description" : "The internal identifier for the concept in the HL7 Access database repository.",
+    "type" : "code"
+  },
+  {
+    "code" : "status",
+    "uri" : "http://hl7.org/fhir/concept-properties#status",
+    "description" : "Designation of a concept's state. Normally is not populated unless the state is retired.",
+    "type" : "code"
+  }],
+  "concept" : [{
+    "code" : "A",
+    "display" : "Annulled",
+    "definition" : "Marriage contract has been declared null and to not have existed",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "12213"
+    }]
+  },
+  {
+    "code" : "D",
+    "display" : "Divorced",
+    "definition" : "Marriage contract has been declared dissolved and inactive",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "12214"
+    }]
+  },
+  {
+    "code" : "I",
+    "display" : "Interlocutory",
+    "definition" : "Subject to an Interlocutory Decree.",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "12215"
+    }]
+  },
+  {
+    "code" : "L",
+    "display" : "Legally Separated",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "12216"
+    }]
+  },
+  {
+    "code" : "M",
+    "display" : "Married",
+    "definition" : "A current marriage contract is active",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "12217"
+    }],
+    "concept" : [{
+      "code" : "C",
+      "display" : "Common Law",
+      "definition" : "a marriage recognized in some jurisdictions and based on the parties' agreement to consider themselves married and can also be based on documentation of cohabitation.\r\n\r\nThis definition was based on https://www.merriam-webster.com/dictionary/common-law%20marriage.",
+      "property" : [{
+        "code" : "status",
+        "valueCode" : "active"
+      },
+      {
+        "code" : "internalId",
+        "valueCode" : "24122"
+      }]
+    }]
+  },
+  {
+    "code" : "P",
+    "display" : "Polygamous",
+    "definition" : "More than 1 current spouse",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "12220"
+    }]
+  },
+  {
+    "code" : "T",
+    "display" : "Domestic partner",
+    "definition" : "Person declares that a domestic partner relationship exists.",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "15981"
+    }]
+  },
+  {
+    "code" : "U",
+    "display" : "unmarried",
+    "definition" : "Currently not in a marriage contract.",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "23624"
+    }],
+    "concept" : [{
+      "code" : "S",
+      "display" : "Never Married",
+      "definition" : "No marriage contract has ever been entered",
+      "property" : [{
+        "code" : "status",
+        "valueCode" : "active"
+      },
+      {
+        "code" : "internalId",
+        "valueCode" : "12218"
+      }]
+    }]
+  },
+  {
+    "code" : "W",
+    "display" : "Widowed",
+    "definition" : "The spouse has died",
+    "property" : [{
+      "code" : "status",
+      "valueCode" : "active"
+    },
+    {
+      "code" : "internalId",
+      "valueCode" : "12219"
+    }]
+  }]
+}
