@@ -277,7 +277,7 @@
                     $(e.currentTarget).attr('disabled', 'disabled');
 
                     if ($('#organization-id').val() !== '') {
-                        patientPayload['id'] = $('#organization-id').val();
+                        payload['id'] = $('#organization-id').val();
                     }
 
                     await doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);

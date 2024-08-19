@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from modules.track2_2024.Track2ForSource import Track2ForSource
 from modules.track1_2024.Track1ForPatient import Track1ForPatient
 from modules.track2_2024.Track2ForConsumer import Track2ForConsumer
+from modules.track1_2024.Track1ForPractitioner import Track1ForPractitioner
 from modules.track1_2024.Track1ForOrganization import Track1ForOrganization
 
 
@@ -42,5 +43,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForPatient(resource_name, item.model_dump())
     if resource_name == 'Organization':
         track = Track1ForOrganization(resource_name, item.model_dump())
+    if resource_name == 'Practitioner':
+        track = Track1ForPractitioner(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())

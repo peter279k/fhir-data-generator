@@ -5,7 +5,7 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track2_server,
-            oauth_token_info: oauthServerEndpoint['track#2'],
+            oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: patientPayload,
         }),
@@ -165,7 +165,7 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track2_server,
-            oauth_token_info: oauthServerEndpoint['track#2'],
+            oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
         }),
@@ -204,6 +204,100 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         );
 
         $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
+
+async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/Practitioner`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let practitionerResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-practitioner-id').html(practitionerResource.id);
+        localStorage.setItem('created_practitioner_id', practitionerResource.id);
+
+        let identifiers = practitionerResource.identifier;
+        let identifierHtml = '';
+        identifierHtml += `<li>識別碼型別: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
+        identifierHtml += `<li>身份證字號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
+
+        $('#result-practitioner-identifier1').html(identifierHtml);
+
+        identifierHtml = '';
+        identifierHtml += `<li>病患識別碼型別: <span name="result-practitioner-identifier" class="text-primary">${identifiers[1].type.coding[0].system}#${identifiers[1].type.coding[0].code}</span></li>`;
+        identifierHtml += `<li>病歷號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[1].value}</span></li>`;
+
+        $('#result-practitioner-identifier2').html(identifierHtml);
+
+        $('#result-practitioner-active').html(practitionerResource.active);
+
+        $('#result-practitioner-name').html(
+            `${practitionerResource.name[0].text} ${practitionerResource.name[0].family}, ${practitionerResource.name[0].given[0]}`
+        );
+
+        let mappingGender = {
+            'male': '男性',
+            'female': '女性',
+        };
+        $('#result-practitioner-gender').html(mappingGender[practitionerResource.gender]);
+
+        $('#result-practitioner-birth-date').html(practitionerResource.birthDate);
+
+        $('#result-practitioner-phone').html(practitionerResource.telecom[0].system);
+        $('#result-practitioner-mobile').html(practitionerResource.telecom[0].value);
+        $('#result-practitioner-phone-period').html(
+            `${practitionerResource.telecom[0].period.start}至${practitionerResource.telecom[0].period.end}`
+        );
+
+        $('#result-practitioner-address').html(
+            `(${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code})${practitionerResource.address[0].text}`
+        );
+        $('#result-practitioner-postal').html(
+            `${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code} (${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].system})`
+        );
+        $('#result-practitioner-district').html(practitionerResource.address[0].district);
+        $('#result-practitioner-city').html(practitionerResource.address[0].city);
+        $('#result-practitioner-road').html(practitionerResource.address[0].line[0]);
+        $('#result-practitioner-number').html(
+            practitionerResource.address[0].extension[0].valueString
+        );
+
+        $('#result-practitioner-country').html(practitionerResource.address[0].country);
+
+        $('#result-practitioner-qualification').html(
+            `${practitionerResource.qualification[0].code.coding[0].display} (${practitionerResource.qualification[0].code.coding[0].system}#${practitionerResource.qualification[0].code.coding[0].code})`
+        );
+        $('#result-practitioner-qualification-start').html(
+            practitionerResource.qualification[0].period.start
+        );
+
+        $('#result-practitioner-photo').attr(
+            'src',
+            `data:${practitionerResource.photo[0].contentType};base64, ${practitionerResource.photo[0].data}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
