@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Practitioner:
-    def __init__(self, practitioner_id):
+    def __init__(self, practitioner_id=''):
         self.practitioner_id = practitioner_id
 
         self.profile_urls = []
@@ -23,6 +23,9 @@ class Practitioner:
             'photo': [],
             'qualification': [],
         }
+
+        if practitioner_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

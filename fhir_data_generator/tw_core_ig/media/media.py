@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Media:
-    def __init__(self, media_id):
+    def __init__(self, media_id=''):
         self.media_id = media_id
 
         self.profile_urls = []
@@ -37,6 +37,9 @@ class Media:
             'content': {},
             'note': [],
         }
+
+        if media_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Medication:
-    def __init__(self, medication_id):
+    def __init__(self, medication_id=''):
         self.medication_id = medication_id
 
         self.profile_urls = []
@@ -22,6 +22,9 @@ class Medication:
                 'text': '',
             },
         }
+
+        if medication_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

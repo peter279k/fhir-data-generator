@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Condition:
-    def __init__(self, condition_id):
+    def __init__(self, condition_id=''):
         self.condition_id = condition_id
 
         self.profile_urls = []
@@ -34,6 +34,9 @@ class Condition:
             'abatementDateTime': '',
             'asserter': {},
         }
+
+        if condition_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

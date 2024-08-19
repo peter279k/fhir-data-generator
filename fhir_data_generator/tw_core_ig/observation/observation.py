@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Observation:
-    def __init__(self, observation_id):
+    def __init__(self, observation_id=''):
         self.observation_id = observation_id
 
         self.profile_urls = []
@@ -26,6 +26,9 @@ class Observation:
             'performer': [],
             'valueQuantity': {},
         }
+
+        if observation_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

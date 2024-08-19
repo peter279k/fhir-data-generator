@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Location:
-    def __init__(self, location_id):
+    def __init__(self, location_id=''):
         self.location_id = location_id
 
         self.profile_urls = []
@@ -29,6 +29,9 @@ class Location:
                 'allDay': None,
             }],
         }
+
+        if location_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class DocumentReference:
-    def __init__(self, document_reference_id):
+    def __init__(self, document_reference_id=''):
         self.document_reference_id = document_reference_id
 
         self.profile_urls = []
@@ -24,6 +24,9 @@ class DocumentReference:
             'custodian': {},
             'content': [],
         }
+
+        if document_reference_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

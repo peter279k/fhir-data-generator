@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class AllergyIntoleranceNut:
-    def __init__(self, allergy_intolerance_id):
+    def __init__(self, allergy_intolerance_id=''):
         self.allergy_intolerance_id = allergy_intolerance_id
 
         self.profile_urls = []
@@ -64,6 +64,9 @@ class AllergyIntoleranceNut:
                 'note' : [],
             }]
         }
+
+        if allergy_intolerance_id == '':
+            del self.payload_template['id']
 
     def set_allergy_intolerance_id(self, allergy_intolerance_id):
         self.allergy_intolerance_id = allergy_intolerance_id

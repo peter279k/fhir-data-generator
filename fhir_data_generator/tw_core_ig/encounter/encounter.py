@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Encounter:
-    def __init__(self, encounter_id):
+    def __init__(self, encounter_id=''):
         self.encounter_id = encounter_id
 
         self.profile_urls = []
@@ -44,6 +44,9 @@ class Encounter:
                 'location': {},
             }],
         }
+
+        if encounter_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

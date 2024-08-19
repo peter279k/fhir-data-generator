@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Procedure:
-    def __init__(self, procedure_id):
+    def __init__(self, procedure_id=''):
         self.procedure_id = procedure_id
 
         self.profile_urls = []
@@ -26,6 +26,9 @@ class Procedure:
                 'coding': [],
             }],
         }
+
+        if procedure_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

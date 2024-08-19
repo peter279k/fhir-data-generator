@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Specimen:
-    def __init__(self, specimen_id):
+    def __init__(self, specimen_id=''):
         self.specimen_id = specimen_id
 
         self.profile_urls = []
@@ -41,6 +41,9 @@ class Specimen:
             'container': [],
             'note': [],
         }
+
+        if specimen_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

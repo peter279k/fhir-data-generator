@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Composition:
-    def __init__(self, composition_id):
+    def __init__(self, composition_id=''):
         self.composition_id = composition_id
 
         self.profile_urls = []
@@ -33,6 +33,9 @@ class Composition:
                 'entry': [],
             }],
         }
+
+        if composition_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
