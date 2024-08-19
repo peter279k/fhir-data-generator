@@ -19,6 +19,7 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
             return false;
         }
         $('result-patient-id').html(patientResource.id);
+        localStorage.setItem('created_patient_id', patientResource.id);
 
         let identifiers = patientResource.identifier;
         let identifierHtml = '';
@@ -146,6 +147,60 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         $('#result-patient-photo').attr(
             'src',
             `data:${patientResource.photo[0].contentType};base64, ${patientResource.photo[0].data}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
+
+async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/Organization`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#2'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let organizationResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-organization-id').val(organizationResource.id);
+        localStorage.setItem('created_organization_id', organizationResource.id);
+
+        $('#result-prn-name').html(organizationResource.name);
+
+        $('#result-prn-identifier').html(
+            `${organizationResource.identifier[0].type.coding[0].code} (${organizationResource.identifier[0].type.coding[0].system})`
+        );
+
+        $('#result-prn-number').html(
+            `${organizationResource.identifier[0].value} (${organizationResource.identifier[0].system})`
+        );
+
+        $('#result-patient-prn-coding').html(
+            `${organizationResource.type[0].coding[0].code} (${organizationResource.type[0].coding[0].system})`
+        );
+
+        $('#result-phone').html(
+            `${organizationResource.telecom[0].system}`
+        );
+        $('#result-phone-number').html(
+            `${organizationResource.telecom[0].value}`
         );
 
         $('#search-result-card').removeClass('d-none');
