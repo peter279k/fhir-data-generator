@@ -1,4 +1,3 @@
-import json
 import base64
 from fhir_data_generator import TWCorePatient as Patient
 from fhir_data_generator import SimpleClient, ClientCredentials, AuthorizationCode
@@ -161,8 +160,5 @@ class Track1ForPatient:
         patient_class.set_managing_organization(managing_organization)
 
         patient_class.create()
-
-        with open('patient.json', mode='w') as f:
-            f.write(json.dumps(patient_class.payload_template))
 
         return patient_class.payload_template
