@@ -21,8 +21,7 @@ def type_coding():
     return [{
         'system': 'http://loinc.org',
         'code': '34108-1',
-        'display':
-        'Outpatient Note'
+        'display': 'Outpatient Note'
     }]
 
 @pytest.fixture
