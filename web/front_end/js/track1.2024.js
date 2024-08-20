@@ -400,3 +400,87 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
         return false;
     });
 }
+
+async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/Encounter`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let encounterResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-encounter-id').html(encounterResource.id);
+
+        $('#result-encounter-identifier').html(
+            encounterResource.identifier[0].value
+        );
+
+        $('#result-encounter-type').html(
+            encounterResource.status
+        );
+
+        $('#result-encounter-class').html(
+            `${encounterResource.class.code} (${encounterResource.class.system})`
+        );
+
+        $('#result-encounter-category').html(
+            `${encounterResource.type[0].coding[0].code} (${encounterResource.type[0].coding[0].system})`
+        );
+
+        $('#result-encounter-service-type').html(
+            `${encounterResource.serviceType.text}(${encounterResource.serviceType.coding[0].display}) (${encounterResource.serviceType.coding[0].system}#${encounterResource.serviceType.coding[0].code})`
+        );
+
+        $('#result-encounter-subject').html(
+            `${encounterResource.subject.reference}`
+        );
+
+        $('#result-encounter-hos').html(
+            `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
+        );
+
+        $('#result-encounter-location').html(
+            `${encounterResource.location[0].location.reference}`
+        );
+
+        $('#result-encounter-participant-performer').html(
+            `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`
+        );
+
+        $('#result-encounter-participant-period').html(
+            `${encounterResource.participant[0].period.start} --> ${encounterResource.participant[0].period.end}`
+        );
+
+        $('#result-encounter-participant').html(
+            `${encounterResource.participant[0].individual.reference}`
+        );
+
+        $('#result-encounter-hos-period').html(
+            `${encounterResource.period.start} --> ${encounterResource.period.end}`
+        );
+
+        $('#result-encounter-reason').html(
+            `${encounterResource.reasonCode[0].coding[0].display} (${encounterResource.reasonCode[0].coding[0].system}#${encounterResource.reasonCode[0].coding[0].code})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}

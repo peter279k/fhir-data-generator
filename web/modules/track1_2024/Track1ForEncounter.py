@@ -1,8 +1,8 @@
-from fhir_data_generator import TWCorePractitionerRole as PractitionerRole
+from fhir_data_generator import TWCoreEncounter as Encounter
 from fhir_data_generator import SimpleClient, ClientCredentials, AuthorizationCode
 
 
-class Track1ForPractitionerRole:
+class Track1ForEncounter:
     def __init__(self, resource, item_dict: dict):
         self.item_dict = item_dict
         self.payload = item_dict['patient_payload']
@@ -48,7 +48,7 @@ class Track1ForPractitionerRole:
             access_token = authorization_code.retrieve_token()
             simple_client.headers['Authorization'] = f'Bearer {access_token}'
 
-        json_payload = self.generate_practitioner_role_resource()
+        json_payload = self.generate_encounter_resource()
 
         req_path = f'/{self.resource}'
         if self.http_method == 'PUT':
@@ -64,35 +64,40 @@ class Track1ForPractitionerRole:
 
         return simple_client.handle_response(response)
 
-    def generate_practitioner_role_resource(self):
+    def generate_encounter_resource(self):
         if self.http_method == 'PUT':
-            practitioner_role_class = PractitionerRole(self.payload['id'])
+            encounter_class = Encounter(self.payload['id'])
         else:
-            practitioner_role_class = PractitionerRole()
+            encounter_class = Encounter()
 
         profile_urls = self.payload['profile_urls']
-        practitioner_role_class.set_profile_urls(profile_urls)
+        encounter_class.set_profile_urls(profile_urls)
 
-        practitioner_role_class.set_identifiers(self.payload['identifiers'])
+        encounter_class.set_identifier(self.payload['identifier'])
 
-        practitioner_role_class.set_active(self.payload['active'])
+        encounter_class.set_status(self.payload['status'])
 
-        practitioner_role_class.set_period(self.payload['period'])
+        encounter_class.set_class(self.payload['class'])
 
-        practitioner_role_class.set_practitioner(self.payload['practitioner'])
+        encounter_class.set_type_coding(self.payload['type_coding'])
 
-        practitioner_role_class.set_specialty_coding(self.payload['specialty_coding'])
+        encounter_class.set_service_type_coding(self.payload['service_type_coding'])
+        encounter_class.set_service_type_text(self.payload['service_type_text'])
 
-        practitioner_role_class.set_code(self.payload['code'])
+        encounter_class.set_subject(self.payload['subject'])
 
-        practitioner_role_class.set_location(self.payload['location'])
+        encounter_class.set_participant_type_coding(self.payload['participant_type_coding'])
+        encounter_class.set_participant_period(self.payload['participant_period'])
+        encounter_class.set_participant_individual(self.payload['participant_individual'])
 
-        practitioner_role_class.set_telecom(self.payload['telecom'])
+        encounter_class.set_period(self.payload['period'])
 
-        practitioner_role_class.set_available_time(self.payload['available_time'])
+        encounter_class.set_reason_code_coding(self.payload['reason_code_coding'])
 
-        practitioner_role_class.set_not_available(self.payload['not_available'])
+        encounter_class.set_hospitalization_discharge_disposition_coding(self.payload['hospitalization_discharge_disposition_coding'])
 
-        practitioner_role_class.set_availability_exceptions(self.payload['availability_exceptions'])
+        encounter_class.set_location(self.payload['location'])
 
-        return practitioner_role_class.payload_template
+        encounter_class.create()
+
+        return encounter_class.payload_template
