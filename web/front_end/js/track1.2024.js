@@ -574,3 +574,72 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
         return false;
     });
 }
+
+async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/Condition`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let conditionResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-condition-id').html(conditionResource.id);
+        localStorage.setItem('created_condition_id', conditionResource.id);
+
+        $('#result-condition-clinical').html(
+            `${conditionResource.clinicalStatus.coding[0].code} (${conditionResource.clinicalStatus.coding[0].system})`
+        );
+
+        $('#result-condition-verification-status').html(
+            `${conditionResource.verificationStatus.coding[0].code} (${conditionResource.verificationStatus.coding[0].system})`
+        );
+
+        $('#result-condition-diagnosis').html(
+            `${conditionResource.category[0].coding[0].code} (${conditionResource.category[0].coding[0].system})`
+        );
+
+        $('#result-condition-code').html(
+            `${conditionResource.severity.coding[0].code} (${conditionResource.severity.coding[0].system})`
+        );
+
+        $('#result-condition-message').html(
+            `${conditionResource.code.text} (${conditionResource.code.coding[0].system}#${conditionResource.code.coding[0].code})`
+        );
+
+        $('#result-condition-patient').html(
+            `${conditionResource.subject.reference}`
+        );
+
+        $('#result-condition-onset-datetime').html(
+            `${conditionResource.onsetDateTime}`
+        );
+
+        $('#result-condition-abatement-datetime').html(
+            `${conditionResource.abatementDateTime}`
+        );
+
+        $('#result-condition-asserter').html(
+            `${conditionResource.asserter.reference}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
