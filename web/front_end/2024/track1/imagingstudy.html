@@ -1,1 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="This is the web demonstration for MITW Connectathon" />
+        <meta name="author" content="" />
+        <title>MITW 2024 Track1 ImagingStudy</title>
+        <link href="../../css/styles.css" rel="stylesheet" />
+        <script src="../../js/all.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 
+        <link rel="apple-touch-icon" href="../../assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="../../assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="../../assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="mask-icon" href="../../assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+        <link rel="icon" href="../../assets/img/favicons/favicon.ico">
+
+        <!-- Popperjs -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <!-- Tempus Dominus JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
+
+        <!-- Tempus Dominus Styles -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.html">fhir-data-generator</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">ImagingStudy Resource</div>
+                            <a class="nav-link" href="../index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                基本設定
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Resources</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#1
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"></div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#2
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="patient.html">Patient</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#13
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">ImagingStudy</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">TWCore ImagingStudy(腹部超音波)<li>
+                        </ol>
+                        <ol class="breadcrumb mb-4">
+                            <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
+                            <li class="text-secondary">*請使用大會核發UserID向大會授權主機 (Keycloak OAuth Server)取得存取授權Token後之Token，並放入HTTP header。</li>
+                        </ol>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a id="tw-core-creator-tab" class="nav-link active" aria-current="page" href="#">Creator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="tw-core-consumer-tab" class="nav-link" href="#">Consumer</a>
+                            </li>
+                        </ul>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form class="d-none" id="source-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="source-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="source-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="imaging-study-id" class="form-label">請輸入ImagingStudy id</label>
+                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="imaging-study-id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meta-profile-url">請選擇meta profile URL</label>
+                                        <select id="meta-profile-url" class="form-select" aria-label="">
+                                            <option value="https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/ImagingStudy-twcore">ImagingStudy-twcore</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">請輸入狀態</label>
+                                        <input class="form-control" type="text" id="status" placeholder="available" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="identifier" class="form-label">請輸入識別碼</label>
+                                        <input class="form-control" type="text" id="identifier" placeholder="2ffe0c20-50d8-49df-85f6-6452d1d201b9" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="started" class="form-label">請輸入檢查開始日期與時間</label>
+                                        <input class="form-control" type="text" id="started" placeholder="2022-08-01T19:00:14+08:00" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient" class="form-label fw-bold text-info">請輸入病人參照</label>
+                                        <input class="form-control" type="text" id="patient" placeholder="Patient/pat-example" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="encounter" class="form-label fw-bold text-info">請輸入就醫事件參照</label>
+                                        <input class="form-control" type="text" id="encounter" placeholder="Encounter/enc-example" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="number-of-series" class="form-label">請輸入檢查相關Series的數量</label>
+                                        <input class="form-control" type="text" id="number-of-series" placeholder="1" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="number-of-instances" class="form-label">請輸入檢查相關Instances的數量</label>
+                                        <input class="form-control" type="text" id="number-of-instances" placeholder="1" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="procedure" class="form-label fw-bold text-info">請輸入處置或手術的參照</label>
+                                        <input class="form-control" type="text" id="procedure" placeholder="Procedure/pro-example" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="procedure-code" class="form-label">請輸入執行的處置或手術代碼</label>
+                                        <input class="form-control" type="text" id="procedure-code" placeholder="BW40ZZZ" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="procedure-display" class="form-label">請輸入執行的處置或手術名稱</label>
+                                        <input class="form-control" type="text" id="procedure-display" placeholder="腹部超音波" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="series-uid" class="form-label">請輸入DICOM系列實例UID</label>
+                                        <input class="form-control" type="text" id="series-uid" placeholder="2.25.88017001449189502323411118737039844242" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="series-modality" class="form-label">請輸入使用的成像儀器代碼</label>
+                                        <input class="form-control" type="text" id="series-modality" placeholder="US" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="series-body-site" class="form-label">請輸入身體部位代碼</label>
+                                        <input class="form-control" type="text" id="series-body-site" placeholder="251007" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="series-body-site-display" class="form-label">請輸入身體部位代碼</label>
+                                        <input class="form-control" type="text" id="series-body-site-display" placeholder="Pectoral region" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="performer" class="fw-bold text-info form-label">請輸入檢查執行者參照</label>
+                                        <input class="form-control" type="text" id="performer" placeholder="Practitioner/pra-radio-example" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sop-uid" class="form-label">請輸入SOP實例UID</label>
+                                        <input class="form-control" type="text" id="sop-uid" placeholder="2.25.284548087604447302186649612333159050027" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sop-dicom-code" class="form-label">請輸入SOP實例DICOM之class類型代碼</label>
+                                        <input class="form-control" type="text" id="sop-dicom-code" placeholder="urn:oid:1.2.840.10008.5.1.4.1.1.3.1" >
+                                    </div>
+
+                                    <button form_name="source-form" name="generate-btn" type="button" class="btn btn-primary">產生</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button form_name="source-form" name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="consumer-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="consumer-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="consumer-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+
+                                    <button form_name="pat-source-sc1-json-2023-form" name="generate-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <button form_name="pat-source-sc1-json-2023-form" name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="search-result-card" class="card mb-4 d-none">
+                            <div id="result-card-header" class="card-header">結果</div>
+                            <div class="card-body">
+                                <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
+                                <p class="card-text">id: <span id="result-imaging-id" class="text-primary"></span></p>
+
+                                <p class="card-text">狀態: <span id="result-imaging-status" class="text-primary"></span></p>
+                                <p class="card-text">識別碼: <span id="result-imaging-identifier" class="text-primary"></span></p>
+                                <p class="card-text">檢查開始日期與時間: <span id="result-imaging-start" class="text-primary"></span></p>
+                                <p class="card-text">病人: <span id="result-imaging-patient" class="text-primary"></span></p>
+                                <p class="card-text">就醫事件: <span id="result-imaging-encounter" class="text-primary"></span></p>
+                                <p class="card-text">檢查相關Series的數量: <span id="result-imaging-series" class="text-primary"></span></p>
+                                <p class="card-text">檢查相關Instances的數量: <span id="result-imaging-instances" class="text-primary"></span></p>
+                                <p class="card-text">處置或手術: <span id="result-imaging-procedure" class="text-primary"></span></p>
+                                <p class="card-text">處置或手術代碼: <span id="result-imaging-procedure-code" class="text-primary"></span></p>
+                                <p class="card-text">系列(series)實例: <span class="text-primary"></span></p>
+                                <ul class="card-text">
+                                    <li>DICOM系列實例UID: <span id="result-imaging-dicom-uid" class="text-primary"></span></li>
+                                    <li>所使用的成像儀器: <span id="result-imaging-device" class="text-primary"></span></li>
+                                    <li>身體部位: <span id="result-imaging-body-site" class="text-primary"></span></li>
+                                    <li>檢查執行者: <span id="result-imaging-body-practitioner" class="text-primary"></span></li>
+                                </ul>
+                                <p class="card-text">SOP實例: <span class="text-primary"></span></p>
+                                <ul class="card-text">
+                                    <li>UID: <span id="result-imaging-body-sop-uid" class="text-primary"></span></li>
+                                    <li>DICOM class類型: <span id="result-imaging-body-sop-class" class="text-primary"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; fhir-data-generator 2024</div>
+                            <div>
+                                <a target="_blank" href="https://github.com/peter279k/fhir-data-generator">GitHub連結</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../../js/scripts.js"></script>
+        <script src="../../js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="../../js/jquery-ui.js"></script>
+        <script src="../../js/jquery.ui.datepicker-zh-TW.min.js"></script>
+        <script src="../../js/sweetalert2.all.min.js"></script>
+        <script src="../../js/html2canvas.min.js"></script>
+        <script src="../../js/FileSaver.min.js"></script>
+        <script src="../../js/track1.coding.js"></script>
+        <script src="../../js/track1.utility.js"></script>
+        <script src="../../js/track1.2024.js"></script>
+        <script src="../../js/commLangCode.js"></script>
+        <script src="../../js/loadTWCoreIGNavLink.js"></script>
+        <script>
+            $(async () => {
+                loadTWCoreIGNavLink();
+                await loadMartialStatus();
+                await loadRelationshipCoding();
+
+                $('#period-start,#period-end,#start-unavailable,#end-unavailable').datepicker(
+                    $.datepicker.regional['zh-TW']
+                );
+                $('#period-start,#period-end,#start-unavailable,#end-unavailable').change((e) => {
+                    e.preventDefault();
+
+                    let selected = $(e.currentTarget).val();
+                    selected = selected.replace(/\//g, '-');
+                    $(e.currentTarget).val(selected);
+                });
+
+                $('#source-form').removeClass('d-none');
+
+                $('button[name="delete-btn"]').click((e) => {});
+
+                $('button[name="generate-btn"]').click(async(e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let metaProfileUrl = $('#meta-profile-url :selected').val();
+
+                    let fields = [
+                        'identifier',
+                        'status',
+                        'patient',
+                        'encounter',
+                        'started',
+                        'number-of-series',
+                        'number-of-instances',
+                        'procedure',
+                        'procedure-code',
+                        'procedure-display',
+                        'series-uid',
+                        'series-modality',
+                        'series-body-site',
+                        'series-body-site-display',
+                        'performer',
+                        'sop-uid',
+                        'sop-dicom-code',
+                    ];
+
+                    let field = null;
+                    for (index in fields) {
+                        field = fields[index];
+                        if ($(`#${field}`).val() === '') {
+                            $(`#${field}`).val(
+                                $(`#${field}`).attr('placeholder')
+                            );
+                            field = $(`#${field}`).attr('placeholder');
+                        } else {
+                            field = $(`#${field}`).val();
+                        }
+                        fields[index] = field;
+                    }
+
+                    let payload = {
+                        'profile_urls': [$('#meta-profile-url :selected').val()],
+                        'identifier': [{
+                            'use': 'official',
+                            'type': {
+                                'coding': [{
+                                    'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                                    'code': 'ACSN',
+                                    'display': 'Accession ID'
+                                }]
+                            },
+                            'system': 'http://www.moi.gov.tw',
+                            'value': fields[0],
+                        }],
+                        'status': fields[1],
+                        'subject': {
+                            'reference': fields[2],
+                        },
+                        'encounter': {
+                            'reference': fields[3],
+                        },
+                        'started': fields[4],
+                        'number_of_series': Number(fields[5]),
+                        'number_of_instances': Number(fields[6]),
+                        'procedure_reference': {
+                            'reference': fields[7],
+                        },
+                        'procedure_code_coding': [{
+                            'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/icd-10-pcs-2021-tw',
+                            'code': fields[8],
+                            'display': fields[9],
+                        }],
+                        'series_uid': fields[10],
+                        'series_modality': {
+                            'system': 'http://dicom.nema.org/resources/ontology/DCM',
+                            'code': fields[11],
+                        },
+                        'series_body_site': {
+                            'system': 'http://snomed.info/sct',
+                            'code': fields[12],
+                            'display': fields[13]
+                        },
+                        'series_performer_actor': {
+                            'reference': fields[14],
+                        },
+                        'series_instance_uid': fields[15],
+                        'series_instance_sop_class': {
+                            'system': 'urn:ietf:rfc:3986',
+                            'code': fields[16]
+                        },
+                    };
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+
+                    if ($('#imaging-study-id').val() !== '') {
+                        payload['id'] = $('#imaging-study-id').val();
+                    }
+
+                    await doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    let imagingStudyId = localStorage.getItem('created_imaging_study_id');
+                    $(e.currentTarget).removeAttr('disabled');
+                });
+
+                $('button[name="submit-btn"]').click(async (e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '請輸入至少一個查詢參數！',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let searchParameters = '?';
+                    let patientId = $('#patient-id').val();
+                    let patientIdentifier = $('#patient-identifier').val();
+                    let patientManagingOrganization = $('#patient-organization').val();
+
+                    let searchArr = [
+                        '-active',
+                        '-telecom',
+                        '-phone',
+                        '-address',
+                        '-address-city',
+                        '-address-country',
+                        '-address-state',
+                        '-address-postalcode',
+                        '-address-use',
+                    ];
+                    for (index in searchArr) {
+                        let value = $(`#patient${searchArr[index]}`).val();
+                        if (value !== '') {
+                            searchParameters += `${searchArr[index].substring(1)}=${value}&`;
+                        }
+                    }
+
+                    if (patientId !== '') {
+                        searchParameters += `_id=${patientId}&`;
+                    }
+                    if (patientIdentifier !== '') {
+                        searchParameters += `identifier=${patientIdentifier}&`;
+                    }
+                    if (patientManagingOrganization !== '') {
+                        searchParameters += `organization=${patientManagingOrganization}&`;
+                    }
+                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
+
+                    if (searchParameters === '') {
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    $('#result-search-parameters').text(searchParameters.substring(1));
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+                    $(e.currentTarget).html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>查詢中...'
+                    );
+
+                    $('#meta-version').attr('form_name', currentFormName);
+
+                    await doSubmitRequest(currentFormName, warningMessage, errorMessage, trackServerEndpoint, oauthServerEndpoint, searchParameters);
+
+                    $(e.currentTarget).removeAttr('disabled');
+                    $(e.currentTarget).html('查詢');
+                });
+
+                $('button[name="capture-image"]').click((e) => {
+                    e.preventDefault();
+                    html2canvas(document.querySelector('#layoutSidenav_content')).then(canvas => {
+                        canvas.toBlob((blob) => {
+                            window.saveAs(blob, 'image.png');
+                        });
+                    });
+                });
+
+                $('[id*=-tab]').click((e) => {
+                    $(e.currentTarget).addClass('active');
+                    let currentId = e.currentTarget.id;
+                    if (currentId.includes('consumer')) {
+                        $('#tw-core-creator-tab').removeClass('active');
+                        $('#source-form').addClass('d-none');
+                        $('#consumer-form').removeClass('d-none');
+                    } else {
+                        $('#tw-core-consumer-tab').removeClass('active');
+                        $('#source-form').removeClass('d-none');
+                        $('#consumer-form').addClass('d-none');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

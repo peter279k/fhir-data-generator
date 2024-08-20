@@ -773,3 +773,96 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
         return false;
     });
 }
+
+async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/ImagingStudy`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let ImagingStudyResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-imaging-id').html(ImagingStudyResource.id);
+        localStorage.setItem('created_imaging_study_id', ImagingStudyResource.id);
+
+        $('#result-imaging-status').html(
+            `${ImagingStudyResource.status} (ImagingStudyStatus)`
+        );
+
+        $('#result-imaging-identifier').html(
+            `${ImagingStudyResource.identifier[0].value} (${ImagingStudyResource.identifier[0].use})`
+        );
+
+        $('#result-imaging-start').html(
+            `${ImagingStudyResource.started}`
+        );
+
+        $('#result-imaging-patient').html(
+            `${ImagingStudyResource.subject.reference}`
+        );
+
+        $('#result-imaging-encounter').html(
+            `${ImagingStudyResource.encounter.reference}`
+        );
+
+        $('#result-imaging-series').html(
+            `${ImagingStudyResource.numberOfSeries}`
+        );
+
+        $('#result-imaging-instances').html(
+            `${ImagingStudyResource.numberOfInstances}`
+        );
+
+        $('#result-imaging-procedure').html(
+            `${ImagingStudyResource.procedureReference.reference}`
+        );
+
+        $('#result-imaging-procedure-code').html(
+            `${ImagingStudyResource.procedureCode[0].coding[0].display} (${ImagingStudyResource.procedureCode[0].coding[0].system}#${ImagingStudyResource.procedureCode[0].coding[0].code})`
+        );
+
+        $('#result-imaging-dicom-uid').html(
+            `${ImagingStudyResource.series[0].uid}`
+        );
+
+        $('#result-imaging-device').html(
+            `${ImagingStudyResource.series[0].modality.system}#${ImagingStudyResource.series[0].modality.code}`
+        );
+
+        $('#result-imaging-body-site').html(
+            `${ImagingStudyResource.series[0].bodySite.display} (${ImagingStudyResource.series[0].bodySite.system}#${ImagingStudyResource.series[0].bodySite.code})`
+        );
+
+        $('#result-imaging-body-practitioner').html(
+            `${ImagingStudyResource.series[0].performer[0].actor.reference}`
+        );
+
+        $('#result-imaging-body-sop-uid').html(
+            `${ImagingStudyResource.series[0].instance[0].uid}`
+        );
+
+        $('#result-imaging-body-sop-class').html(
+            `${ImagingStudyResource.series[0].instance[0].sopClass.code}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    })
+}
