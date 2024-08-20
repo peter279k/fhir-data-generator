@@ -708,3 +708,68 @@ async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServe
         return false;
     });
 }
+
+async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/DocumentReference`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let documentReferenceResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-document-id').html(documentReferenceResource.id);
+        localStorage.setItem('created_document_id', documentReferenceResource.id);
+
+        $('#result-document-status').html(
+            `${documentReferenceResource.status} (DocumentReferenceStatus)`
+        );
+
+        $('#result-document-type').html(
+            `${documentReferenceResource.type.text}(${documentReferenceResource.type.coding[0].display}) ${documentReferenceResource.type.coding[0].system}#${documentReferenceResource.type.coding[0].code}`
+        );
+
+        $('#result-document-patient').html(
+            `${documentReferenceResource.subject.reference}`
+        );
+
+        $('#result-document-date').html(
+            `${documentReferenceResource.date}`
+        );
+
+        $('#result-document-practitioner').html(
+            `${documentReferenceResource.author[0].reference}`
+        );
+
+        $('#result-document-organization').html(
+            `${documentReferenceResource.custodian.reference}`
+        );
+
+        $('#result-document-content-file-type').html(
+            `${documentReferenceResource.content[0].attachment.contentType}`
+        );
+
+        $('#result-document-content-file').html(
+            `${documentReferenceResource.content[0].attachment.url} (${documentReferenceResource.content[0].attachment.title})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}

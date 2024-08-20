@@ -10,6 +10,7 @@ from modules.track1_2024.Track1ForPractitioner import Track1ForPractitioner
 from modules.track1_2024.Track1ForOrganization import Track1ForOrganization
 from modules.track1_2024.Track1ForPractitionerRole import Track1ForPractitionerRole
 from modules.track1_2024.Track1ForDiagnosticReport import Track1ForDiagnosticReport
+from modules.track1_2024.Track1ForDocumentReference import Track1ForDocumentReference
 from modules.track1_2024.Track1ForAllergyIntolerance import Track1ForAllergyIntolerance
 
 
@@ -60,5 +61,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForCondition(resource_name, item.model_dump())
     if resource_name == 'DiagnosticReport':
         track = Track1ForDiagnosticReport(resource_name, item.model_dump())
+    if resource_name == 'DocumentReference':
+        track = Track1ForDocumentReference(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())
