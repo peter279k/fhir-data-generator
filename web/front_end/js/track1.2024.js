@@ -244,8 +244,8 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         $('#result-practitioner-identifier1').html(identifierHtml);
 
         identifierHtml = '';
-        identifierHtml += `<li>病患識別碼型別: <span name="result-practitioner-identifier" class="text-primary">${identifiers[1].type.coding[0].system}#${identifiers[1].type.coding[0].code}</span></li>`;
-        identifierHtml += `<li>病歷號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[1].value}</span></li>`;
+        identifierHtml += `<li>識別碼型別: <span name="result-practitioner-identifier" class="text-primary">${identifiers[1].type.coding[0].system}#${identifiers[1].type.coding[0].code}</span></li>`;
+        identifierHtml += `<li>員工編號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[1].value}</span></li>`;
 
         $('#result-practitioner-identifier2').html(identifierHtml);
 
@@ -298,6 +298,101 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
 
         $('#search-result-card').removeClass('d-none');
 
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
+
+async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/PractitionerRole`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let practitionerRoleResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-practitioner-role-id').html(practitionerRoleResource.id);
+        localStorage.setItem('created_practitioner_id', practitionerRoleResource.id);
+
+        let identifiers = practitionerRoleResource.identifier;
+        let identifierHtml = '';
+        identifierHtml += `<li>識別碼型別: <span name="result-practitioner-role-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
+        identifierHtml += `<li>員工編號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
+
+        $('#result-practitioner-role-identifier1').html(identifierHtml);
+
+        $('#result-practitioner-role-active').html(practitionerRoleResource.active);
+
+        $('#result-practitioner-role-business').html(
+            `${practitionerRoleResource.period.start} ~ ${practitionerRoleResource.period.end}`
+        );
+
+        $('#result-practitioner').html(
+            `${practitionerRoleResource.practitioner.reference} "${practitionerRoleResource.practitioner.display}"`
+        );
+
+        $('#result-practitioner-role-location').html(
+            `${practitionerRoleResource.location[0].reference} "${practitionerRoleResource.location[0].display}"`
+        );
+
+        $('#result-practitioner-role').html(
+            `${practitionerRoleResource.code[0].coding[0].display} (${practitionerRoleResource.code[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
+        );
+
+        $('#result-practitioner-role-profession').html(
+            `${practitionerRoleResource.specialty[0].coding[0].display} (${practitionerRoleResource.specialty[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
+        );
+
+        $('#result-practitioner-role-phone').html(
+            `${practitionerRoleResource.telecom[0].system}`
+        );
+        $('#result-practitioner-role-phone-number').html(
+            `(${practitionerRoleResource.telecom[0].use}) ${practitionerRoleResource.telecom[0].value}`
+        );
+
+        let daysOfWeek = practitionerRoleResource.availableTime[0].daysOfWeek;
+        let mappingWeeks = {
+            'mon': '一',
+            'tue': '二',
+            'wed': '三',
+            'thu': '四',
+            'fri': '五',
+            'sat': '六',
+            'sun': '日',
+        };
+        $('#result-practitioner-role-business-contact').html(
+            `週${mappingWeeks[daysOfWeek[0]]} ~ 週${mappingWeeks[daysOfWeek[daysOfWeek.length-1]]}，${practitionerRoleResource.availableTime[0].availableStartTime}-${practitionerRoleResource.availableTime[0].availableEndTime}`
+        );
+
+        $('#result-practitioner-role-message').html(
+            practitionerRoleResource.availabilityExceptions
+        );
+
+        $('#result-practitioner-role-unavailable').html(
+            `${practitionerRoleResource.notAvailable[0].during.start} ~ ${practitionerRoleResource.notAvailable[0].during.end}`
+        );
+
+        $('#result-practitioner-role-unavailable-reason').html(
+            practitionerRoleResource.notAvailable[0].description
+        );
+
+        $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
