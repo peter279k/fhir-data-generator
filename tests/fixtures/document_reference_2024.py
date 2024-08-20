@@ -76,8 +76,7 @@ def expected_payload():
             'coding': [{
                 'system': 'http://loinc.org',
                 'code': '34108-1',
-                'display':
-                'Outpatient Note'
+                'display': 'Outpatient Note'
             }],
             'text': '門診紀錄'
         },
