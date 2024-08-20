@@ -643,3 +643,68 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         return false;
     });
 }
+
+async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/DiagnosticReport`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let diagnosticReportResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-report-id').html(diagnosticReportResource.id);
+        localStorage.setItem('created_report_id', diagnosticReportResource.id);
+
+        $('#result-report-status').html(
+            `${diagnosticReportResource.status} (DiagnosticReportStatus)`
+        );
+
+        $('#result-report-category').html(
+            `${diagnosticReportResource.category[0].text} (${diagnosticReportResource.category[0].coding[0].system}#${diagnosticReportResource.category[0].coding[0].code})`
+        );
+
+        $('#result-report-patient').html(
+            `${diagnosticReportResource.subject.reference}`
+        );
+
+        $('#result-report-effective').html(
+            `${diagnosticReportResource.effectiveDateTime}`
+        );
+
+        $('#result-report-issued').html(
+            `${diagnosticReportResource.issued}`
+        );
+
+        $('#result-report-code').html(
+            `${diagnosticReportResource.code.text} (${diagnosticReportResource.code.coding[0].system}#${diagnosticReportResource.code.coding[0].code})`
+        );
+
+        $('#result-report-report').html(
+            `${diagnosticReportResource.result[0].reference}`
+        );
+
+        $('#result-report-practitioner').html(
+            `${diagnosticReportResource.performer[0].reference}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}

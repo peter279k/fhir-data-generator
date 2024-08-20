@@ -38,7 +38,7 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Condition Resource</div>
+                            <div class="sb-sidenav-menu-heading">DiagnosticReport Resource</div>
                             <a class="nav-link" href="../index.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 基本設定
@@ -78,9 +78,9 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Condition</h1>
+                        <h1 class="mt-4">DiagnosticReport</h1>
                         <ol class="breadcrumb mb-4">
-                            <li id="scenario-name" class="breadcrumb-item text-primary active">TWCore Condition(病情、問題或診斷資料)<li>
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">TWCore DiagnosticReport(病情、問題或診斷資料)<li>
                         </ol>
                         <ol class="breadcrumb mb-4">
                             <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
@@ -106,54 +106,54 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="condition-id" class="form-label">請輸入Condition id</label>
-                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="condition-id">
+                                        <label for="report-id" class="form-label">請輸入DiagnosticReport id</label>
+                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="report-id">
                                     </div>
                                     <div class="mb-3">
                                         <label for="meta-profile-url">請選擇meta profile URL</label>
                                         <select id="meta-profile-url" class="form-select" aria-label="">
-                                            <option value="https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Condition-twcore">Condition-twcore</option>
+                                            <option value="https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/DiagnosticReport-twcore">DiagnosticReport-twcore</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="clinical-status" class="form-label">請輸入臨床狀態代碼</label>
-                                        <input class="form-control" type="text" id="clinical-status" placeholder="remission" >
+                                        <label for="status" class="form-label">請輸入診斷狀態代碼</label>
+                                        <input class="form-control" type="text" id="status" placeholder="registered" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="verification-status" class="form-label">請輸入驗證狀態代碼</label>
-                                        <input class="form-control" type="text" id="verification-status" placeholder="confirmed" >
+                                        <label for="category" class="form-label">請輸入診斷狀態分類代碼</label>
+                                        <input class="form-control" type="text" id="category" placeholder="LAB" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="encounter-diagnosis" class="form-label">請輸入病情、問題或診斷分類</label>
-                                        <input class="form-control" type="text" id="encounter-diagnosis" placeholder="encounter-diagnosis" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="severity" class="form-label">請輸入嚴重程度代碼</label>
-                                        <input class="form-control" type="text" id="severity" placeholder="LA6752-5" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="code" class="form-label">請輸入病情、問題或診斷識別代碼</label>
-                                        <input class="form-control" type="text" id="code" placeholder="E08.649" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="code-text" class="form-label">請輸入病情、問題或診斷識別代碼</label>
-                                        <input class="form-control" type="text" id="code-text" placeholder="起因於潛在病的糖尿病，伴有低血糖，未伴有昏迷" >
+                                        <label for="category-display" class="form-label">請輸入診斷狀態分類顯示名稱</label>
+                                        <input class="form-control" type="text" id="category-display" placeholder="Laboratory" >
                                     </div>
                                     <div class="mb-3">
                                         <label for="patient" class="form-label fw-bold text-info">請輸入病人參照</label>
                                         <input class="form-control" type="text" id="patient" placeholder="Patient/pat-example" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="onset-datetime" class="form-label">請輸入實際日期</label>
-                                        <input class="form-control" type="text" id="onset-datetime" placeholder="2022-08-01T17:00:14+08:00" >
+                                        <label for="effective-datetime" class="form-label">請輸入臨床相關報告時間</label>
+                                        <input class="form-control" type="text" id="effective-datetime" placeholder="2022-08-01T17:00:14+08:00" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="abatement-datetime" class="form-label">請輸入緩解日期</label>
-                                        <input class="form-control" type="text" id="abatement-datetime" placeholder="2022-08-01T18:00:14+08:00" >
+                                        <label for="issued" class="form-label">請輸入診斷報告時間</label>
+                                        <input class="form-control" type="text" id="issued" placeholder="2022-08-01T18:00:14+08:00" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="asserter" class="form-label fw-bold text-info">請輸入診斷者參照</label>
-                                        <input class="form-control" type="text" id="asserter" placeholder="Practitioner/pra-dr-example" >
+                                        <label for="code" class="form-label">請輸入病情或診斷識別代碼</label>
+                                        <input class="form-control" type="text" id="code" placeholder="09002C" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="code-display" class="form-label">請輸入病情或診斷識別中文名稱</label>
+                                        <input class="form-control" type="text" id="code-display" placeholder="血中尿素氮" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="result" class="form-label fw-bold text-info">請輸入診斷結果參照</label>
+                                        <input class="form-control" type="text" id="result" placeholder="Observation/obs-lab-example" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="practitioner" class="form-label fw-bold text-info">請輸入診斷者參照</label>
+                                        <input class="form-control" type="text" id="practitioner" placeholder="Practitioner/pra-dr-example" >
                                     </div>
 
                                     <button form_name="source-form" name="generate-btn" type="button" class="btn btn-primary">產生</button>
@@ -181,18 +181,16 @@
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
-                                <p class="card-text">id: <span id="result-condition-id" class="text-primary"></span></p>
+                                <p class="card-text">id: <span id="result-report-id" class="text-primary"></span></p>
 
-                                <p class="card-text">臨床狀態: <span id="result-condition-clinical" class="text-primary"></span></p>
-                                <p class="card-text">驗證狀態: <span id="result-condition-verification-status" class="text-primary"></span></p>
-                                <p class="card-text">病情、問題或診斷分類: <span id="result-condition-diagnosis" class="text-primary"></span></p>
-                                <p class="card-text">嚴重程度: <span id="result-condition-code" class="text-primary"></span></p>
-                                <p class="card-text">病情、問題或診斷識別: <span id="result-condition-message" class="text-primary"></span></p>
-                                <p class="card-text">病人: <span id="result-condition-patient" class="text-primary"></span></p>
-                                <p class="card-text">實際日期: <span id="result-condition-onset-datetime" class="text-primary"></span></p>
-                                <p class="card-text">緩解日期: <span id="result-condition-abatement-datetime" class="text-primary"></span></p>
-                                <p class="card-text">診斷者: <span id="result-condition-asserter" class="text-primary"></span></p>
-
+                                <p class="card-text">診斷狀態: <span id="result-report-status" class="text-primary"></span></p>
+                                <p class="card-text">診斷分類: <span id="result-report-category" class="text-primary"></span></p>
+                                <p class="card-text">病人: <span id="result-report-patient" class="text-primary"></span></p>
+                                <p class="card-text">臨床相關報告時間: <span id="result-report-effective" class="text-primary"></span></p>
+                                <p class="card-text">診斷報告時間: <span id="result-report-issued" class="text-primary"></span></p>
+                                <p class="card-text">病情、問題或診斷識別: <span id="result-report-code" class="text-primary"></span></p>
+                                <p class="card-text">診斷結果: <span id="result-report-report" class="text-primary"></span></p>
+                                <p class="card-text">診斷者: <span id="result-report-practitioner" class="text-primary"></span></p>
                             </div>
                         </div>
                     </div>
@@ -266,16 +264,16 @@
                     let metaProfileUrl = $('#meta-profile-url :selected').val();
 
                     let fields = [
-                        'clinical-status',
-                        'verification-status',
-                        'encounter-diagnosis',
-                        'severity',
-                        'code',
-                        'code-text',
+                        'status',
+                        'category',
+                        'category-display',
                         'patient',
-                        'onset-datetime',
-                        'abatement-datetime',
-                        'asserter',
+                        'effective-datetime',
+                        'issued',
+                        'code',
+                        'code-display',
+                        'result',
+                        'practitioner',
                     ];
 
                     let field = null;
@@ -298,41 +296,40 @@
                             'system': 'http://terminology.hl7.org/CodeSystem/condition-clinical',
                             'code': fields[0],
                         }],
-                        'verification_status_coding': [{
-                            'system': 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
-                            'code': fields[1],
-                        }],
+                        'status': fields[0],
                         'category_coding': [{
-                            'system': 'http://terminology.hl7.org/CodeSystem/condition-category',
-                            'code': fields[2],
+                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0074',
+                            'code': fields[1],
+                            'display': fields[2],
                         }],
-                        'severity_coding': [{
-                            'system': 'http://loinc.org',
-                            'code': fields[3],
-                        }],
+                        'category_text': fields[2],
                         'code_coding': [{
-                            'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/icd-10-cm-2021-tw',
-                            'code': fields[4],
+                            'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medical-service-payment-tw',
+                            'code': fields[6],
+                            'display': fields[7],
                         }],
-                        'code_text': fields[5],
+                        'code_text': fields[7],
                         'subject': {
-                            'reference': fields[6],
+                            'reference': fields[3],
                         },
-                        'onset_datetime': fields[7],
-                        'abatement_datetime': fields[8],
-                        'asserter': {
+                        'effective_datetime': fields[4],
+                        'issued': fields[5],
+                        'performer': [{
                             'reference': fields[9],
-                        },
+                        }],
+                        'result': [{
+                            'reference': fields[8],
+                        }],
                     };
 
                     $(e.currentTarget).attr('disabled', 'disabled');
 
-                    if ($('#condition-id').val() !== '') {
-                        payload['id'] = $('#condition-id').val();
+                    if ($('#report-id').val() !== '') {
+                        payload['id'] = $('#report-id').val();
                     }
 
-                    await doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
-                    let encounterId = localStorage.getItem('created_condition_id');
+                    await doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    let encounterId = localStorage.getItem('created_report_id');
                     $(e.currentTarget).removeAttr('disabled');
                 });
 
