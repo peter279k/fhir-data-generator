@@ -423,6 +423,7 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
         }
 
         $('#result-encounter-id').html(encounterResource.id);
+        localStorage.setItem('created_encounter_id', encounterResource.id);
 
         $('#result-encounter-identifier').html(
             encounterResource.identifier[0].value
@@ -474,6 +475,95 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
 
         $('#result-encounter-reason').html(
             `${encounterResource.reasonCode[0].coding[0].display} (${encounterResource.reasonCode[0].coding[0].system}#${encounterResource.reasonCode[0].coding[0].code})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
+
+async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/AllergyIntolerance`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let allergyResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-allergy-id').html(allergyResource.id);
+        localStorage.setItem('created_allergy_id', allergyResource.id);
+
+        $('#result-allergy-status').html(allergyResource.clinicalStatus.text);
+
+        $('#result-allergy-verification-status').html(allergyResource.verificationStatus.text);
+
+        $('#result-allergy-type').html(allergyResource.type);
+
+        $('#result-allergy-category').html(allergyResource.category[0]);
+
+        $('#result-allergy-risk').html(`${allergyResource.criticality} risk`);
+
+        $('#result-allergy-identify').html(
+            `${allergyResource.code.text}(${allergyResource.code.coding[0].display})`
+        );
+
+        $('#result-allergy-identified-datetime').html(allergyResource.onsetDateTime);
+
+        $('#result-allergy-patient').html(
+            `${allergyResource.patient.reference} "${allergyResource.patient.display}"`
+        );
+
+        $('#result-allergy-recorder').html(
+            `${allergyResource.recorder.reference} "${allergyResource.recorder.display}"`
+        );
+
+        $('#result-allergy-recorder-datetime').html(allergyResource.recordedDate);
+
+        $('#result-allergy-practitioner').html(
+            `${allergyResource.asserter.reference} "${allergyResource.asserter.display}"`
+        );
+
+        $('#result-allergy-last-occurrence').html(allergyResource.lastOccurrence);
+
+        $('#result-allergy-med').html(
+            `${allergyResource.reaction[0].substance.text} (${allergyResource.reaction[0].substance.coding[0].system}#${allergyResource.reaction[0].substance.coding[0].code})`
+        );
+
+        $('#result-allergy-clinical').html(
+            `${allergyResource.reaction[0].manifestation[0].coding[0].display} (${allergyResource.reaction[0].manifestation[0].coding[0].system}#${allergyResource.reaction[0].manifestation[0].coding[0].code})`
+        );
+
+        $('#result-allergy-description').html(
+            `${allergyResource.reaction[0].description}`
+        );
+
+        $('#result-allergy-sev').html(
+            `${allergyResource.reaction[0].severity}`
+        );
+
+        $('#result-allergy-mainfest').html(
+            `${allergyResource.reaction[0].exposureRoute.text} (${allergyResource.reaction[0].exposureRoute.coding[0].display}) (${allergyResource.reaction[0].exposureRoute.coding[0].system}#${allergyResource.reaction[0].exposureRoute.coding[0].code})`
+        );
+
+        $('#result-allergy-note').html(
+            `${allergyResource.reaction[0].note[0].text}`
         );
 
         $('#search-result-card').removeClass('d-none');

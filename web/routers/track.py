@@ -8,6 +8,7 @@ from modules.track1_2024.Track1ForEncounter import Track1ForEncounter
 from modules.track1_2024.Track1ForPractitioner import Track1ForPractitioner
 from modules.track1_2024.Track1ForOrganization import Track1ForOrganization
 from modules.track1_2024.Track1ForPractitionerRole import Track1ForPractitionerRole
+from modules.track1_2024.Track1ForAllergyIntolerance import Track1ForAllergyIntolerance
 
 
 def pat_content_consumer(item: ContentConsumerScenario1Model, current_form_name):
@@ -51,5 +52,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForPractitionerRole(resource_name, item.model_dump())
     if resource_name == 'Encounter':
         track = Track1ForEncounter(resource_name, item.model_dump())
+    if resource_name == 'AllergyIntolerance':
+        track = Track1ForAllergyIntolerance(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())
