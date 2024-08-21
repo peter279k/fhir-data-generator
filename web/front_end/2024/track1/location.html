@@ -325,7 +325,7 @@
                         'address-line',     'address-city',
                         'address-district', 'address-postal',
                         'address-latitude', 'address-longitude',
-                        'organization',     'operation-all-day'
+                        'organization',
                     ];
 
                     let weeks = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -352,9 +352,11 @@
                         fields[index] = field;
                     }
 
-                    fields[15] = false;
+                    fields[15] = $('#operation-all-day :selected').val();
                     if (fields[15] === 'true') {
                         fields[15] = true;
+                    } else {
+                        fields[15] = false;
                     }
 
                     let payload = {

@@ -307,3 +307,100 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
         return false;
     });
 }
+
+async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/MedicationDispense`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let medicationDispenseResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-medication-dispense-id').html(medicationDispenseResource.id);
+        localStorage.setItem('created_medication_dispense_id', medicationDispenseResource.id);
+
+        $('#result-medication-dispense-status').html(
+            `${medicationDispenseResource.status} (MedicationDispense Status Codes)`
+        );
+
+        $('#result-medication-dispense-category').html(
+            `${medicationDispenseResource.category.coding[0].code} (${medicationDispenseResource.category.coding[0].system})`
+        );
+
+        $('#result-medication-dispense-type').html(
+            `${medicationDispenseResource.type.coding[0].display} (${medicationDispenseResource.type.coding[0].system}#${medicationDispenseResource.type.coding[0].code})`
+        );
+
+        $('#result-medication-dispense-med').html(
+            `${medicationDispenseResource.medicationReference.reference}`
+        );
+
+        $('#result-medication-dispense-patient').html(
+            `${medicationDispenseResource.subject.reference}`
+        );
+
+        $('#result-medication-dispense-encounter').html(
+            `${medicationDispenseResource.context.reference}`
+        );
+
+        $('#result-medication-dispense-practitioner').html(
+            `${medicationDispenseResource.performer[0].actor.reference}`
+        );
+
+        $('#result-medication-dispense-value').html(
+            `${medicationDispenseResource.quantity.value} ${medicationDispenseResource.quantity.unit} (${medicationDispenseResource.quantity.system}#${medicationDispenseResource.quantity.code})`
+        );
+
+        $('#result-medication-dispense-day').html(
+            `${medicationDispenseResource.daysSupply.value} 天`
+        );
+
+        $('#result-medication-dispense-text').html(
+            `${medicationDispenseResource.dosageInstruction[0].text}`
+        );
+
+        $('#result-medication-dispense-prepared').html(
+            `${medicationDispenseResource.whenPrepared}`
+        );
+
+        $('#result-medication-dispense-hand-over').html(
+            `${medicationDispenseResource.whenHandedOver}`
+        );
+
+        let mappingReplacement = {
+            'true': '是',
+            'false': '否',
+        }
+        $('#result-medication-dispense-replace').html(
+            `${mappingReplacement[String(medicationDispenseResource.substitution.wasSubstituted)]}`
+        );
+
+        $('#result-medication-dispense-diff').html(
+            `${medicationDispenseResource.substitution.type.coding[0].display} (${medicationDispenseResource.substitution.type.coding[0].system}#${medicationDispenseResource.substitution.type.coding[0].display})`
+        );
+
+        $('#result-medication-dispense-replace-reason').html(
+            `${medicationDispenseResource.substitution.reason[0].coding[0].display} (${medicationDispenseResource.substitution.reason[0].coding[0].system}#${medicationDispenseResource.substitution.reason[0].coding[0].code})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
