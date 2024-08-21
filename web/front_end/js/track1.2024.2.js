@@ -477,3 +477,68 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
         return false;
     });
 }
+
+async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/Procedure`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let procedureResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-procedure-id').html(procedureResource.id);
+        localStorage.setItem('created_procedure_id', procedureResource.id);
+
+        $('#result-procedure-status').html(
+            `${procedureResource.status}`
+        );
+
+        $('#result-procedure-coding').html(
+            `${procedureResource.code.text} (${procedureResource.code.coding[0].system}#${procedureResource.code.coding[0].code})`
+        );
+
+        $('#result-procedure-patient').html(
+            `${procedureResource.subject.reference}`
+        );
+
+        $('#result-procedure-performed-date').html(
+            `${procedureResource.performedDateTime}`
+        );
+
+        $('#result-procedure-performed-asserter').html(
+            `${procedureResource.asserter.reference}`
+        );
+
+        $('#result-procedure-performed-body-site').html(
+            `${procedureResource.bodySite[0].coding[0].code} (${procedureResource.bodySite[0].coding[0].system})`
+        );
+
+        $('#result-procedure-practitioner').html(
+            `${procedureResource.performer[0].actor.reference}`
+        );
+
+        $('#result-procedure-practitioner-org').html(
+            `${procedureResource.performer[0].onBehalfOf.reference}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
