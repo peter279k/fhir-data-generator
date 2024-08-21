@@ -3,6 +3,7 @@ from item_models.track2_2024 import *
 from fastapi.responses import JSONResponse
 from modules.track2_2024.Track2ForSource import Track2ForSource
 from modules.track1_2024.Track1ForPatient import Track1ForPatient
+from modules.track1_2024.Track1ForLocation import Track1ForLocation
 from modules.track2_2024.Track2ForConsumer import Track2ForConsumer
 from modules.track1_2024.Track1ForCondition import Track1ForCondition
 from modules.track1_2024.Track1ForEncounter import Track1ForEncounter
@@ -66,5 +67,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForDocumentReference(resource_name, item.model_dump())
     if resource_name == 'ImagingStudy':
         track = Track1ForImagingStudy(resource_name, item.model_dump())
+    if resource_name == 'Location':
+        track = Track1ForLocation(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())
