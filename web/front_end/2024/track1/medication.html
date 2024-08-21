@@ -249,11 +249,6 @@
                         fields[index] = field;
                     }
 
-                    fields[15] = false;
-                    if (fields[15] === 'true') {
-                        fields[15] = true;
-                    }
-
                     let payload = {
                         'profile_urls': [$('#meta-profile-url :selected').val()],
                         'code_coding': [

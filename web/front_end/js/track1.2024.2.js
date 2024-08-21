@@ -214,3 +214,96 @@ async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpo
         return false;
     });
 }
+
+async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/MedicationRequest`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let medicationRequestResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-medication-request-id').html(medicationRequestResource.id);
+        localStorage.setItem('created_medication_request_id', medicationRequestResource.id);
+
+        $('#result-medication-request-identifier').html(
+            `${medicationRequestResource.identifier[0].value} (${medicationRequestResource.identifier[0].system})`
+        );
+
+        $('#result-medication-request-status').html(
+            `${medicationRequestResource.status} (${medicationRequestResource.statusReason.coding[0].system}#${medicationRequestResource.statusReason.coding[0].code})`
+        );
+
+        $('#result-medication-request-intent').html(
+            `${medicationRequestResource.intent} (medicationRequest Intent)`
+        );
+
+        $('#result-medication-request-category').html(
+            `${medicationRequestResource.category[0].coding[0].code} (${medicationRequestResource.category[0].coding[0].system}#${medicationRequestResource.category[0].coding[0].code})`
+        );
+
+        $('#result-medication-request-med').html(
+            `${medicationRequestResource.medicationReference.reference}`
+        );
+
+        $('#result-medication-request-patient').html(
+            `${medicationRequestResource.subject.reference}`
+        );
+
+        $('#result-medication-request-encounter').html(
+            `${medicationRequestResource.encounter.reference}`
+        );
+
+        $('#result-medication-request-datetime').html(
+            `${medicationRequestResource.authoredOn}`
+        );
+
+        $('#result-medication-request-requester').html(
+            `${medicationRequestResource.requester.reference}`
+        );
+
+        $('#result-medication-request-reason').html(
+            `${medicationRequestResource.reasonReference[0].reference}`
+        );
+
+        $('#result-medication-dosage-text').html(
+            `${medicationRequestResource.dosageInstruction[0].text}`
+        );
+
+        $('#result-medication-dosage-timing').html(
+            `${medicationRequestResource.dosageInstruction[0].timing.code.text} (${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].system}#${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].code})`
+        );
+
+        $('#result-medication-dosage-route').html(
+            `${medicationRequestResource.dosageInstruction[0].route.coding[0].code} (${medicationRequestResource.dosageInstruction[0].route.coding[0].system})`
+        );
+
+        $('#result-medication-dosage-rate').html(
+            `${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].code} (${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].system})`
+        );
+
+        $('#result-medication-request-period').html(
+            `${medicationRequestResource.dispenseRequest.validityPeriod.start} --> ${medicationRequestResource.dispenseRequest.validityPeriod.end}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}

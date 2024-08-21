@@ -14,6 +14,7 @@ from modules.track1_2024.Track1ForOrganization import Track1ForOrganization
 from modules.track1_2024.Track1ForImagingStudy import Track1ForImagingStudy
 from modules.track1_2024.Track1ForPractitionerRole import Track1ForPractitionerRole
 from modules.track1_2024.Track1ForDiagnosticReport import Track1ForDiagnosticReport
+from modules.track1_2024.Track1ForMedicationRequest import Track1ForMedicationRequest
 from modules.track1_2024.Track1ForDocumentReference import Track1ForDocumentReference
 from modules.track1_2024.Track1ForAllergyIntolerance import Track1ForAllergyIntolerance
 
@@ -75,5 +76,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForMedia(resource_name, item.model_dump())
     if resource_name == 'Medication':
         track = Track1ForMedication(resource_name, item.model_dump())
+    if resource_name == 'MedicationRequest':
+        track = Track1ForMedicationRequest(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())
