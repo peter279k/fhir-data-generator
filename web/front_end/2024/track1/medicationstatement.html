@@ -140,27 +140,27 @@
                                         <input type="text" class="form-control" placeholder="阿司匹林" id="med-name">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="patient" class="fw-bold text-infoorm-label">請輸入病人參照</label>
+                                        <label for="patient" class="fw-bold text-info form-label">請輸入病人參照</label>
                                         <input type="text" class="form-control" placeholder="Patient/pat-example" id="patient">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="effective" class="fw-bold text-infoorm-label">請輸入用藥的日期與時間</label>
+                                        <label for="effective" class="form-label">請輸入用藥的日期與時間</label>
                                         <input type="text" class="form-control" placeholder="2023-11-05T08:00:00+08:00" id="effective">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="asserted" class="fw-bold text-infoorm-label">請輸入提出聲明的日期與時間</label>
+                                        <label for="asserted" class="form-label">請輸入提出聲明的日期與時間</label>
                                         <input type="text" class="form-control" placeholder="2023-11-05T10:00:00+08:00" id="asserted">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="reason-code" class="fw-bold text-infoorm-label">請輸入聲明原因代碼</label>
+                                        <label for="reason-code" class="form-label">請輸入聲明原因代碼</label>
                                         <input type="text" class="form-control" placeholder="303002" id="reason-code">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="reason-code-display" class="fw-bold text-infoorm-label">請輸入聲明原因英文名稱</label>
+                                        <label for="reason-code-display" class="form-label">請輸入聲明原因英文名稱</label>
                                         <input type="text" class="form-control" placeholder="Apoplectic pancreatitis" id="reason-code-display">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="reason-code-text" class="fw-bold text-infoorm-label">請輸入聲明原因中文名稱</label>
+                                        <label for="reason-code-text" class="form-label">請輸入聲明原因中文名稱</label>
                                         <input type="text" class="form-control" placeholder="胰臟炎" id="reason-code-text">
                                     </div>
 
@@ -170,7 +170,7 @@
                                         <input type="text" class="form-control" placeholder="2" id="frequency">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="note" class="fw-bold form-label">請輸入每天服用次數敘述</label>
+                                        <label for="note" class="form-label">請輸入每天服用次數敘述</label>
                                         <input type="text" class="form-control" placeholder="每日早晚各一次" id="note">
                                     </div>
                                     <div class="mb-3">
@@ -215,30 +215,21 @@
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
-                                <p class="card-text">id: <span id="result-medication-dispense-id" class="text-primary"></span></p>
+                                <p class="card-text">id: <span id="result-medication-statement-id" class="text-primary"></span></p>
 
-                                <p class="card-text">配藥的狀態: <span id="result-medication-dispense-status" class="text-primary"></span></p>
-                                <p class="card-text">配藥的分類: <span id="result-medication-dispense-category" class="text-primary"></span></p>
-                                <p class="card-text">配藥的類型: <span id="result-medication-dispense-type" class="text-primary"></span></p>
-                                <p class="card-text">藥品: <span id="result-medication-dispense-med" class="text-primary"></span></p>
-                                <p class="card-text">病人: <span id="result-medication-dispense-patient" class="text-primary"></span></p>
-                                <p class="card-text">就醫資料: <span id="result-medication-dispense-encounter" class="text-primary"></span></p>
-                                <p class="card-text">配藥者: <span id="result-medication-dispense-practitioner" class="text-primary"></span></p>
+                                <p class="card-text">用藥聲明的狀態: <span id="result-medication-statement-status" class="text-primary"></span></p>
+                                <p class="card-text">用藥聲明的分類: <span id="result-medication-statement-category" class="text-primary"></span></p>
+                                <p class="card-text">藥品: <span id="result-medication-statement-med" class="text-primary"></span></p>
+                                <p class="card-text">病人: <span id="result-medication-statement-patient" class="text-primary"></span></p>
+                                <p class="card-text">用藥的日期與時間: <span id="result-medication-statement-use-datetime" class="text-primary"></span></p>
+                                <p class="card-text">提出聲明日期與時間: <span id="result-medication-statement-asserted" class="text-primary"></span></p>
+                                <p class="card-text">聲明原因: <span id="result-medication-statement-use-reason" class="text-primary"></span></p>
 
-                                <h5 class="fw-bold text-secondary">配藥資料</h5>
+                                <h5 class="fw-bold text-secondary">藥品使用方式</h5>
                                 <ul class="card-text">
-                                    <li>藥品總劑量: <span id="result-medication-dispense-value" class="text-primary"></span></li>
-                                    <li>藥品天數: <span id="result-medication-dispense-day" class="text-primary"></span></li>
-                                    <li>藥品使用方法: <span id="result-medication-dispense-text" class="text-primary"></span></li>
-                                    <li>藥品包裝和審核時間: <span id="result-medication-dispense-prepared" class="text-primary"></span></li>
-                                    <li>藥品發放時間: <span id="result-medication-dispense-hand-over" class="text-primary"></span></li>
-                                </ul>
-
-                                <h5 class="fw-bold text-secondary">藥品替代資料</h5>
-                                <ul class="card-text">
-                                    <li>配藥時是否進行了藥品替代: <span id="result-medication-dispense-replace" class="text-primary"></span></li>
-                                    <li>配藥時是否與處方要求不同: <span id="result-medication-dispense-diff" class="text-primary"></span></li>
-                                    <li>替代原因: <span id="result-medication-dispense-replace-reason" class="text-primary"></span></li>
+                                    <li>時間間隔: <span id="result-medication-statement-freq" class="text-primary"></span></li>
+                                    <li>方式: <span id="result-medication-statement-use-approach" class="text-primary"></span></li>
+                                    <li>備註: <span id="result-medication-statement-note" class="text-primary"></span></li>
                                 </ul>
                             </div>
                         </div>
@@ -387,8 +378,8 @@
                         payload['id'] = $('#medication-dispense-id').val();
                     }
 
-                    await doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
-                    let medicationDispenseId = localStorage.getItem('created_medication_dispense_id');
+                    await doGenerateMedicationStatementRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    let medicationStatementId = localStorage.getItem('created_medication_statement_id');
                     $(e.currentTarget).removeAttr('disabled');
                 });
 

@@ -404,3 +404,76 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
         return false;
     });
 }
+
+async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/MedicationStatement`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let medicationStatementResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-medication-statement-id').html(medicationStatementResource.id);
+        localStorage.setItem('created_medication_statement_id', medicationStatementResource.id);
+
+        $('#result-medication-statement-status').html(
+            `${medicationStatementResource.status} (Medication Status Codes)`
+        );
+
+        $('#result-medication-statement-category').html(
+            `${medicationStatementResource.category.text} (${medicationStatementResource.category.coding[0].system}#${medicationStatementResource.category.coding[0].code})`
+        );
+
+        $('#result-medication-statement-med').html(
+            `${medicationStatementResource.medicationCodeableConcept.text}(${medicationStatementResource.medicationCodeableConcept.coding[0].display}) (${medicationStatementResource.medicationCodeableConcept.coding[0].system}#${medicationStatementResource.medicationCodeableConcept.coding[0].code})`
+        );
+
+        $('#result-medication-statement-patient').html(
+            `${medicationStatementResource.subject.reference}`
+        );
+
+        $('#result-medication-statement-use-datetime').html(
+            `${medicationStatementResource.effectiveDateTime}`
+        );
+
+        $('#result-medication-statement-asserted').html(
+            `${medicationStatementResource.dateAsserted}`
+        );
+
+        $('#result-medication-statement-use-reason').html(
+            `${medicationStatementResource.reasonCode[0].text}(${medicationStatementResource.reasonCode[0].coding[0].display}) (${medicationStatementResource.reasonCode[0].coding[0].system}#${medicationStatementResource.reasonCode[0].coding[0].code})`
+        );
+
+        $('#result-medication-statement-freq').html(
+            `${medicationStatementResource.dosage[0].text} (${medicationStatementResource.dosage[0].timing.repeat.frequency} per ${medicationStatementResource.dosage[0].timing.repeat.period} days)`
+        );
+
+        $('#result-medication-statement-use-approach').html(
+            `${medicationStatementResource.dosage[0].route.text}(${medicationStatementResource.dosage[0].route.coding[0].display}) (${medicationStatementResource.dosage[0].route.coding[0].system}#${medicationStatementResource.dosage[0].route.coding[0].code})`
+        );
+
+        $('#result-medication-statement-note').html(
+            `${medicationStatementResource.note[0].text}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}

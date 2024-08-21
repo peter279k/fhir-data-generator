@@ -18,6 +18,7 @@ from modules.track1_2024.Track1ForMedicationRequest import Track1ForMedicationRe
 from modules.track1_2024.Track1ForDocumentReference import Track1ForDocumentReference
 from modules.track1_2024.Track1ForMedicationDispense import Track1ForMedicationDispense
 from modules.track1_2024.Track1ForAllergyIntolerance import Track1ForAllergyIntolerance
+from modules.track1_2024.Track1ForMedicationStatement import Track1ForMedicationStatement
 
 
 def pat_content_consumer(item: ContentConsumerScenario1Model, current_form_name):
@@ -81,5 +82,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForMedicationRequest(resource_name, item.model_dump())
     if resource_name == 'MedicationDispense':
         track = Track1ForMedicationDispense(resource_name, item.model_dump())
+    if resource_name == 'MedicationStatement':
+        track = Track1ForMedicationStatement(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())
