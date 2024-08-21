@@ -1,6 +1,7 @@
 from item_models.track1_2024 import *
 from item_models.track2_2024 import *
 from fastapi.responses import JSONResponse
+from modules.track1_2024.Track1ForMedia import Track1ForMedia
 from modules.track2_2024.Track2ForSource import Track2ForSource
 from modules.track1_2024.Track1ForPatient import Track1ForPatient
 from modules.track1_2024.Track1ForLocation import Track1ForLocation
@@ -69,5 +70,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForImagingStudy(resource_name, item.model_dump())
     if resource_name == 'Location':
         track = Track1ForLocation(resource_name, item.model_dump())
+    if resource_name == 'Media':
+        track = Track1ForMedia(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())

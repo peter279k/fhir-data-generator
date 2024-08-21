@@ -1,1 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="This is the web demonstration for MITW Connectathon" />
+        <meta name="author" content="" />
+        <title>MITW 2024 Track1 Media</title>
+        <link href="../../css/styles.css" rel="stylesheet" />
+        <script src="../../js/all.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 
+        <link rel="apple-touch-icon" href="../../assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="../../assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="../../assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="mask-icon" href="../../assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+        <link rel="icon" href="../../assets/img/favicons/favicon.ico">
+
+        <!-- Popperjs -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <!-- Tempus Dominus JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
+
+        <!-- Tempus Dominus Styles -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.html">fhir-data-generator</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Media Resource</div>
+                            <a class="nav-link" href="../index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                基本設定
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Resources</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#1
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"></div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#2
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="patient.html">Patient</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#13
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Media</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">TWCore Media(腦部MRI)<li>
+                        </ol>
+                        <ol class="breadcrumb mb-4">
+                            <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
+                            <li class="text-secondary">*請使用大會核發UserID向大會授權主機 (Keycloak OAuth Server)取得存取授權Token後之Token，並放入HTTP header。</li>
+                        </ol>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a id="tw-core-creator-tab" class="nav-link active" aria-current="page" href="#">Creator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="tw-core-consumer-tab" class="nav-link" href="#">Consumer</a>
+                            </li>
+                        </ul>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form class="d-none" id="source-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="source-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="source-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="media-id" class="form-label">請輸入Media id</label>
+                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="media-id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meta-profile-url">請選擇meta profile URL</label>
+                                        <select id="meta-profile-url" class="form-select" aria-label="">
+                                            <option value="https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Media-twcore">Media-twcore</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="satus" class="form-label">請輸入狀態</label>
+                                        <input type="text" class="form-control" placeholder="completed" id="status">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="type" class="form-label">請輸入多媒體種類代碼</label>
+                                        <input type="text" class="form-control" placeholder="image" id="type">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="view-coding" class="form-label">請輸入影像檢視代碼</label>
+                                        <input type="text" class="form-control" placeholder="260442004" id="view-coding">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="view-coding-display" class="form-label">請輸入影像檢視顯示名稱</label>
+                                        <input type="text" class="form-control" placeholder="Erect lateral" id="view-coding-display">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="created" class="form-label">請輸入紀錄資料收集日期與時間</label>
+                                        <input type="text" class="form-control" placeholder="2023-11-04T15:30:00Z" id="created">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="issued" class="form-label">請輸入資料發行日期與時間</label>
+                                        <input type="text" class="form-control" placeholder="2023-11-04T16:00:00Z" id="issued">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="operator" class="form-label fw-bold text-info">請輸入執行者參照</label>
+                                        <input type="text" class="form-control" placeholder="Practitioner/pra-phc-example" id="operator">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient" class="form-label fw-bold text-info">請輸入病人參照</label>
+                                        <input type="text" class="form-control" placeholder="Patient/pat-example" id="patient">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="patient-display" class="form-label fw-bold text-info">請輸入病人顯示名稱</label>
+                                        <input type="text" class="form-control" placeholder="陳加玲" id="patient-display">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reason-code" class="form-label">請輸入紀錄產生的原因識別代碼</label>
+                                        <input type="text" class="form-control" placeholder="151004" id="reason-code">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reason-code-display" class="form-label">請輸入紀錄產生的原因識別名稱</label>
+                                        <input type="text" class="form-control" placeholder="Gonococcal meningitis" id="reason-code-display">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="body-site-code" class="form-label">請輸入紀錄身體部位代碼</label>
+                                        <input type="text" class="form-control" placeholder="3295003" id="body-site-code">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="body-site-code-display" class="form-label">請輸入紀錄身體部位名稱</label>
+                                        <input type="text" class="form-control" placeholder="Ventral anterior nucleus" id="body-site-code-display">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="device" class="form-label">請輸入紀錄使用的設備</label>
+                                        <input type="text" class="form-control" placeholder="MAGNETOM Skyra 3 Tesla" id="device">
+                                    </div>
+
+                                    <h5 class="fw-bold text-secondary">影像資料</h5>
+                                    <div class="mb-3">
+                                        <label for="width" class="form-label">請輸入影像之寬度width</label>
+                                        <input type="text" class="form-control" placeholder="512" id="width">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="height" class="form-label">請輸入影像之高度height</label>
+                                        <input type="text" class="form-control" placeholder="512" id="height">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="image-id" class="form-label">請輸入影像檔案ID</label>
+                                        <input type="text" class="form-control" placeholder="image1" id="image-id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="image-path" class="form-label">請輸入影像PNG檔案路徑(請確認已經放到/front_end/assets/img目錄中)</label>
+                                        <input type="text" class="form-control" placeholder="twcore_sample_media_2024.png" id="image-path">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="image-date" class="form-label">請輸入影像產生日期</label>
+                                        <input type="text" class="form-control" placeholder="2023-12-28" id="image-date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="text" class="form-label">請輸入影像備註(text)</label>
+                                        <input type="text" class="form-control" placeholder="腦部MRI" id="text">
+                                    </div>
+
+                                    <button form_name="source-form" name="generate-btn" type="button" class="btn btn-primary">產生</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button form_name="source-form" name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="consumer-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="consumer-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="consumer-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+
+                                    <button form_name="pat-source-sc1-json-2023-form" name="generate-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <button form_name="pat-source-sc1-json-2023-form" name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="search-result-card" class="card mb-4 d-none">
+                            <div id="result-card-header" class="card-header">結果</div>
+                            <div class="card-body">
+                                <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
+                                <p class="card-text">id: <span id="result-media-id" class="text-primary"></span></p>
+
+                                <p class="card-text">狀態: <span id="result-media-status" class="text-primary"></span></p>
+                                <p class="card-text">多媒體種類: <span id="result-media-type" class="text-primary"></span></p>
+                                <p class="card-text">病人: <span id="result-media-patient" class="text-primary"></span></p>
+                                <p class="card-text">影像檢視: <span id="result-media-view" class="text-primary"></span></p>
+                                <p class="card-text">紀錄資料收集日期與時間: <span id="result-media-created" class="text-primary"></span></p>
+                                <p class="card-text">資料發行日期與時間: <span id="result-media-issued" class="text-primary"></span></p>
+                                <p class="card-text">執行者: <span id="result-media-practitioner" class="text-primary"></span></p>
+                                <p class="card-text">紀錄產生的原因識別: <span id="result-media-reason" class="text-primary"></span></p>
+                                <p class="card-text">紀錄的身體部位: <span id="result-media-body" class="text-primary"></span></p>
+                                <p class="card-text">紀錄使用的設備: <span id="result-media-device" class="text-primary"></span></p>
+                                <p class="card-text">影像資料:</p>
+                                <ul class="card-text">
+                                    <li>ID: <span id="result-media-file-id" class="text-primary"></span></li>
+                                    <li>資料種類: <span id="result-media-file-type" class="text-primary"></span></li>
+                                    <li>影像長度: <span id="result-media-width" class="text-primary"></span></li>
+                                    <li>影像寬度: <span id="result-media-height" class="text-primary"></span></li>
+                                    <li>data: <span id="result-media-base64" class="text-primary"></span></li>
+                                    <li>影像產生日期: <span id="result-media-file-created" class="text-primary"></span></li>
+                                    <li>影像備註: <span id="result-media-note" class="text-primary"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; fhir-data-generator 2024</div>
+                            <div>
+                                <a target="_blank" href="https://github.com/peter279k/fhir-data-generator">GitHub連結</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../../js/scripts.js"></script>
+        <script src="../../js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="../../js/jquery-ui.js"></script>
+        <script src="../../js/jquery.ui.datepicker-zh-TW.min.js"></script>
+        <script src="../../js/sweetalert2.all.min.js"></script>
+        <script src="../../js/html2canvas.min.js"></script>
+        <script src="../../js/FileSaver.min.js"></script>
+        <script src="../../js/track1.coding.js"></script>
+        <script src="../../js/track1.utility.js"></script>
+        <script src="../../js/track1.2024.2.js"></script>
+        <script src="../../js/commLangCode.js"></script>
+        <script src="../../js/loadTWCoreIGNavLink.js"></script>
+        <script>
+            $(async () => {
+                loadTWCoreIGNavLink();
+                await loadMartialStatus();
+                await loadRelationshipCoding();
+
+                $('#image-date').datepicker(
+                    $.datepicker.regional['zh-TW']
+                );
+                $('#image-date').change((e) => {
+                    e.preventDefault();
+
+                    let selected = $(e.currentTarget).val();
+                    selected = selected.replace(/\//g, '-');
+                    $(e.currentTarget).val(selected);
+                });
+
+                $('#source-form').removeClass('d-none');
+
+                $('button[name="delete-btn"]').click((e) => {});
+
+                $('button[name="generate-btn"]').click(async(e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let metaProfileUrl = $('#meta-profile-url :selected').val();
+
+                    let fields = [
+                        'status',                 'type',
+                        'view-coding',            'view-coding-display',
+                        'created',                'issued',
+                        'operator',               'patient',
+                        'patient-display',        'reason-code',
+                        'reason-code-display',    'body-site-code',
+                        'body-site-code-display', 'device',
+                        'width',                  'height',
+                        'image-id',               'image-path',
+                        'image-date',             'text'
+                    ];
+
+                    let field = null;
+                    for (index in fields) {
+                        field = fields[index];
+                        if ($(`#${field}`).val() === '') {
+                            $(`#${field}`).val(
+                                $(`#${field}`).attr('placeholder')
+                            );
+                            field = $(`#${field}`).attr('placeholder');
+                        } else {
+                            field = $(`#${field}`).val();
+                        }
+                        fields[index] = field;
+                    }
+
+                    fields[15] = false;
+                    if (fields[15] === 'true') {
+                        fields[15] = true;
+                    }
+
+                    let payload = {
+                        'profile_urls': [$('#meta-profile-url :selected').val()],
+                        'status': fields[0],
+                        'type_coding': [{
+                            'system': 'http://terminology.hl7.org/CodeSystem/media-type',
+                            'code': fields[1],
+                        }],
+                        'view_coding': [{
+                            'system': 'http://snomed.info/sct',
+                            'code': fields[2],
+                            'display': fields[3],
+                        }],
+                        'view_text': fields[3],
+                        'subject': {
+                            'reference': fields[7],
+                            'display': fields[8],
+                        },
+                        'created_datetime': fields[4],
+                        'issued': fields[5],
+                        'operator': {
+                            'reference': fields[6],
+                        },
+                        'reason_code_coding': [{
+                            'system': 'http://snomed.info/sct',
+                            'code': fields[9],
+                            'display': fields[10]
+                        }],
+                        'body_site_coding': [{
+                            'system': 'http://snomed.info/sct',
+                            'code': fields[11],
+                            'display': fields[12]
+                        }],
+                        'device_name': fields[13],
+                        'height': parseInt(fields[15]),
+                        'width': parseInt(fields[14]),
+                        'content': {
+                            'id': fields[16],
+                            'contentType': 'image/png',
+                            'data': fields[17],
+                            'creation': fields[18]
+                        },
+                        'note': [{
+                            'text': fields[19],
+                        }],
+                    };
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+
+                    if ($('#media-id').val() !== '') {
+                        payload['id'] = $('#media-id').val();
+                    }
+
+                    await doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    let mediaId = localStorage.getItem('created_media_id');
+                    $(e.currentTarget).removeAttr('disabled');
+                });
+
+                $('button[name="submit-btn"]').click(async (e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '請輸入至少一個查詢參數！',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let searchParameters = '?';
+                    let patientId = $('#patient-id').val();
+                    let patientIdentifier = $('#patient-identifier').val();
+                    let patientManagingOrganization = $('#patient-organization').val();
+
+                    let searchArr = [
+                        '-active',
+                        '-telecom',
+                        '-phone',
+                        '-address',
+                        '-address-city',
+                        '-address-country',
+                        '-address-state',
+                        '-address-postalcode',
+                        '-address-use',
+                    ];
+                    for (index in searchArr) {
+                        let value = $(`#patient${searchArr[index]}`).val();
+                        if (value !== '') {
+                            searchParameters += `${searchArr[index].substring(1)}=${value}&`;
+                        }
+                    }
+
+                    if (patientId !== '') {
+                        searchParameters += `_id=${patientId}&`;
+                    }
+                    if (patientIdentifier !== '') {
+                        searchParameters += `identifier=${patientIdentifier}&`;
+                    }
+                    if (patientManagingOrganization !== '') {
+                        searchParameters += `organization=${patientManagingOrganization}&`;
+                    }
+                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
+
+                    if (searchParameters === '') {
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    $('#result-search-parameters').text(searchParameters.substring(1));
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+                    $(e.currentTarget).html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>查詢中...'
+                    );
+
+                    $('#meta-version').attr('form_name', currentFormName);
+
+                    await doSubmitRequest(currentFormName, warningMessage, errorMessage, trackServerEndpoint, oauthServerEndpoint, searchParameters);
+
+                    $(e.currentTarget).removeAttr('disabled');
+                    $(e.currentTarget).html('查詢');
+                });
+
+                $('button[name="capture-image"]').click((e) => {
+                    e.preventDefault();
+                    html2canvas(document.querySelector('#layoutSidenav_content')).then(canvas => {
+                        canvas.toBlob((blob) => {
+                            window.saveAs(blob, 'image.png');
+                        });
+                    });
+                });
+
+                $('[id*=-tab]').click((e) => {
+                    $(e.currentTarget).addClass('active');
+                    let currentId = e.currentTarget.id;
+                    if (currentId.includes('consumer')) {
+                        $('#tw-core-creator-tab').removeClass('active');
+                        $('#source-form').addClass('d-none');
+                        $('#consumer-form').removeClass('d-none');
+                    } else {
+                        $('#tw-core-consumer-tab').removeClass('active');
+                        $('#source-form').removeClass('d-none');
+                        $('#consumer-form').addClass('d-none');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
