@@ -8,6 +8,7 @@ from modules.track1_2024.Track1ForLocation import Track1ForLocation
 from modules.track2_2024.Track2ForConsumer import Track2ForConsumer
 from modules.track1_2024.Track1ForCondition import Track1ForCondition
 from modules.track1_2024.Track1ForEncounter import Track1ForEncounter
+from modules.track1_2024.Track1ForMedication import Track1ForMedication
 from modules.track1_2024.Track1ForPractitioner import Track1ForPractitioner
 from modules.track1_2024.Track1ForOrganization import Track1ForOrganization
 from modules.track1_2024.Track1ForImagingStudy import Track1ForImagingStudy
@@ -72,5 +73,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForLocation(resource_name, item.model_dump())
     if resource_name == 'Media':
         track = Track1ForMedia(resource_name, item.model_dump())
+    if resource_name == 'Medication':
+        track = Track1ForMedication(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())

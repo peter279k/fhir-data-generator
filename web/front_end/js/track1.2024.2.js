@@ -173,3 +173,44 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
         return false;
     });
 }
+
+async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/Medication`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let medicationResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-medication-id').html(medicationResource.id);
+        localStorage.setItem('created_medication_id', medicationResource.id);
+
+        $('#result-medication-med').html(
+            `${medicationResource.code.text} (${medicationResource.code.coding[0].system}#${medicationResource.code.coding[0].code})`
+        );
+
+        $('#result-medication-form').html(
+            `${medicationResource.form.text} (${medicationResource.form.coding[0].system}#${medicationResource.form.coding[0].code})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
