@@ -56,6 +56,7 @@ app = FastAPI(
 app.mount('/front_end', StaticFiles(directory='front_end'), name='front_end')
 app.include_router(info_router)
 app.include_router(track_router)
+app.include_router(resource_log_router)
 
 app.add_middleware(
     CORSMiddleware,

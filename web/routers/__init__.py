@@ -1,5 +1,6 @@
 from .info import *
 from .track import *
+from .resource import *
 from fastapi import APIRouter
 
 
@@ -12,3 +13,7 @@ track_router.add_api_route('/track2/2024/source/{current_form_name}', pat_source
 track_router.add_api_route('/track2/2024/delete_source/{current_form_name}', delete_pat_source_consumer, methods=['POST'], description='Track2 2024相關', summary='Track2')
 
 track_router.add_api_route('/track1/2024/source/{resource_name}', track1_source_creator, methods=['POST'], description='Track1 2024相關', summary='Track1')
+
+resource_log_router = APIRouter(tags=['Resource log'])
+resource_log_router.add_api_route('/resources/connect_name_lists', resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')
+resource_log_router.add_api_route('/resources/{connect_name}', query_resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')

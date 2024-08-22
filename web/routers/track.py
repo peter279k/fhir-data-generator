@@ -1,3 +1,4 @@
+import sqlite3
 from item_models.track1_2024 import *
 from item_models.track2_2024 import *
 from fastapi.responses import JSONResponse
@@ -97,4 +98,25 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
     if resource_name == 'ObservationLabReport':
         track = Track1ForObservationLabReport(resource_name, item.model_dump())
 
-    return JSONResponse(content=track.get_response_content())
+    response_content = track.get_response_content()
+    if response_content['status'] == 200 or response_content['status'] == 201:
+        sql = '''
+            INSERT INTO resources (
+                connect_name,
+                track_number, resource_name,
+                resource_id, fhir_server_endpoint
+            )
+            VALUES (?, ?, ?, ?, ?)
+        '''
+        with sqlite3.connect('resource_log.sqlite3') as db:
+            db.execute(sql, [
+                'MITW2024',
+                1,
+                resource_name,
+                response_content['json']['id'],
+                item.model_dump().get('fhir_server'),
+            ])
+
+        db.close()
+
+    return JSONResponse(content=response_content)
