@@ -39,7 +39,7 @@ from fhir_data_generator.simple_client.keycloak_client_credentials import Client
 from fhir_data_generator.simple_client.keycloak_authorization_code import AuthorizationCode
 
 
-__version__ = '1.2.2'
+__version__ = '1.3.0'
 __all__ = [
     'Http',
     'CarePlan',
