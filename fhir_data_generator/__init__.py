@@ -24,6 +24,7 @@ from fhir_data_generator.tw_core_ig.composition.composition import Composition a
 from fhir_data_generator.tw_core_ig.organization.organization import Organization as TWCoreOrganization
 from fhir_data_generator.tw_core_ig.practitioner.practitioner import Practitioner as TWCorePractitioner
 from fhir_data_generator.tw_core_ig.imaging_study.imaging_study import ImagingStudy as TWCoreImagingStudy
+from fhir_data_generator.tw_core_ig.observation.observation_blood_pressure import Observation as TWCoreObservationBloodPressure
 from fhir_data_generator.tw_core_ig.observation.observation_lab_report import Observation as TWCoreObservationLabReport
 from fhir_data_generator.tw_core_ig.practitioner_role.practitioner_role import PractitionerRole as TWCorePractitionerRole
 from fhir_data_generator.tw_core_ig.diagnostic_report.diagnostic_report import DiagnosticReport as TWCoreDiagnosticReport
@@ -70,6 +71,7 @@ __all__ = [
     'TWCoreObservation',
     'TWCoreOrganization',
     'TWCoreObservationLabReport',
+    'TWCoreObservationBloodPressure',
     'TWCorePatient',
     'TWCorePractitioner',
     'TWCorePractitionerRole',

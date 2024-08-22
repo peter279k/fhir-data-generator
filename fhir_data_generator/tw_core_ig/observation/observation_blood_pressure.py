@@ -24,7 +24,7 @@ class Observation:
             'subject': {},
             'effectiveDateTime': '',
             'performer': [],
-            'valueQuantity': {},
+            'component': [],
         }
 
         if observation_id == '':
@@ -54,8 +54,8 @@ class Observation:
     def set_performer(self, performer: list):
         self.payload_template['performer'] = performer
 
-    def set_value_quantity(self, value_quantity: dict):
-        self.payload_template['valueQuantity'] = value_quantity
+    def set_component(self, component: list):
+        self.payload_template['component'] = component
 
     def create(self):
         return self.payload_template

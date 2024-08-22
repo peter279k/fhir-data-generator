@@ -60,8 +60,8 @@ class Observation:
     def create(self):
         return self.payload_template
 
-    def build_medication_statement_id_query(self, medication_statement_id: str):
-        return urlencode({'_id': medication_statement_id})
+    def build_observation_id_query(self, observation_id: str):
+        return urlencode({'_id': observation_id})
 
     def build_search_param(self, query_params: dict):
         return urlencode(query_params)
