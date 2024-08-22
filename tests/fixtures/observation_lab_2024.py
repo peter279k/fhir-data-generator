@@ -1,15 +1,15 @@
 import pytest
-from fhir_data_generator import TWCoreObservation as Observation
+from fhir_data_generator import TWCoreObservationLabReport as Observation
 
 
 @pytest.fixture
 def observation_class():
-    return Observation(observation_id='obs-bmi-example')
+    return Observation(observation_id='obs-lab-example')
 
 @pytest.fixture
 def profile_urls():
     return [
-        'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-bmi-twcore'
+        'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore'
     ]
 
 @pytest.fixture
@@ -20,21 +20,19 @@ def status():
 def category_coding():
     return [{
         'system': 'http://terminology.hl7.org/CodeSystem/observation-category',
-        'code': 'vital-signs',
-        'display': 'Vital Signs',
+        'code': 'laboratory',
     }]
 
 @pytest.fixture
 def code_coding():
     return [{
-        'system': 'http://loinc.org',
-        'code': '39156-5',
-        'display': 'Body mass index (BMI) [Ratio]',
+        'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medical-service-payment-tw',
+        'code': '09002C',
     }]
 
 @pytest.fixture
 def code_text():
-    return 'Body mass index (BMI) [Ratio]'
+    return '血中尿素氮'
 
 @pytest.fixture
 def subject():
@@ -49,54 +47,49 @@ def effective_datetime():
 @pytest.fixture
 def performer():
     return [{
-        'reference': 'Practitioner/pra-dr-example',
+        'reference': 'Organization/org-hosp-example',
     }]
 
 @pytest.fixture
 def value_quantity():
     return {
-        'value': 18.3,
-        'unit': 'kg/m2',
-        'system': 'http://unitsofmeasure.org',
-        'code': 'kg/m2',
+        'value': 16.6,
+        'unit': 'mg/dL',
     }
 
 @pytest.fixture
 def expected_payload():
     return {
         'resourceType': 'Observation',
-        'id': 'obs-bmi-example',
+        'id': 'obs-lab-example',
         'meta': {
             'profile': [
-                'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-bmi-twcore'
+                'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore'
             ]
-        }, 'status': 'final',
+        },
+        'status': 'final',
         'category': [{
             'coding': [{
                 'system': 'http://terminology.hl7.org/CodeSystem/observation-category',
-                'code': 'vital-signs',
-                'display': 'Vital Signs'
+                'code': 'laboratory'
             }]
         }],
         'code': {
             'coding': [{
-                'system': 'http://loinc.org',
-                'code': '39156-5',
-                'display': 'Body mass index (BMI) [Ratio]'
+                'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medical-service-payment-tw',
+                'code': '09002C'
             }],
-            'text': 'Body mass index (BMI) [Ratio]'
+            'text': '血中尿素氮'
         },
         'subject': {
             'reference': 'Patient/pat-example'
         },
         'effectiveDateTime': '2022-07-31',
         'performer': [{
-            'reference': 'Practitioner/pra-dr-example'
+            'reference': 'Organization/org-hosp-example'
         }],
         'valueQuantity': {
-            'value': 18.3,
-            'unit': 'kg/m2',
-            'system': 'http://unitsofmeasure.org',
-            'code': 'kg/m2'
+            'value': 16.6,
+            'unit': 'mg/dL',
         }
     }
