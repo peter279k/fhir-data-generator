@@ -14,6 +14,7 @@ from modules.track1_2024.Track1ForMedication import Track1ForMedication
 from modules.track1_2024.Track1ForPractitioner import Track1ForPractitioner
 from modules.track1_2024.Track1ForOrganization import Track1ForOrganization
 from modules.track1_2024.Track1ForImagingStudy import Track1ForImagingStudy
+from modules.track1_2024.Track1ForObservationVital import Track1ForObservationVital
 from modules.track1_2024.Track1ForPractitionerRole import Track1ForPractitionerRole
 from modules.track1_2024.Track1ForDiagnosticReport import Track1ForDiagnosticReport
 from modules.track1_2024.Track1ForMedicationRequest import Track1ForMedicationRequest
@@ -21,6 +22,7 @@ from modules.track1_2024.Track1ForDocumentReference import Track1ForDocumentRefe
 from modules.track1_2024.Track1ForMedicationDispense import Track1ForMedicationDispense
 from modules.track1_2024.Track1ForAllergyIntolerance import Track1ForAllergyIntolerance
 from modules.track1_2024.Track1ForMedicationStatement import Track1ForMedicationStatement
+from modules.track1_2024.Track1ForObservationLabReport import Track1ForObservationLabReport
 
 
 def pat_content_consumer(item: ContentConsumerScenario1Model, current_form_name):
@@ -90,5 +92,9 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForProcedure(resource_name, item.model_dump())
     if resource_name == 'Specimen':
         track = Track1ForSpecimen(resource_name, item.model_dump())
+    if resource_name == 'ObservationVital':
+        track = Track1ForObservationVital(resource_name, item.model_dump())
+    if resource_name == 'ObservationLabReport':
+        track = Track1ForObservationLabReport(resource_name, item.model_dump())
 
     return JSONResponse(content=track.get_response_content())

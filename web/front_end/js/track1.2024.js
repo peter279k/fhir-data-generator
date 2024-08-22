@@ -4,7 +4,7 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: patientPayload,
@@ -13,11 +13,19 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         let jsonData = data.json;
         let patientResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
         }
+
         $('result-patient-id').html(patientResource.id);
         localStorage.setItem('created_patient_id', patientResource.id);
 
@@ -164,7 +172,7 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -173,7 +181,14 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         let jsonData = data.json;
         let organizationResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -218,7 +233,7 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -227,7 +242,14 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         let jsonData = data.json;
         let practitionerResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -312,7 +334,7 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -321,7 +343,14 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
         let jsonData = data.json;
         let practitionerRoleResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -407,7 +436,7 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -416,7 +445,14 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
         let jsonData = data.json;
         let encounterResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -492,7 +528,7 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -501,7 +537,14 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
         let jsonData = data.json;
         let allergyResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -581,7 +624,7 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -590,7 +633,14 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         let jsonData = data.json;
         let conditionResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -650,7 +700,7 @@ async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServe
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -659,7 +709,14 @@ async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServe
         let jsonData = data.json;
         let diagnosticReportResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -715,7 +772,7 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -724,7 +781,14 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
         let jsonData = data.json;
         let documentReferenceResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -780,7 +844,7 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -789,7 +853,14 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
         let jsonData = data.json;
         let ImagingStudyResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;

@@ -4,7 +4,7 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -13,7 +13,14 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
         let jsonData = data.json;
         let locationResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -99,7 +106,7 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -108,7 +115,14 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
         let jsonData = data.json;
         let mediaResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -180,7 +194,7 @@ async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpo
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -189,7 +203,14 @@ async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpo
         let jsonData = data.json;
         let medicationResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -221,7 +242,7 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -230,7 +251,14 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
         let jsonData = data.json;
         let medicationRequestResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -314,7 +342,7 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -323,7 +351,14 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
         let jsonData = data.json;
         let medicationDispenseResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -411,7 +446,7 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -420,7 +455,14 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
         let jsonData = data.json;
         let medicationStatementResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -484,7 +526,7 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -493,7 +535,14 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
         let jsonData = data.json;
         let procedureResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -549,7 +598,7 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track2_server,
+            fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
             oauth_level: $('#source-token-level :selected').val(),
             patient_payload: payload,
@@ -558,7 +607,14 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
         let jsonData = data.json;
         let specimenResource = jsonData;
         if (data.status !== 200 && data.status !== 201) {
-            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
             Swal.fire(errorMessage);
 
             return false;
@@ -640,6 +696,150 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
 
         $('#result-specimen-note').html(
             `${specimenResource.note[0].text}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
+
+async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/ObservationVital`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let observationResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-observation-id').html(observationResource.id);
+        localStorage.setItem('created_observation_vital_id', observationResource.id);
+
+        $('#result-observation-status').html(
+            `${observationResource.status}`
+        );
+
+        $('#result-observation-category').html(
+            `${observationResource.category[0].coding[0].display} (${observationResource.category[0].coding[0].system}#${observationResource.category[0].coding[0].code})`
+        );
+
+        $('#result-observation-item').html(
+            `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+        );
+
+        $('#result-observation-patient').html(
+            `${observationResource.subject.reference}`
+        );
+
+        $('#result-observation-performer').html(
+            `${observationResource.performer[0].reference}`
+        );
+
+        $('#result-observation-effective-date').html(
+            `${observationResource.effectiveDateTime}`
+        );
+
+        let observationResult = '';
+        for (let index=0; index<observationResource.component.length; index++) {
+            observationResult += `
+                <ul class="card-text">
+                    <li">檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
+                    <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit} (${observationResource.component[index].valueQuantity.system}#${observationResource.component[index].valueQuantity.code})</span></li>
+                </ul>
+            `;
+        }
+
+        $('#observation-result').html(observationResult);
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
+
+async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/ObservationLabReport`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let observationResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-observation-id').html(observationResource.id);
+        localStorage.setItem('created_observation_lab_id', observationResource.id);
+
+        $('#result-observation-status').html(
+            `${observationResource.status}`
+        );
+
+        $('#result-observation-category').html(
+            `${observationResource.category[0].coding[0].code} (${observationResource.category[0].coding[0].system})`
+        );
+
+        $('#result-observation-item').html(
+            `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+        );
+
+        $('#result-observation-patient').html(
+            `${observationResource.subject.reference}`
+        );
+
+        $('#result-observation-performer').html(
+            `${observationResource.performer[0].reference}`
+        );
+
+        $('#result-observation-effective-date').html(
+            `${observationResource.effectiveDateTime}`
+        );
+
+        $('#result-observation-value').html(
+            `${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit}`
         );
 
         $('#search-result-card').removeClass('d-none');
