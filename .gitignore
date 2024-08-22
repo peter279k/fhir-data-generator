@@ -3,5 +3,6 @@ build/
 .coverage
 poetry.lock
 Pipfile.lock
+/web/*.sqlite3
 fhir_data_generator.egg-info/
 tests/fixtures/client_secret.txt
