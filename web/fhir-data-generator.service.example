@@ -1,0 +1,14 @@
+[Unit]
+Description=fhir-data-generator
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User=peter
+Restart=always
+Type=simple
+WorkingDirectory=/home/peter/fhir-data-generator
+ExecStart=/home/peter/.local/bin/pipenv run gunicorn -b 127.0.0.1:8443 -w 12 -k uvicorn.workers.UvicornWorker main:app --timeout 60 --error-logfile /home/peter/fhir-data-generator/error_log.txt
+
+[Install]
+WantedBy=multi-user.target
