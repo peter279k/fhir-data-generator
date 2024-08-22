@@ -144,6 +144,10 @@
                                         <input type="text" class="form-control" placeholder="陳加玲" id="patient-display">
                                     </div>
                                     <div class="mb-3">
+                                        <label for="received-time" class="form-label">請輸入收到檢體的時間</label>
+                                        <input type="text" class="form-control" placeholder="2023-11-04T09:00:00.000Z" id="received-time">
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="collection-concept" class="form-label">請輸入病人採集前禁食狀況代碼</label>
                                         <input type="text" class="form-control" placeholder="F" id="collection-concept">
                                     </div>
@@ -154,6 +158,10 @@
                                     <div class="mb-3">
                                         <label for="collector" class="fw-bold text-info form-label">請輸入檢查者參照</label>
                                         <input type="text" class="form-control" placeholder="Practitioner/pra-dr-example" id="collector">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="collector-display" class="fw-bold text-info form-label">請輸入檢查者參照名稱</label>
+                                        <input type="text" class="form-control" placeholder="王依昇" id="collector-display">
                                     </div>
 
                                     <h5 class="fw-bold text-secondary">檢體資料</h5>
@@ -170,12 +178,20 @@
                                         <input type="text" class="form-control" placeholder="Finger-prick sampling" id="collected-method-coding-display">
                                     </div>
                                     <div class="mb-3">
+                                        <label for="collected-method-coding-text" class="form-label">請輸入執行檢體採集的技術名稱敘述</label>
+                                        <input type="text" class="form-control" placeholder="Phlebotomy" id="collected-method-coding-text">
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="collected-body-site-coding" class="form-label">請輸入解剖採集部位代碼</label>
                                         <input type="text" class="form-control" placeholder="53130003" id="collected-body-site-coding">
                                     </div>
                                     <div class="mb-3">
                                         <label for="collected-body-site-coding-display" class="form-label">請輸入解剖採集部位代碼名稱</label>
                                         <input type="text" class="form-control" placeholder="Venous Blood" id="collected-body-site-coding-display">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="collected-body-site-coding-text" class="form-label">請輸入解剖採集部位代碼名稱</label>
+                                        <input type="text" class="form-control" placeholder="Venous Blood" id="collected-body-site-coding-text">
                                     </div>
                                     <div class="mb-3">
                                         <label for="collected-value" class="form-label">請輸入檢體採集數量</label>
@@ -220,8 +236,12 @@
                                         <input type="text" class="form-control" placeholder="701516009" id="container-type">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="container-text" class="form-label">請輸入容器類別說明</label>
+                                        <label for="container-text" class="form-label">請輸入容器類別代碼說明</label>
                                         <input type="text" class="form-control" placeholder="真空採血管" id="container-text">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="container-display" class="form-label">請輸入容器類別說明</label>
+                                        <input type="text" class="form-control" placeholder="Evacuated blood collection tube transport container" id="container-display">
                                     </div>
                                     <div class="mb-3">
                                         <label for="container-capacity" class="form-label">請輸入容器大小</label>
@@ -271,28 +291,33 @@
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
-                                <p class="card-text">id: <span id="result-procedure-id" class="text-primary"></span></p>
+                                <p class="card-text">id: <span id="result-specimen-id" class="text-primary"></span></p>
 
-                                <p class="card-text">處置或手術狀態: <span id="result-procedure-status" class="text-primary"></span></p>
-                                <p class="card-text">處置或手術的識別碼: <span id="result-procedure-coding" class="text-primary"></span></p>
-                                <p class="card-text">病人: <span id="result-procedure-patient" class="text-primary"></span></p>
-                                <p class="card-text">執行時間: <span id="result-procedure-performed-date" class="text-primary"></span></p>
-                                <p class="card-text">診斷者: <span id="result-procedure-performed-asserter" class="text-primary"></span></p>
-                                <p class="card-text">身體部位: <span id="result-procedure-performed-body-site" class="text-primary"></span></p>
+                                <p class="card-text">檢體狀態: <span id="result-specimen-status" class="text-primary"></span></p>
+                                <p class="card-text">檢體識別碼: <span id="result-specimen-identifier" class="text-primary"></span></p>
+                                <p class="card-text">實驗室識別碼: <span id="result-specimen-lab" class="text-primary"></span></p>
+                                <p class="card-text">檢體類型: <span id="result-specimen-type" class="text-primary"></span></p>
+                                <p class="card-text">病人: <span id="result-specimen-patient" class="text-primary"></span></p>
+                                <p class="card-text">病人採檢前禁食狀況: <span id="result-specimen-clinical" class="text-primary"></span></p>
+                                <p class="card-text">檢查者: <span id="result-specimen-collector" class="text-primary"></span></p>
 
-                                <h5 class="text-secondary fw-bold">執行處置或手術人員</h5>
-                                <table class="table-bordered border-secondary">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>角色</th>
-                                        <th>所屬機構</th>
-                                    </tr>
-                                    <tr>
-                                        <td>*</td>
-                                        <td class="text-primary" id="result-procedure-practitioner"></td>
-                                        <td class="text-primary" id="result-procedure-practitioner-org"></td>
-                                    </tr>
-                                </table>
+                                <h5 class="text-secondary fw-bold">檢體資料</h5>
+                                <ul class="card-text">
+                                    <li>收到檢體時間: <span id="result-specimen-received-datetime" class="text-primary"></span></li>
+                                    <li>採集檢體時間: <span id="result-specimen-collected-datetime" class="text-primary"></span></li>
+                                    <li>執行檢體採集的技術: <span id="result-specimen-collected-approach" class="text-primary"></span></li>
+                                    <li>解剖採集部位: <span id="result-specimen-collected-body-site" class="text-primary"></span></li>
+                                    <li>採集檢體數量: <span id="result-specimen-collected-value" class="text-primary"></span></li>
+                                </ul>
+
+                                <h5 class="text-secondary fw-bold">檢體處理資料</h5>
+                                <ul id="processing-steps" class="card-text"></ul>
+
+                                <h6 class="text-secondary fw-bold">檢體容器資料</h6>
+                                <span id="containers"></span>
+
+                                <p></p>
+                                <p class="card-text">備註: <span id="result-specimen-note" class="text-primary"></span></p>
                             </div>
                         </div>
                     </div>
@@ -367,14 +392,40 @@
 
                     let fields = [
                         'status',
-                        'coding',
-                        'coding-text',
+                        'spe-id',
+                        'lab-id',
+                        'spe-code',
+                        'spe-display',
                         'patient',
-                        'performed-date',
-                        'asserter',
-                        'body-site',
-                        'actor',
-                        'performer-org',
+                        'patient-display',
+                        'received-time',
+                        'collector',
+                        'collector-display',
+                        'collection-concept',
+                        'collection-concept-display',
+                        'collected-time',
+                        'collected-method-coding',
+                        'collected-method-coding-display',
+                        'collected-method-coding-text',
+                        'collected-body-site-coding',
+                        'collected-body-site-coding-display',
+                        'collected-body-site-coding-text',
+                        'collected-value',
+                        'collected-value-unit',
+                        'processing-1',
+                        'processing-1-text',
+                        'processing-1-datetime',
+                        'processing-2',
+                        'processing-2-text',
+                        'processing-2-datetime',
+                        'container-type',
+                        'container-text',
+                        'container-display',
+                        'container-capacity',
+                        'container-capacity-unit',
+                        'container-specimen-capacity',
+                        'container-specimen-capacity-unit',
+                        'note'
                     ];
 
                     let field = null;
@@ -394,29 +445,101 @@
                     let payload = {
                         'profile_urls': [$('#meta-profile-url :selected').val()],
                         'status': fields[0],
-                        'code_coding': [{
-                            'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/icd-10-pcs-2021-tw',
-                            'code': fields[1],
+                        'identifier': [{
+                            'system': 'https://www.tph.mohw.gov.tw',
+                            'value': fields[1],
                         }],
-                        'code_text': fields[2],
-                        'subject': {
-                            'reference': fields[3],
+                        'accession_identifier': {
+                            'value': fields[2],
                         },
-                        'performed_date_time': fields[4],
-                        'asserter': {
-                            'reference': fields[5],
-                        },
-                        'performer': [{
-                            'actor': {
-                                'reference': fields[7],
-                            },
-                            'onBehalfOf': {
-                                'reference': fields[8],
-                            }
-                        }],
-                        'body_site_coding': [{
+                        'type_coding': [{
                             'system': 'http://snomed.info/sct',
-                            'code': fields[6],
+                            'code': fields[3],
+                            'display': fields[4],
+                        }],
+                        'subject': {
+                            'reference': fields[5],
+                            'display': fields[6],
+                        },
+                        'received_time': fields[7],
+                        'collection_collector': {
+                            'reference': fields[8],
+                            'display': fields[9],
+                        },
+                        'collection_collected_date_time': fields[12],
+                        'collection_quantity': {
+                            'value': Number(fields[19]),
+                            'unit': fields[20],
+                            'system': 'http://unitsofmeasure.org',
+                            'code': fields[20],
+                        },
+                        'collection_method_coding': [{
+                            'system': 'http://snomed.info/sct',
+                            'code': fields[13],
+                            'display': fields[14],
+                        }],
+                        'collection_method_text': fields[15],
+                        'collection_body_site_coding': [{
+                            'system': 'http://snomed.info/sct',
+                            'code': fields[16],
+                            'display': fields[17],
+                        }],
+                        'collection_body_site_text': fields[18],
+                        'collection_fasting_status_codeable_concept_coding': [{
+                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0916',
+                            'code': fields[10],
+                            'display': fields[11],
+                        }],
+                        'processing': [
+                            {
+                                'description': fields[22],
+                                'procedure': {
+                                    'coding': [{
+                                        'system': 'http://snomed.info/sct',
+                                        'code': fields[21],
+                                        'display': fields[22],
+                                    }],
+                                    'text': fields[22],
+                                },
+                                'timeDateTime': fields[23],
+                            },
+                            {
+                                'description': fields[25],
+                                'procedure': {
+                                    'coding': [{
+                                        'system': 'http://snomed.info/sct',
+                                        'code': fields[24],
+                                        'display': fields[25]
+                                    }],
+                                    'text': fields[25],
+                                },
+                                'timeDateTime': fields[26],
+                            },
+                        ],
+                        'container': [{
+                            'description': fields[28],
+                            'type': {
+                                'coding': [{
+                                    'system': 'http://snomed.info/sct',
+                                    'code': fields[27],
+                                    'display': fields[29],
+                                }]
+                            },
+                            'capacity': {
+                                'value': Number(fields[30]),
+                                'unit': fields[31],
+                                'system': 'http://unitsofmeasure.org',
+                                'code': fields[31]
+                            },
+                            'specimenQuantity': {
+                                'value': Number(fields[32]),
+                                'unit': fields[33],
+                                'system': 'http://unitsofmeasure.org',
+                                'code': fields[33],
+                            },
+                        }],
+                        'note': [{
+                            'text': fields[34],
                         }],
                     };
 
@@ -426,7 +549,7 @@
                         payload['id'] = $('#medication-dispense-id').val();
                     }
 
-                    await doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    await doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
                     let procedureId = localStorage.getItem('created_procedure_id');
                     $(e.currentTarget).removeAttr('disabled');
                 });

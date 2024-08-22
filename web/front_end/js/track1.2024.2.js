@@ -542,3 +542,111 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
         return false;
     });
 }
+
+async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+    await $.ajax({
+        url: `/track1/2024/source/Specimen`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track2_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $('#source-token-level :selected').val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        let specimenResource = jsonData;
+        if (data.status !== 200 && data.status !== 201) {
+            errorMessage['text'] = `error; HTTP status code: ${data.status}`;
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-specimen-id').html(specimenResource.id);
+        localStorage.setItem('created_specimen_id', specimenResource.id);
+
+        $('#result-specimen-status').html(
+            `${specimenResource.status} (SpecimenStatus)`
+        );
+
+        $('#result-specimen-identifier').html(
+            `${specimenResource.identifier[0].value} (${specimenResource.identifier[0].system})`
+        );
+
+        $('#result-specimen-lab').html(
+            `${specimenResource.accessionIdentifier.value}`
+        );
+
+        $('#result-specimen-type').html(
+            `${specimenResource.type.coding[0].display} (${specimenResource.type.coding[0].system}#${specimenResource.type.coding[0].code})`
+        );
+
+        $('#result-specimen-patient').html(
+            `${specimenResource.subject.reference} "${specimenResource.subject.display}"`
+        );
+
+        $('#result-specimen-clinical').html(
+            `${specimenResource.collection.fastingStatusCodeableConcept.coding[0].display} (${specimenResource.collection.fastingStatusCodeableConcept.coding[0].system}#${specimenResource.collection.fastingStatusCodeableConcept.coding[0].code})`
+        );
+
+        $('#result-specimen-collector').html(
+            `${specimenResource.collection.collector.reference} "${specimenResource.collection.collector.display}"`
+        );
+
+        $('#result-specimen-received-datetime').html(
+            `${specimenResource.receivedTime}`
+        );
+
+        $('#result-specimen-collected-datetime').html(
+            `${specimenResource.collection.collectedDateTime}`
+        );
+
+        $('#result-specimen-collected-approach').html(
+            `${specimenResource.collection.method.coding[0].display} (${specimenResource.collection.method.coding[0].system}#${specimenResource.collection.method.coding[0].code})`
+        );
+
+        $('#result-specimen-collected-body-site').html(
+            `${specimenResource.collection.bodySite.text} (${specimenResource.collection.bodySite.coding[0].system}#${specimenResource.collection.bodySite.coding[0].code})`
+        );
+
+        $('#result-specimen-collected-value').html(
+            `${specimenResource.collection.quantity.value} ${specimenResource.collection.quantity.unit} (${specimenResource.collection.quantity.system}#${specimenResource.collection.quantity.code})`
+        );
+
+        let processingSteps = '';
+        for (let index=0; index<specimenResource.processing.length; index++) {
+            processingSteps += `
+                <li>處理步驟(${index+1}): <span class="text-primary">${specimenResource.processing[index].description} (${specimenResource.processing[index].procedure.coding[0].system}#${specimenResource.processing[index].procedure.coding[0].code})</span></li>
+                <li>檢體處理的日期時間(${index+1}): <span class="text-primary">${specimenResource.processing[index].timeDateTime}</span></li>`;
+        }
+
+        $('#processing-steps').html(processingSteps);
+
+        let containerInfo = '';
+        for (let index=0; index<specimenResource.container.length; index++) {
+            containerInfo += `
+                <ul class="card-text">
+                    <li>容器類別: <span class="text-primary">${specimenResource.container[index].type.coding[0].display} (${specimenResource.container[index].type.coding[0].system}#${specimenResource.container[index].type.coding[0].code})</span></li>
+                    <li>容器說明: <span class="text-primary">${specimenResource.container[index].description}</span></li>
+                    <li>容器的大小: <span class="text-primary">${specimenResource.container[index].capacity.value} ${specimenResource.container[index].capacity.unit} (${specimenResource.container[index].capacity.system}#${specimenResource.container[index].capacity.code})</span></li>
+                    <li>容器檢體量: <span class="text-primary">${specimenResource.container[index].specimenQuantity.value} ${specimenResource.container[index].specimenQuantity.unit} (${specimenResource.container[index].specimenQuantity.system}#${specimenResource.container[index].specimenQuantity.code})</span></li>
+                </ul>
+            `;
+        }
+
+        $('#containers').html(containerInfo);
+
+        $('#result-specimen-note').html(
+            `${specimenResource.note[0].text}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        return false;
+    });
+}
