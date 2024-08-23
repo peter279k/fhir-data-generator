@@ -681,7 +681,16 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let specimenResource = jsonData;
+        if (jsonData.entry) {
+            specimenResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>
