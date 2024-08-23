@@ -67,6 +67,12 @@ class Observation:
     def set_component(self, component: list):
         self.payload_template['component'] = component
 
+    def set_body_site(self, body_site: dict):
+        self.payload_template['bodySite'] = body_site
+
+    def set_value_codeable_concept(self, codeable_concept: dict):
+        self.payload_template['valueCodeableConcept'] = codeable_concept
+
     def create(self):
         if len(self.payload_template['hasMember']) == 0:
             del self.payload_template['hasMember']
