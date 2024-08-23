@@ -140,8 +140,8 @@
                                         <input type="text" class="form-control" placeholder="Practitioner/pra-dr-example" id="asserter">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="body-site" class="form-label">請輸入身體部位代碼</label>
-                                        <input type="text" class="form-control" placeholder="9258009" id="body-site">
+                                        <label for="body-site" class="form-label">請輸入身體部位代碼(若不填寫則請填入0)</label>
+                                        <input type="text" class="form-control" hidden="9242006" placeholder="9258009" id="body-site">
                                     </div>
                                     <div class="mb-3">
                                         <label for="actor" class="fw-bold text-info form-label">請輸入執行處置或手術人員參照</label>
@@ -296,6 +296,8 @@
                         }
                         fields[index] = field;
                     }
+
+                    fields[6] = $('#body-site').attr('hidden');
 
                     let payload = {
                         'profile_urls': [$('#meta-profile-url :selected').val()],
