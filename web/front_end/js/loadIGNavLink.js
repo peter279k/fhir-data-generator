@@ -1,7 +1,6 @@
 function loadIGNavLink() {
     let resources = {
         'allergyintolerance.html': 'AllergyIntolerance',
-        'composition.html': 'Composition',
         'condition.html': 'Condition',
         'diagnosticreport.html': 'DiagnosticReport',
         'documentreference.html': 'DocumentReference',
