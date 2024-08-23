@@ -116,9 +116,9 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
             INSERT INTO resources (
                 connect_name,
                 track_number, resource_name,
-                resource_id, fhir_server_endpoint
+                resource_id, fhir_server_endpoint, oauth_level
             )
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
         '''
         with sqlite3.connect('resource_log.sqlite3') as db:
             db.execute(sql, [
@@ -127,6 +127,7 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
                 resource_name,
                 response_content['json']['id'],
                 item.model_dump().get('fhir_server'),
+                item.model_dump().get('oauth_level'),
             ])
 
         db.close()

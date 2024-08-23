@@ -29,7 +29,8 @@ async def initial_sqlite3_db():
             track_number INTEGER NOT NULL,
             resource_name VARCHAR(30) NOT NULL,
             resource_id VARCHAR(100) NOT NULL,
-            fhir_server_endpoint VARCHAR(100) NOT NULL
+            fhir_server_endpoint VARCHAR(100) NOT NULL,
+            oauth_level VARCHAR(20) NOT NULL
         )
     '''
     with sqlite3.connect(f'./resource_log.sqlite3') as db:
