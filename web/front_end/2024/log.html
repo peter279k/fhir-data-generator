@@ -88,6 +88,7 @@
 
                                     <button id="query-list-btn" type="button" class="btn btn-primary">送出</button>
                                     <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button id="download-archive" type="button" class="btn btn-info">下載zip檔</button>
                                 </form>
                             </div>
                         </div>
@@ -115,6 +116,7 @@
         <script src="../js/sweetalert2.all.min.js"></script>
         <script src="../js/loadIGNavLink.js"></script>
         <script src="../js/FileSaver.min.js"></script>
+        <script src="../js/jszip.min.js"></script>
         <script>
             $(async () => {
                 loadIGNavLink();
@@ -137,6 +139,57 @@
                     let fileUrl = e.currentTarget.getAttribute('url');
                     let fileName = e.currentTarget.getAttribute('file_name');
                     window.saveAs(fileUrl, `${fileName}`);
+                });
+
+                $('#download-archive').click((e) => {
+                    e.preventDefault();
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '警告',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    $(e.currentTarget).attr('disabled');
+                    let jsZip = new JSZip();
+                    let info = [];
+                    $('a[name="download-resource-file"]').each(async (index, element) => {
+                        let url = $(element).attr('url');
+                        let fileName = $(element).attr('file_name');
+                        info.push({
+                            url: url,
+                            file_name: fileName,
+                        });
+                    }).promise().done(async () => {
+                        for (let index=0; index<info.length; index++) {
+                            await $.ajax({
+                                url: info[index].url,
+                                method: 'GET',
+                                headers: {'Accept': 'application/fhir+json'},
+                            }).done((data) => {
+                                jsZip.file(info[index].file_name, JSON.stringify(data));
+                            }).fail((error) => {
+                                errorMessage.text = `下載${fileName}失敗！`;
+                                Swal.fire(errorMessage);
+                                console.log(error);
+                            });
+                        }
+                        if (info.length > 0) {
+                            jsZip.generateAsync({type: 'blob'}).then((content) => {
+                                window.saveAs(content, `${new Date().getTime()}.zip`);
+                            });
+                        } else {
+                            warningMessage.text = '沒有檔案可輸出zip檔！';
+                            Swal.fire(warningMessage);
+                        }
+                        $(e.currentTarget).removeAttr('disabled');
+                    });
                 });
 
                 $('#query-list-btn').click(async (e) => {
