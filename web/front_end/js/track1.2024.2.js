@@ -11,19 +11,14 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
         }),
     }).done((data) => {
         let jsonData = data.json;
-        let locationResource = jsonData;
-        if (data.status !== 200 && data.status !== 201) {
-            let htmlErrorMessage = `
-                <p>error; HTTP status code: ${data.status}</p>
-            `;
-            for (let index=0; index<jsonData.issue.length; index++) {
-                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
-            }
-            errorMessage['html'] = htmlErrorMessage;
-
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
             Swal.fire(errorMessage);
-
             return false;
+        }
+        let locationResource = jsonData;
+        if (jsonData.entry) {
+            locationResource = jsonData.entry[0].resource;
         }
 
         $('#result-location-id').html(locationResource.id);
@@ -117,7 +112,16 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let mediaResource = jsonData;
+        if (jsonData.entry) {
+            mediaResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>
