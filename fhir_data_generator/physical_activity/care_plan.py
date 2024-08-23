@@ -20,6 +20,7 @@ class CarePlan:
             }],
             'description': '',
             'subject': {},
+            'author': {},
             'goal': [],
             'activity': [{
                 'progress': [],

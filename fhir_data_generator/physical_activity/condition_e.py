@@ -49,6 +49,9 @@ class ConditionE:
         self.payload_template['asserter'] = asserter
 
     def create(self):
+        if self.payload_template['code']['text'] == '':
+            del self.payload_template['code']['text']
+
         return self.payload_template
 
     def build_condition_e_id_query(self, condition_e_id: str):

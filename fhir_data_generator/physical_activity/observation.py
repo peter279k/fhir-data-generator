@@ -23,8 +23,12 @@ class Observation:
             },
             'subject': {},
             'effectiveDateTime': '',
-            'performer': {},
+            'performer': [],
+            'valueCodeableConcept': {},
             'valueQuantity': {},
+            'bodySite': {},
+            'component': [],
+            'hasMember': [],
         }
 
     def set_observation_id(self, observation_id):
@@ -57,7 +61,30 @@ class Observation:
     def set_value_quantity(self, value_quantity: dict):
         self.payload_template['valueQuantity'] = value_quantity
 
+    def set_has_member(self, has_member: list):
+        self.payload_template['hasMember'] = has_member
+
+    def set_component(self, component: list):
+        self.payload_template['component'] = component
+
     def create(self):
+        if len(self.payload_template['hasMember']) == 0:
+            del self.payload_template['hasMember']
+
+        if len(self.payload_template['component']) == 0:
+            del self.payload_template['component']
+        else:
+            del self.payload_template['valueQuantity']
+
+        if self.payload_template['bodySite'] == {}:
+            del self.payload_template['bodySite']
+
+        if self.payload_template['valueCodeableConcept'] == {}:
+            del self.payload_template['valueCodeableConcept']
+
+        if (self.payload_template['code']['text'] == ''):
+           del self.payload_template['code']['text']
+
         return self.payload_template
 
     def build_observation_id_query(self, observation_id: str):
