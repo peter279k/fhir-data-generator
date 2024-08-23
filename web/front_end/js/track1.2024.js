@@ -192,7 +192,16 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let organizationResource = jsonData;
+        if (jsonData.entry) {
+            organizationResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>
@@ -207,7 +216,7 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
             return false;
         }
 
-        $('#result-organization-id').val(organizationResource.id);
+        $('#result-organization-id').html(organizationResource.id);
         localStorage.setItem('created_organization_id', organizationResource.id);
 
         $('#result-prn-name').html(organizationResource.name);
@@ -257,7 +266,16 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let practitionerResource = jsonData;
+        if (jsonData.entry) {
+            practitionerResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>
