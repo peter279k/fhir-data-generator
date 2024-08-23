@@ -108,8 +108,10 @@
                                     </div>
                                     <div class="mb-3">
                                         <h6 class="text-warning">目前Hapi FHIR server之Observation vital profile有問題</h6>
+                                        <h6 class="fw-bold text-warning">meta profile請記得自己加入對應的resource JSON中</h6>
                                         <label class="text-secondary fw-bold" for="fhir-server-endpoint">請選擇FHIR server</label>
                                         <select id="fhir-server-endpoint" class="form-select" aria-label="">
+                                            <option value="no-value">no-value</option>
                                             <option value="https://fhir.dicom.tw/fhir">https://fhir.dicom.tw/fhir</option>
                                             <option value="https://hapi.fhir.tw/fhir">https://hapi.fhir.tw/fhir</option>
                                         </select>
@@ -291,7 +293,10 @@
                     let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
                     let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
 
-                    trackServerEndpoint.track1_server = $('#fhir-server-endpoint :selected').val();
+                    let overrideServer = $('#fhir-server-endpoint :selected').val();
+                    if (overrideServer !== 'no-value') {
+                        trackServerEndpoint.track1_server = overrideServer;
+                    }
 
                     let metaProfileUrl = $('#meta-profile-url :selected').val();
 
