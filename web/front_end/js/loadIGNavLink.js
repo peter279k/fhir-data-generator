@@ -54,10 +54,10 @@ function loadIGNavLink() {
         if (index === 0 && $(element).text().includes('基本設定')) {
             $(element).after(
                 `<div class="sb-sidenav-menu-heading">系統</div>
-                            <a class="nav-link" href="/front_end/2024/log.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
-                                Resource log
-                            </a>`
+                    <a class="nav-link" href="/front_end/2024/log.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
+                        Resource log
+                    </a>`
             );
         }
     });

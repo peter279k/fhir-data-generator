@@ -96,6 +96,10 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -184,6 +188,10 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -231,6 +239,10 @@ async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpo
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });
@@ -331,6 +343,10 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });
@@ -436,6 +452,10 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -516,6 +536,10 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -587,6 +611,10 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });
@@ -703,6 +731,10 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -779,6 +811,10 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -846,6 +882,10 @@ async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthS
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });

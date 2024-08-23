@@ -162,6 +162,10 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -222,6 +226,10 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });
@@ -323,6 +331,10 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });
@@ -426,6 +438,10 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -517,6 +533,10 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });
@@ -614,6 +634,10 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -690,6 +714,10 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -762,6 +790,10 @@ async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServe
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
 
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
         return false;
     });
 }
@@ -833,6 +865,10 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     });
@@ -933,6 +969,10 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
 
         return false;
     })
