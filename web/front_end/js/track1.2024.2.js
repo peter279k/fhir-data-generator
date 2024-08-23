@@ -386,7 +386,16 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let medicationDispenseResource = jsonData;
+        if (jsonData.entry) {
+            medicationDispenseResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>
@@ -494,7 +503,16 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let medicationStatementResource = jsonData;
+        if (jsonData.entry) {
+            medicationStatementResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>
@@ -853,7 +871,16 @@ async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthS
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let observationResource = jsonData;
+        if (jsonData.entry) {
+            observationResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>

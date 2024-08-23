@@ -61,6 +61,9 @@ def track1_consumer(item: ContentSourceModel, resource_name):
     item_dict = item.model_dump()
     item_dict['search_parameters'] = item_dict['patient_payload']['search_parameters']
 
+    if 'Observation' in resource_name:
+        resource_name = 'Observation'
+
     track = Track1ForConsumer(resource_name, item_dict)
 
     return JSONResponse(content=track.get_response_content())
