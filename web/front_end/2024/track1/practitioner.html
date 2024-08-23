@@ -467,7 +467,6 @@
 
                     let searchParameters = '?';
                     let fields = ['_id', 'identifier', 'name'];
-                    let field = null;
                     for (index in fields) {
                         if ($(`#${fields[index]}`).val() === '') {
                             fields[index] = $(`#${fields[index]}`).attr('placeholder');
