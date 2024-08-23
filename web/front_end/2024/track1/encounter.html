@@ -201,11 +201,23 @@
                                             <option value="no-level">No level</option>
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="_id">請輸入id參數</label>
+                                        <input class="form-control" type="text" id="_id" placeholder="3881">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="class">請輸入class參數</label>
+                                        <input class="form-control" type="text" id="class" placeholder="PRENC">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="status">請輸status參數</label>
+                                        <input class="form-control" type="text" id="status" placeholder="finished">
+                                    </div>
 
-                                    <button form_name="pat-source-sc1-json-2023-form" name="generate-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
                                     <button type="reset" class="btn btn-secondary">重設</button>
                                     <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
-                                    <button form_name="pat-source-sc1-json-2023-form" name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
+                                    <button name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
                                 </form>
                             </div>
                         </div>
@@ -415,48 +427,24 @@
                         confirmButtonText: '確定',
                     };
 
-                    let currentFormName = e.currentTarget.getAttribute('form_name');
                     let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
                     let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
 
                     let searchParameters = '?';
-                    let patientId = $('#patient-id').val();
-                    let patientIdentifier = $('#patient-identifier').val();
-                    let patientManagingOrganization = $('#patient-organization').val();
-
-                    let searchArr = [
-                        '-active',
-                        '-telecom',
-                        '-phone',
-                        '-address',
-                        '-address-city',
-                        '-address-country',
-                        '-address-state',
-                        '-address-postalcode',
-                        '-address-use',
-                    ];
-                    for (index in searchArr) {
-                        let value = $(`#patient${searchArr[index]}`).val();
-                        if (value !== '') {
-                            searchParameters += `${searchArr[index].substring(1)}=${value}&`;
+                    let fields = ['_id', 'class', 'status'];
+                    for (index in fields) {
+                        if ($(`#${fields[index]}`).val() === '') {
+                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
+                        } else {
+                            fields[index] = $(`#${fields[index]}`).val();
                         }
                     }
 
-                    if (patientId !== '') {
-                        searchParameters += `_id=${patientId}&`;
-                    }
-                    if (patientIdentifier !== '') {
-                        searchParameters += `identifier=${patientIdentifier}&`;
-                    }
-                    if (patientManagingOrganization !== '') {
-                        searchParameters += `organization=${patientManagingOrganization}&`;
-                    }
-                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
+                    searchParameters += `_id=${fields[0]}&`;
+                    searchParameters += `class=${fields[1]}&`;
+                    searchParameters += `status=${fields[2]}&`;
 
-                    if (searchParameters === '') {
-                        Swal.fire(errorMessage);
-                        return false;
-                    }
+                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
                     $('#result-search-parameters').text(searchParameters.substring(1));
 
@@ -465,9 +453,11 @@
                         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>查詢中...'
                     );
 
-                    $('#meta-version').attr('form_name', currentFormName);
+                    let payload = {
+                        'search_parameters': searchParameters,
+                    };
 
-                    await doSubmitRequest(currentFormName, warningMessage, errorMessage, trackServerEndpoint, oauthServerEndpoint, searchParameters);
+                    await doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');

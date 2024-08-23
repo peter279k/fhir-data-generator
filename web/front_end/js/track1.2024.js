@@ -495,7 +495,16 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
         }),
     }).done((data) => {
         let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
         let encounterResource = jsonData;
+        if (jsonData.entry) {
+            encounterResource = jsonData.entry[0].resource;
+        }
+
         if (data.status !== 200 && data.status !== 201) {
             let htmlErrorMessage = `
                 <p>error; HTTP status code: ${data.status}</p>
