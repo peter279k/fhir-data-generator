@@ -160,6 +160,10 @@
                             </tr>
                         </thead><tbody>`;
                         for (let index=0; index<data.data.length; index++) {
+                            if (data.data[index]['resource_name'].includes('Observation')) {
+                                data.data[index]['resource_name'] = data.data[index]['resource_name'].substring(0, 11);
+                            }
+
                             tableContents += `
                                 <tr>
                                     <th scope="row">${index+1}</th>
