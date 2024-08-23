@@ -6,6 +6,7 @@ from modules.track1_2024.Track1ForMedia import Track1ForMedia
 from modules.track2_2024.Track2ForSource import Track2ForSource
 from modules.track1_2024.Track1ForPatient import Track1ForPatient
 from modules.track1_2024.Track1ForLocation import Track1ForLocation
+from modules.track1_2024.Track1ForConsumer import Track1ForConsumer
 from modules.track2_2024.Track2ForConsumer import Track2ForConsumer
 from modules.track1_2024.Track1ForSpecimen import Track1ForSpecimen
 from modules.track1_2024.Track1ForCondition import Track1ForCondition
@@ -55,6 +56,14 @@ def delete_pat_source_consumer(item: DeleteContentSourceScenario1Model, current_
         track = Track2ForSource(current_form_name, item.model_dump(), True)
 
     return JSONResponse(content=track.delete_resource())
+
+def track1_consumer(item: ContentSourceModel, resource_name):
+    item_dict = item.model_dump()
+    item_dict['search_parameters'] = item_dict['patient_payload']['search_parameters']
+
+    track = Track1ForConsumer(resource_name, item_dict)
+
+    return JSONResponse(content=track.get_response_content())
 
 def track1_source_creator(item: ContentSourceModel, resource_name):
     if resource_name == 'Patient':

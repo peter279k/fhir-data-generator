@@ -1,12 +1,12 @@
-async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/Location`,
+        url: `/track1/2024/${roleType}/Location`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -104,15 +104,15 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
     });
 }
 
-async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/Media`,
+        url: `/track1/2024/${roleType}/Media`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -196,15 +196,15 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
     });
 }
 
-async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/Medication`,
+        url: `/track1/2024/${roleType}/Medication`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -248,15 +248,15 @@ async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpo
     });
 }
 
-async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/MedicationRequest`,
+        url: `/track1/2024/${roleType}/MedicationRequest`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -352,15 +352,15 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
     });
 }
 
-async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/MedicationDispense`,
+        url: `/track1/2024/${roleType}/MedicationDispense`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -460,15 +460,15 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
     });
 }
 
-async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/MedicationStatement`,
+        url: `/track1/2024/${roleType}/MedicationStatement`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -544,15 +544,15 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
     });
 }
 
-async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/Procedure`,
+        url: `/track1/2024/${roleType}/Procedure`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -620,15 +620,15 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
     });
 }
 
-async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/Specimen`,
+        url: `/track1/2024/${roleType}/Specimen`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -739,15 +739,15 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
     });
 }
 
-async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/ObservationVital`,
+        url: `/track1/2024/${roleType}/ObservationVital`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
@@ -819,15 +819,15 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
     });
 }
 
-async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage) {
+async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
     await $.ajax({
-        url: `/track1/2024/source/ObservationLabReport`,
+        url: `/track1/2024/${roleType}/ObservationLabReport`,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
             oauth_token_info: oauthServerEndpoint['track#1'],
-            oauth_level: $('#source-token-level :selected').val(),
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),
     }).done((data) => {
