@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class CarePlan:
-    def __init__(self, care_plan_id):
+    def __init__(self, care_plan_id=''):
         self.care_plan_id = care_plan_id
 
         self.profile_urls = []
@@ -28,6 +28,9 @@ class CarePlan:
             }],
             'note': [],
         }
+
+        if care_plan_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls

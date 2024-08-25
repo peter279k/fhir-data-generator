@@ -36,6 +36,9 @@ class PatientTW:
             'birthDate': '',
         }
 
+        if patient_id == '':
+            del self.payload_template['id']
+
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
 

@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 
 class Goal:
-    def __init__(self, goal_id):
+    def __init__(self, goal_id=''):
         self.goal_id = goal_id
 
         self.profile_urls = []
@@ -29,6 +29,9 @@ class Goal:
                 'detailQuantity': {},
             }],
         }
+
+        if goal_id == '':
+            del self.payload_template['id']
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
