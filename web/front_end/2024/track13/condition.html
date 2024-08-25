@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="This is the web demonstration for MITW Connectathon" />
         <meta name="author" content="" />
-        <title>MITW 2024 Track1 Condition</title>
+        <title>MITW 2024 Track13 Condition</title>
         <link href="../../css/styles.css" rel="stylesheet" />
         <script src="../../js/all.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../../css/sweetalert2.min.css">
@@ -82,7 +82,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Condition</h1>
                         <ol class="breadcrumb mb-4">
-                            <li id="scenario-name" class="breadcrumb-item text-primary active">TWCore Condition(病情、問題或診斷資料)<li>
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">Physical Activity Condition(病史、運動史)<li>
                         </ol>
                         <ol class="breadcrumb mb-4">
                             <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
@@ -114,24 +114,28 @@
                                     <div class="mb-3">
                                         <label for="meta-profile-url">請選擇meta profile URL</label>
                                         <select id="meta-profile-url" class="form-select" aria-label="">
-                                            <option value="https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Condition-twcore">Condition-twcore</option>
+                                            <option value="https://hapi.fhir.tw/fhir/StructureDefinition/Condition-medical-history">Condition-medical-history</option>
+                                            <option value="https://hapi.fhir.tw/fhir/StructureDefinition/Condition-excercise-history">Condition-excercise-history</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="condition-type">請選擇病史或運動史</label>
+                                        <select id="condition-type" class="form-select" aria-label="">
+                                            <option value="medical">病史</option>
+                                            <option value="sport">運動史</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="clinical-status" class="form-label">請輸入臨床狀態代碼</label>
-                                        <input class="form-control" type="text" id="clinical-status" placeholder="remission" >
+                                        <input class="form-control" type="text" id="clinical-status" placeholder="active" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="verification-status" class="form-label">請輸入驗證狀態代碼</label>
-                                        <input class="form-control" type="text" id="verification-status" placeholder="confirmed" >
+                                        <label for="category-code" class="form-label">請輸入分類代碼</label>
+                                        <input class="form-control" type="text" id="category-code" placeholder="10164-2" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="encounter-diagnosis" class="form-label">請輸入病情、問題或診斷分類</label>
-                                        <input class="form-control" type="text" id="encounter-diagnosis" placeholder="encounter-diagnosis" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="severity" class="form-label">請輸入嚴重程度代碼</label>
-                                        <input class="form-control" type="text" id="severity" placeholder="LA6752-5" >
+                                        <label for="category-code-text" class="form-label">請輸入分類代碼敘述</label>
+                                        <input class="form-control" type="text" id="category-code-text" placeholder="History of Present illness Narrative">
                                     </div>
                                     <div class="mb-3">
                                         <label for="code" class="form-label">請輸入病情、問題或診斷識別代碼</label>
@@ -141,17 +145,13 @@
                                         <label for="code-text" class="form-label">請輸入病情、問題或診斷識別代碼敘述</label>
                                         <input class="form-control" type="text" id="code-text" placeholder="起因於潛在病的糖尿病，伴有低血糖，未伴有昏迷" >
                                     </div>
+                                    <div name="for-sport" class="d-none mb-3">
+                                        <label for="code-display" class="form-label">請輸入病情、問題或診斷識別代碼顯示</label>
+                                        <input class="form-control" type="text" id="code-display" placeholder="">
+                                    </div>
                                     <div class="mb-3">
                                         <label for="patient" class="form-label fw-bold text-info">請輸入病人參照</label>
                                         <input class="form-control" type="text" id="patient" placeholder="Patient/pat-example" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="onset-datetime" class="form-label">請輸入實際日期</label>
-                                        <input class="form-control" type="text" id="onset-datetime" placeholder="2022-08-01T17:00:14+08:00" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="abatement-datetime" class="form-label">請輸入緩解日期</label>
-                                        <input class="form-control" type="text" id="abatement-datetime" placeholder="2022-08-01T18:00:14+08:00" >
                                     </div>
                                     <div class="mb-3">
                                         <label for="asserter" class="form-label fw-bold text-info">請輸入診斷者參照</label>
@@ -198,14 +198,10 @@
                                 <p class="card-text">id: <span id="result-condition-id" class="text-primary"></span></p>
 
                                 <p class="card-text">臨床狀態: <span id="result-condition-clinical" class="text-primary"></span></p>
-                                <p class="card-text">驗證狀態: <span id="result-condition-verification-status" class="text-primary"></span></p>
-                                <p class="card-text">病情、問題或診斷分類: <span id="result-condition-diagnosis" class="text-primary"></span></p>
-                                <p class="card-text">嚴重程度: <span id="result-condition-code" class="text-primary"></span></p>
-                                <p class="card-text">病情、問題或診斷識別: <span id="result-condition-message" class="text-primary"></span></p>
-                                <p class="card-text">病人: <span id="result-condition-patient" class="text-primary"></span></p>
-                                <p class="card-text">實際日期: <span id="result-condition-onset-datetime" class="text-primary"></span></p>
-                                <p class="card-text">緩解日期: <span id="result-condition-abatement-datetime" class="text-primary"></span></p>
-                                <p class="card-text">診斷者: <span id="result-condition-asserter" class="text-primary"></span></p>
+                                <p class="card-text">分類描述(category): <span id="result-condition-code" class="text-primary"></span></p>
+                                <p class="card-text">病情、問題或診斷識別(code): <span id="result-condition-message" class="text-primary"></span></p>
+                                <p class="card-text">病人(subject): <span id="result-condition-patient" class="text-primary"></span></p>
+                                <p class="card-text">診斷者(asserter): <span id="result-condition-asserter" class="text-primary"></span></p>
 
                             </div>
                         </div>
@@ -233,7 +229,7 @@
         <script src="../../js/FileSaver.min.js"></script>
         <script src="../../js/track1.coding.js"></script>
         <script src="../../js/track1.utility.js"></script>
-        <script src="../../js/track1.2024.js"></script>
+        <script src="../../js/track13.2024.js"></script>
         <script src="../../js/commLangCode.js"></script>
         <script src="../../js/loadIGNavLink.js"></script>
         <script>
@@ -242,15 +238,34 @@
                 await loadMartialStatus();
                 await loadRelationshipCoding();
 
-                $('#period-start,#period-end,#start-unavailable,#end-unavailable').datepicker(
-                    $.datepicker.regional['zh-TW']
-                );
-                $('#period-start,#period-end,#start-unavailable,#end-unavailable').change((e) => {
+                $('#condition-type').change((e) => {
                     e.preventDefault();
+                    let conditionType = $('#condition-type :selected').val();
+                    let mapping = {};
 
-                    let selected = $(e.currentTarget).val();
-                    selected = selected.replace(/\//g, '-');
-                    $(e.currentTarget).val(selected);
+                    if (conditionType === 'medical') {
+                        mapping = {
+                            'category-code': '10164-2',
+                            'category-code-text': 'History of Present illness Narrative',
+                            'code': 'E08.649',
+                            'code-text': '起因於潛在病的糖尿病，伴有低血糖，未伴有昏迷',
+                            'code-display': '',
+                        };
+                        $('div[name="for-sport"]').addClass('d-none');
+                    } else {
+                        mapping = {
+                            'category-code': 'PhysicalActivity',
+                            'category-code-text': 'Physical Activity',
+                            'code': '229072005',
+                            'code-text': '一週2次有氧運動，每次30分鐘',
+                            'code-display': 'Aerobic exercises',
+                        };
+                        $('div[name="for-sport"]').removeClass('d-none');
+                    }
+                    for (key in mapping) {
+                        $(`#${key}`).val('');
+                        $(`#${key}`).attr('placeholder', mapping[key]);
+                    }
                 });
 
                 $('#source-form').removeClass('d-none');
@@ -281,14 +296,12 @@
 
                     let fields = [
                         'clinical-status',
-                        'verification-status',
-                        'encounter-diagnosis',
-                        'severity',
+                        'category-code',
+                        'category-code-text',
                         'code',
                         'code-text',
+                        'code-display',
                         'patient',
-                        'onset-datetime',
-                        'abatement-datetime',
                         'asserter',
                     ];
 
@@ -306,38 +319,41 @@
                         fields[index] = field;
                     }
 
+                    let conditionType = $('#condition-type :selected').val();
+
                     let payload = {
                         'profile_urls': [$('#meta-profile-url :selected').val()],
                         'clinical_status_coding': [{
                             'system': 'http://terminology.hl7.org/CodeSystem/condition-clinical',
                             'code': fields[0],
                         }],
-                        'verification_status_coding': [{
-                            'system': 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
-                            'code': fields[1],
-                        }],
                         'category_coding': [{
-                            'system': 'http://terminology.hl7.org/CodeSystem/condition-category',
-                            'code': fields[2],
-                        }],
-                        'severity_coding': [{
                             'system': 'http://loinc.org',
-                            'code': fields[3],
+                            'code': fields[1],
+                            'display': fields[2],
                         }],
                         'code_coding': [{
                             'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/icd-10-cm-2021-tw',
-                            'code': fields[4],
+                            'code': fields[3],
+                            'display': fields[5],
                         }],
-                        'code_text': fields[5],
+                        'code_text': fields[4],
                         'subject': {
                             'reference': fields[6],
                         },
-                        'onset_datetime': fields[7],
-                        'abatement_datetime': fields[8],
                         'asserter': {
-                            'reference': fields[9],
+                            'reference': fields[7],
                         },
                     };
+
+                    if (conditionType !== 'medical') {
+                        payload.category_coding[0].system = 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode';
+                        payload.code_coding[0].system = 'http://snomed.info/sct';
+                    }
+
+                    if (payload.code_coding[0].display === '') {
+                        delete payload.code_coding[0].display;
+                    }
 
                     $(e.currentTarget).attr('disabled', 'disabled');
 

@@ -219,3 +219,82 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         return false;
     });
 }
+
+async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
+    await $.ajax({
+        url: `/track13/2024/${roleType}/Condition`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#13'],
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
+        let conditionResource = jsonData;
+        if (jsonData.entry) {
+            conditionResource = jsonData.entry[0].resource;
+        }
+
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-condition-id').html(conditionResource.id);
+        localStorage.setItem('created_condition_id', conditionResource.id);
+
+        $('#result-condition-clinical').html(
+            `${conditionResource.clinicalStatus.coding[0].code} (${conditionResource.clinicalStatus.coding[0].system})`
+        );
+
+        $('#result-condition-code').html(
+            `${conditionResource.category[0].coding[0].display} (${conditionResource.category[0].coding[0].system}#${conditionResource.category[0].coding[0].code})`
+        );
+
+        if (conditionResource.code.coding[0].display) {
+            $('#result-condition-message').html(
+                `${conditionResource.code.text} (${conditionResource.code.coding[0].display}) (${conditionResource.code.coding[0].system}#${conditionResource.code.coding[0].code})`
+            );
+        } else {
+            $('#result-condition-message').html(
+                `${conditionResource.code.text} (${conditionResource.code.coding[0].system}#${conditionResource.code.coding[0].code})`
+            );
+        }
+
+        $('#result-condition-patient').html(
+            `${conditionResource.subject.reference}`
+        );
+
+        $('#result-condition-asserter').html(
+            `${conditionResource.asserter.reference}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
+        return false;
+    });
+}
