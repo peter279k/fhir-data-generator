@@ -32,17 +32,23 @@ function loadIGNavLink() {
 
     $('#collapseLayouts').html(navLinkContent);
 
-    // navLinkContent = '<nav class="sb-sidenav-menu-nested nav">';
-    // resourceName = null;
-    // resources = {
-    //     'pa_exercise_prescription': '',
-    // };
-    // for (key in resources) {
-    //     resourceName = resources[key];
-    //     navLinkContent += `<a class="nav-link" href="/front_end/2024/track13/${key}">${resourceName}</a>`;
-    // }
+    navLinkContent = '<nav class="sb-sidenav-menu-nested nav">';
+    resourceName = null;
+    resources = {
+        'patient.html': 'Patient',
+        'practitioner.html': 'Practitioner',
+        'organization.html': 'Organization',
+        'goal.html': 'Goal',
+        'careplan.html': 'CarePlan',
+        'observation.html': 'Observation',
+        'servicerequest.html': 'ServiceRequest',
+    };
+    for (key in resources) {
+        resourceName = resources[key];
+        navLinkContent += `<a class="nav-link" href="/front_end/2024/track13/${key}">${resourceName}</a>`;
+    }
 
-    // $('#collapseLayouts3').html(navLinkContent);
+    $('#collapseLayouts3').html(navLinkContent);
 
     $('div.sb-sidenav-menu-heading').each((index, element) => {
         if ($(element).text().split(' ').length > 1 && index === 0) {

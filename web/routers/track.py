@@ -2,6 +2,7 @@ import sqlite3
 from item_models.track1_2024 import *
 from item_models.track2_2024 import *
 from fastapi.responses import JSONResponse
+
 from modules.track1_2024.Track1ForMedia import Track1ForMedia
 from modules.track2_2024.Track2ForSource import Track2ForSource
 from modules.track1_2024.Track1ForPatient import Track1ForPatient
@@ -25,6 +26,8 @@ from modules.track1_2024.Track1ForMedicationDispense import Track1ForMedicationD
 from modules.track1_2024.Track1ForAllergyIntolerance import Track1ForAllergyIntolerance
 from modules.track1_2024.Track1ForMedicationStatement import Track1ForMedicationStatement
 from modules.track1_2024.Track1ForObservationLabReport import Track1ForObservationLabReport
+
+from modules.track13_2024.Track13ForPatient import Track13ForPatient
 
 
 def pat_content_consumer(item: ContentConsumerScenario1Model, current_form_name):
@@ -111,6 +114,21 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
         track = Track1ForObservationLabReport(resource_name, item.model_dump())
 
     response_content = track.get_response_content()
+    store_resource_log(resource_name, response_content, item)
+
+    return JSONResponse(content=response_content)
+
+def track13_source_creator(item: ContentSourceModel, resource_name):
+    if resource_name == 'Patient':
+        track = Track13ForPatient(resource_name, item.model_dump())
+
+    response_content = track.get_response_content()
+    store_resource_log(resource_name, response_content, item)
+
+    return JSONResponse(content=response_content)
+
+
+def store_resource_log(resource_name, response_content, item):
     if response_content['status'] == 200 or response_content['status'] == 201:
         sql = '''
             INSERT INTO resources (
@@ -132,4 +150,4 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
 
         db.close()
 
-    return JSONResponse(content=response_content)
+    return True
