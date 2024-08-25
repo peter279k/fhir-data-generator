@@ -152,3 +152,70 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         return false;
     });
 }
+
+async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
+    await $.ajax({
+        url: `/track13/2024/${roleType}/Practitioner`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#13'],
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
+        let practitionerResource = jsonData;
+        if (jsonData.entry) {
+            practitionerResource = jsonData.entry[0].resource;
+        }
+
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-practitioner-id').html(practitionerResource.id);
+        localStorage.setItem('created_practitioner_id', practitionerResource.id);
+
+        let identifiers = practitionerResource.identifier;
+        let identifierHtml = '';
+        identifierHtml += `<li>識別碼型別: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
+        identifierHtml += `<li>員工編號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
+
+        $('#result-practitioner-identifier2').html(identifierHtml);
+
+        $('#result-practitioner-active').html(practitionerResource.active);
+
+        $('#result-practitioner-name').html(
+            `${practitionerResource.name[0].text}`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
+        return false;
+    });
+}

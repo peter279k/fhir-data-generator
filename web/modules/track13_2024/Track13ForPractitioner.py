@@ -1,8 +1,8 @@
-from fhir_data_generator import OrganizationH, OrganizationS
+from fhir_data_generator import PhysicalActivityPractitioner as Practitioner
 from fhir_data_generator import SimpleClient, ClientCredentials, AuthorizationCode
 
 
-class Track13ForOrganization:
+class Track13ForPractitioner:
     def __init__(self, resource, item_dict: dict):
         self.item_dict = item_dict
         self.payload = item_dict['patient_payload']
@@ -48,12 +48,12 @@ class Track13ForOrganization:
             access_token = authorization_code.retrieve_token()
             simple_client.headers['Authorization'] = f'Bearer {access_token}'
 
-        json_payload = self.generate_organization_resource()
+        json_payload = self.generate_practitioner_resource()
 
         req_path = f'/{self.resource}'
         if self.http_method == 'PUT':
-            org_id = self.patient_payload['id']
-            req_path = f'/{self.resource}/{org_id}'
+            practitioner_id = self.payload['id']
+            req_path = f'/{self.resource}/{practitioner_id}'
 
         response = simple_client.send(
             path=req_path,
@@ -64,27 +64,22 @@ class Track13ForOrganization:
 
         return simple_client.handle_response(response)
 
-    def generate_organization_resource(self):
-        if self.payload['org_type'] == 'hospital':
-            organization_class = OrganizationH
-        else:
-            organization_class = OrganizationS
-
+    def generate_practitioner_resource(self):
         if self.http_method == 'PUT':
-            organization_class = organization_class(self.payload['id'])
+            practitioner_class = Practitioner(self.payload['id'])
         else:
-            organization_class = organization_class()
+            practitioner_class = Practitioner()
 
         profile_urls = self.payload['profile_urls']
 
-        organization_class.set_profile_urls(profile_urls)
+        practitioner_class.set_profile_urls(profile_urls)
 
-        organization_class.set_identifiers(self.payload['identifiers'])
+        practitioner_class.set_identifiers(self.payload['identifiers'])
 
-        organization_class.set_type_coding(self.payload['type_coding'])
+        practitioner_class.set_active(self.payload['active'])
 
-        organization_class.set_name(self.payload['name'])
+        practitioner_class.set_name_text(self.payload['name_text'])
 
-        organization_class.create()
+        practitioner_class.create()
 
-        return organization_class.payload_template
+        return practitioner_class.payload_template
