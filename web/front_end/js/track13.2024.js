@@ -5,7 +5,7 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
             fhir_server: trackServerEndpoint.track1_server,
-            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: patientPayload,
         }),
@@ -74,6 +74,73 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
             }
             $(element).html(htmlContent);
         });
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
+        return false;
+    });
+}
+
+async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
+    await $.ajax({
+        url: `/track13/2024/${roleType}/Organization`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#13'],
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
+        let organizationResource = jsonData;
+        if (jsonData.entry) {
+            organizationResource = jsonData.entry[0].resource;
+        }
+
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-organization-id').html(organizationResource.id);
+        localStorage.setItem('created_organization_id', organizationResource.id);
+
+        $('#result-prn-name').html(organizationResource.name);
+
+        $('#result-prn-identifier').html(
+            `${organizationResource.identifier[0].type.coding[0].code} (${organizationResource.identifier[0].type.coding[0].system})`
+        );
+
+        $('#result-prn-number').html(
+            `${organizationResource.identifier[0].value} (${organizationResource.identifier[0].system})`
+        );
+
+        $('#result-patient-prn-coding').html(
+            `${organizationResource.type[0].coding[0].code} (${organizationResource.type[0].coding[0].system})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
         errorMessage['text'] = `${error.status} ${error.statusText}`;
         Swal.fire(errorMessage);

@@ -28,6 +28,7 @@ from modules.track1_2024.Track1ForMedicationStatement import Track1ForMedication
 from modules.track1_2024.Track1ForObservationLabReport import Track1ForObservationLabReport
 
 from modules.track13_2024.Track13ForPatient import Track13ForPatient
+from modules.track13_2024.Track13ForOrganization import Track13ForOrganization
 
 
 def pat_content_consumer(item: ContentConsumerScenario1Model, current_form_name):
@@ -121,6 +122,8 @@ def track1_source_creator(item: ContentSourceModel, resource_name):
 def track13_source_creator(item: ContentSourceModel, resource_name):
     if resource_name == 'Patient':
         track = Track13ForPatient(resource_name, item.model_dump())
+    if resource_name == 'Organization':
+        track = Track13ForOrganization(resource_name, item.model_dump())
 
     response_content = track.get_response_content()
     store_resource_log(resource_name, response_content, item)
