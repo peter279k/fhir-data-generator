@@ -33,6 +33,7 @@ from modules.track13_2024.Track13ForCarePlan import Track13ForCarePlan
 from modules.track13_2024.Track13ForCondition import Track13ForCondition
 from modules.track13_2024.Track13ForPractitioner import Track13ForPractitioner
 from modules.track13_2024.Track13ForOrganization import Track13ForOrganization
+from modules.track13_2024.Track13ForServiceRequest import Track13ForServiceRequest
 
 
 def pat_content_consumer(item: ContentConsumerScenario1Model, current_form_name):
@@ -136,6 +137,8 @@ def track13_source_creator(item: ContentSourceModel, resource_name):
         track = Track13ForGoal(resource_name, item.model_dump())
     if resource_name == 'CarePlan':
         track = Track13ForCarePlan(resource_name, item.model_dump())
+    if resource_name == 'ServiceRequest':
+        track = Track13ForServiceRequest(resource_name, item.model_dump())
 
     response_content = track.get_response_content()
     store_resource_log(resource_name, response_content, item)
