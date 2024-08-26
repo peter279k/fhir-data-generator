@@ -1,0 +1,71 @@
+{
+  "resourceType" : "Observation",
+  "id" : "gaitcycle-l-example",
+  "meta" : {
+    "profile" : ["https://hapi.fhir.tw/fhir/StructureDefinition/GaitCycle-sport"]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Observation gaitcycle-l-example</b></p><a name=\"gaitcycle-l-example\"> </a><a name=\"hcgaitcycle-l-example\"> </a><a name=\"gaitcycle-l-example-en-US\"> </a><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category activity}\">Activity</span></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 363837002}\">Measure of gait</span></p><p><b>subject</b>: <a href=\"Patient-patient-ex-example.html\">連小妹(official) Female, DoB: 1990-01-01 ( Provider number\u00a0(use:\u00a0official,\u00a0))</a></p><p><b>effective</b>: 2024-07-01</p><p><b>performer</b>: <a href=\"Practitioner-practitioner-c-example.html\">Practitioner 陳建升</a></p><p><b>bodySite</b>: <span title=\"Codes:{http://snomed.info/sct 22335008}\">Structure of left foot</span></p><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{https://hapi.fhir.tw/fhir/CodeSystem/gait-cycle 1}\">支撐期(stance phase)</span></p><p><b>value</b>: 60 %<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code% = '%')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{https://hapi.fhir.tw/fhir/CodeSystem/gait-cycle 2}\">擺動期(swing phase)</span></p><p><b>value</b>: 40 %<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code% = '%')</span></p></blockquote></div>"
+  },
+  "status" : "final",
+  "category" : [{
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+      "code" : "activity",
+      "display" : "Activity"
+    }]
+  }],
+  "code" : {
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "363837002",
+      "display" : "Measure of gait"
+    }],
+    "text" : "Measure of gait"
+  },
+  "subject" : {
+    "reference" : "Patient/patient-ex-example"
+  },
+  "effectiveDateTime" : "2024-07-01",
+  "performer" : [{
+    "reference" : "Practitioner/practitioner-c-example"
+  }],
+  "bodySite" : {
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "22335008",
+      "display" : "Structure of left foot"
+    }]
+  },
+  "component" : [{
+    "code" : {
+      "coding" : [{
+        "system" : "https://hapi.fhir.tw/fhir/CodeSystem/gait-cycle",
+        "code" : "1",
+        "display" : "支撐期(stance phase)"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 60,
+      "unit" : "%",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "%"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "https://hapi.fhir.tw/fhir/CodeSystem/gait-cycle",
+        "code" : "2",
+        "display" : "擺動期(swing phase)"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 40,
+      "unit" : "%",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "%"
+    }
+  }]
+}

@@ -1,0 +1,139 @@
+{
+  "resourceType" : "Observation",
+  "id" : "treadmill-example",
+  "meta" : {
+    "profile" : ["https://hapi.fhir.tw/fhir/StructureDefinition/Treadmill-sport"]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Observation treadmill-example</b></p><a name=\"treadmill-example\"> </a><a name=\"hctreadmill-example\"> </a><a name=\"treadmill-example-en-US\"> </a><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category activity}\">Activity</span></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 465335000}\">Treadmill, mechanical</span></p><p><b>subject</b>: <a href=\"Patient-patient-ex-example.html\">連小妹(official) Female, DoB: 1990-01-01 ( Provider number\u00a0(use:\u00a0official,\u00a0))</a></p><p><b>effective</b>: 2024-07-01</p><p><b>performer</b>: <a href=\"Practitioner-practitioner-c-example.html\">Practitioner 陳建升</a></p><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://loinc.org 55411-3}\">Exercise duration</span></p><p><b>value</b>: 30 min<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  codemin = 'min')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://loinc.org 55412-1}\">Exercise distance unspecified time</span></p><p><b>value</b>: 4 km<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  codekm = 'km')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://loinc.org 55421-2}\">Calories burned Machine estimate</span></p><p><b>value</b>: 122.5 kcal<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  codekcal = 'kcal')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://loinc.org 101692-2}\">Maximum heart rate</span></p><p><b>value</b>: 186 /min<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code/min = '/min')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://loinc.org 103205-1}\">Mean heart rate</span></p><p><b>value</b>: 155 /min<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code/min = '/min')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 252140007}\">Treadmill gradient achieved</span></p><p><b>value</b>: 2 %<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code% = '%')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 252141006}\">Treadmill speed achieved</span></p><p><b>value</b>: 8 km/h<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  codekm/h = 'km/h')</span></p></blockquote></div>"
+  },
+  "status" : "final",
+  "category" : [{
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+      "code" : "activity",
+      "display" : "Activity"
+    }]
+  }],
+  "code" : {
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "465335000",
+      "display" : "Treadmill, mechanical"
+    }],
+    "text" : "Treadmill, mechanical"
+  },
+  "subject" : {
+    "reference" : "Patient/patient-ex-example"
+  },
+  "effectiveDateTime" : "2024-07-01",
+  "performer" : [{
+    "reference" : "Practitioner/practitioner-c-example"
+  }],
+  "component" : [{
+    "code" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "55411-3",
+        "display" : "Exercise duration"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 30,
+      "unit" : "min",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "min"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "55412-1",
+        "display" : "Exercise distance unspecified time"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 4,
+      "unit" : "km",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "km"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "55421-2",
+        "display" : "Calories burned Machine estimate"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 122.5,
+      "unit" : "kcal",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "kcal"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "101692-2",
+        "display" : "Maximum heart rate"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 186,
+      "unit" : "/min",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "/min"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://loinc.org",
+        "code" : "103205-1",
+        "display" : "Mean heart rate"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 155,
+      "unit" : "/min",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "/min"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "252140007",
+        "display" : "Treadmill gradient achieved"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 2,
+      "unit" : "%",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "%"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "252141006",
+        "display" : "Treadmill speed achieved"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 8,
+      "unit" : "km/h",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "km/h"
+    }
+  }]
+}

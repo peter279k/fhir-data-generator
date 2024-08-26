@@ -1,0 +1,93 @@
+{
+  "resourceType" : "Observation",
+  "id" : "gaittype-r-example",
+  "meta" : {
+    "profile" : ["https://hapi.fhir.tw/fhir/StructureDefinition/GaitType-sport"]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Observation gaittype-r-example</b></p><a name=\"gaittype-r-example\"> </a><a name=\"hcgaittype-r-example\"> </a><a name=\"gaittype-r-example-en-US\"> </a><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category activity}\">Activity</span></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 298302000}\">Finding of gait</span></p><p><b>subject</b>: <a href=\"Patient-patient-ex-example.html\">連小妹(official) Female, DoB: 1990-01-01 ( Provider number\u00a0(use:\u00a0official,\u00a0))</a></p><p><b>effective</b>: 2024-07-01</p><p><b>performer</b>: <a href=\"Practitioner-practitioner-c-example.html\">Practitioner 陳建升</a></p><p><b>value</b>: <span title=\"Codes:{http://snomed.info/sct 8117002}\">Gait normal</span></p><p><b>bodySite</b>: <span title=\"Codes:{http://snomed.info/sct 7769000}\">Structure of right foot</span></p><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 8117002}\">Gait normal</span></p><p><b>value</b>: 62 %<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code% = '%')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 264739002}\">Medial rotation - action</span></p><p><b>value</b>: 38 %<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code% = '%')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: <span title=\"Codes:{http://snomed.info/sct 264730003}\">Lateral rotation - action</span></p><p><b>value</b>: 0 %<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  code% = '%')</span></p></blockquote></div>"
+  },
+  "status" : "final",
+  "category" : [{
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+      "code" : "activity",
+      "display" : "Activity"
+    }]
+  }],
+  "code" : {
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "298302000",
+      "display" : "Finding of gait"
+    }],
+    "text" : "Finding of gait"
+  },
+  "subject" : {
+    "reference" : "Patient/patient-ex-example"
+  },
+  "effectiveDateTime" : "2024-07-01",
+  "performer" : [{
+    "reference" : "Practitioner/practitioner-c-example"
+  }],
+  "valueCodeableConcept" : {
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "8117002",
+      "display" : "Gait normal"
+    }]
+  },
+  "bodySite" : {
+    "coding" : [{
+      "system" : "http://snomed.info/sct",
+      "code" : "7769000",
+      "display" : "Structure of right foot"
+    }]
+  },
+  "component" : [{
+    "code" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "8117002",
+        "display" : "Gait normal"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 62,
+      "unit" : "%",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "%"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "264739002",
+        "display" : "Medial rotation - action"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 38,
+      "unit" : "%",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "%"
+    }
+  },
+  {
+    "code" : {
+      "coding" : [{
+        "system" : "http://snomed.info/sct",
+        "code" : "264730003",
+        "display" : "Lateral rotation - action"
+      }]
+    },
+    "valueQuantity" : {
+      "value" : 0,
+      "unit" : "%",
+      "system" : "http://unitsofmeasure.org",
+      "code" : "%"
+    }
+  }]
+}

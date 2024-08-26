@@ -81,7 +81,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Observation</h1>
                         <ol class="breadcrumb mb-4">
-                            <li id="scenario-name" class="breadcrumb-item text-primary active">TWCore Observation(生命體徵資料-血壓)<li>
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">Observation(基礎生理量測、身體組成分析儀、穿戴裝置、運動項目)<li>
                         </ol>
                         <ol class="breadcrumb mb-4">
                             <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
@@ -107,24 +107,16 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <h6 class="text-warning">目前Hapi FHIR server之Observation vital profile有問題</h6>
-                                        <h6 class="fw-bold text-warning">meta profile請記得自己加入到輸出的resource JSON中</h6>
-                                        <label class="text-secondary fw-bold" for="fhir-server-endpoint">請選擇FHIR server</label>
-                                        <select id="fhir-server-endpoint" class="form-select" aria-label="">
-                                            <option value="no-value">no-value</option>
-                                            <option value="https://fhir.dicom.tw/fhir">https://fhir.dicom.tw/fhir</option>
-                                            <option value="https://hapi.fhir.tw/fhir">https://hapi.fhir.tw/fhir</option>
-                                        </select>
+                                        <label for="observation-options" class="form-label">請選擇量測項目</label>
+                                        <select id="observation-options" class="form-select"></select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="observation-id" class="form-label">請輸Observation id</label>
+                                        <label for="observation-id" class="form-label">請輸入Observation id</label>
                                         <input type="text" class="form-control" placeholder="留空白則會自動產生" id="observation-id">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="meta-profile-url">請選擇meta profile URL</label>
-                                        <select id="meta-profile-url" class="form-select" aria-label="">
-                                            <option value="https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-bloodPressure-twcore">Observation-bloodPressure-twcore</option>
-                                        </select>
+                                        <label for="meta-profile-url">選擇的meta profile URL</label>
+                                        <input id="meta-profile-url" class="form-control" type="text" disabled="disabled" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="status" class="form-label">請輸入狀態</label>
@@ -132,23 +124,23 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="category-coding" class="form-label">請輸入分類代碼</label>
-                                        <input type="text" class="form-control" placeholder="vital-signs" id="category-coding">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="vital-signs" id="category-coding">
                                     </div>
                                     <div class="mb-3">
                                         <label for="category-coding-display" class="form-label">請輸入分類顯示名稱</label>
-                                        <input type="text" class="form-control" placeholder="Vital Signs" id="category-coding-display">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="Vital Signs" id="category-coding-display">
                                     </div>
                                     <div class="mb-3">
                                         <label for="code-coding" class="form-label">請輸入檢驗項目代碼</label>
-                                        <input type="text" class="form-control" placeholder="85354-9" id="code-coding">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="85354-9" id="code-coding">
                                     </div>
                                     <div class="mb-3">
                                         <label for="code-coding-display" class="form-label">請輸入檢驗項目顯示名稱</label>
-                                        <input type="text" class="form-control" placeholder="Blood pressure panel with all children optional" id="code-coding-display">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="Blood pressure panel with all children optional" id="code-coding-display">
                                     </div>
                                     <div class="mb-3">
                                         <label for="code-coding-text" class="form-label">請輸入檢驗項目文字敘述</label>
-                                        <input type="text" class="form-control" placeholder="Blood pressure panel with all children optional" id="code-coding-text">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="Blood pressure panel with all children optional" id="code-coding-text">
                                     </div>
                                     <div class="mb-3">
                                         <label for="patient" class="fw-bold text-info form-label">請輸入病人參照</label>
@@ -156,36 +148,13 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="effective-datetime" class="form-label">請輸入執行日期</label>
-                                        <input type="text" class="form-control" placeholder="2022-07-31" id="effective-datetime">
+                                        <input type="text" class="form-control" placeholder="2024-07-01" id="effective-datetime">
                                     </div>
                                     <div class="mb-3">
                                         <label for="performer" class="fw-bold text-info form-label">請輸入檢查者參照</label>
                                         <input type="text" class="form-control" placeholder="Practitioner/pra-dr-example" id="performer">
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="value-quantity-coding-sys" class="form-label">請輸入收縮壓檢驗值代碼</label>
-                                        <input type="text" class="form-control" placeholder="mm[Hg]" id="value-quantity-coding-sys">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="value-quantity-unit-sys" class="form-label">請輸入收縮壓檢驗值單位</label>
-                                        <input type="text" class="form-control" placeholder="mmHg" id="value-quantity-unit-sys">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="value-quantity-value-sys" class="form-label">請輸入收縮壓檢驗值</label>
-                                        <input type="text" class="form-control" placeholder="110" id="value-quantity-value-sys">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="value-quantity-coding-dia" class="form-label">請輸入舒張壓檢驗值代碼</label>
-                                        <input type="text" class="form-control" placeholder="mm[Hg]" id="value-quantity-coding-dia">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="value-quantity-unit-dia" class="form-label">請輸入舒張壓檢驗值單位</label>
-                                        <input type="text" class="form-control" placeholder="mmHg" id="value-quantity-unit-dia">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="value-quantity-value-dia" class="form-label">請輸入舒張壓檢驗值</label>
-                                        <input type="text" class="form-control" placeholder="56" id="value-quantity-value-dia">
-                                    </div>
+                                    <span id="value-quantity-field"></span>
 
                                     <button form_name="source-form" name="generate-btn" type="button" class="btn btn-primary">產生</button>
                                     <button type="reset" class="btn btn-secondary">重設</button>
@@ -263,9 +232,13 @@
         <script src="../../js/sweetalert2.all.min.js"></script>
         <script src="../../js/html2canvas.min.js"></script>
         <script src="../../js/FileSaver.min.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
         <script src="../../js/track1.coding.js"></script>
-        <script src="../../js/track1.utility.js"></script>
-        <script src="../../js/track1.2024.2.js"></script>
+        <script src="../../js/track13.utility.js"></script>
         <script src="../../js/commLangCode.js"></script>
         <script src="../../js/loadIGNavLink.js"></script>
         <script>
@@ -283,6 +256,57 @@
                     let selected = $(e.currentTarget).val();
                     selected = selected.replace(/\//g, '-');
                     $(e.currentTarget).val(selected);
+                });
+
+                let observationOpts = loadObservationOptions();
+                let observationBasicInfo = await loadObservationBasicInfo(observationOpts);
+                let categoryCodeMapping = loadCategoryAndCodeCoding(observationBasicInfo);
+                let valueQuantityMapping = loadObservationValueQuantityForm(observationOpts);
+                let htmlContents = '';
+                let observationOpt = [];
+                $('#meta-profile-url').val(observationOpts['基礎生理量測'][0].profile_url);
+
+                $('#category-coding').val(categoryCodeMapping.category_mapping['height'].code);
+                $('#category-coding-display').val(categoryCodeMapping.category_mapping['height'].display);
+                $('#code-coding').val(categoryCodeMapping.code_mapping['height'].code);
+                $('#code-coding-display').val(categoryCodeMapping.code_mapping['height'].display);
+                $('#code-coding-text').val(categoryCodeMapping.code_mapping['height'].text);
+                $('#value-quantity-field').html(valueQuantityMapping['height']);
+
+                for (group in observationOpts) {
+                    observationOpt = observationOpts[group];
+                    htmlContents += `<optgroup label="${group}">`;
+
+                    for (let index=0; index<observationOpt.length; index++) {
+                        htmlContents += `
+                            <option profile_url=${observationOpt[index].profile_url} value="${observationOpt[index].value}">${observationOpt[index].name}</option>
+                        `;
+                    }
+                    htmlContents += '</optgroup>';
+                }
+                $('#observation-options').html(htmlContents);
+
+                $('#observation-options').select2({
+                    tags: true,
+                    themes: 'bootstrap-5',
+                    placeholder: '請選擇量測項目',
+                    width: '100%',
+                });
+
+                $('#observation-options').change((e) => {
+                    e.preventDefault();
+                    let selectedObservationOption = $('#observation-options :selected').val();
+                    let profileUrl = $('#observation-options :selected').attr('profile_url');
+                    $('#meta-profile-url').val(profileUrl);
+
+                    $('#value-quantity-field').html(valueQuantityMapping[selectedObservationOption]);
+
+                    $('#category-coding').val(categoryCodeMapping.category_mapping[selectedObservationOption].code);
+                    $('#category-coding-display').val(categoryCodeMapping.category_mapping[selectedObservationOption].display);
+
+                    $('#code-coding').val(categoryCodeMapping.code_mapping[selectedObservationOption].code);
+                    $('#code-coding-display').val(categoryCodeMapping.code_mapping[selectedObservationOption].display);
+                    $('#code-coding-text').val(categoryCodeMapping.code_mapping[selectedObservationOption].text);
                 });
 
                 $('#source-form').removeClass('d-none');
@@ -309,11 +333,6 @@
                     let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
                     let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
 
-                    let overrideServer = $('#fhir-server-endpoint :selected').val();
-                    if (overrideServer !== 'no-value') {
-                        trackServerEndpoint.track1_server = overrideServer;
-                    }
-
                     let metaProfileUrl = $('#meta-profile-url :selected').val();
 
                     let fields = [
@@ -326,12 +345,6 @@
                         'patient',
                         'effective-datetime',
                         'performer',
-                        'value-quantity-coding-sys',
-                        'value-quantity-unit-sys',
-                        'value-quantity-value-sys',
-                        'value-quantity-coding-dia',
-                        'value-quantity-unit-dia',
-                        'value-quantity-value-dia',
                     ];
 
                     let field = null;
@@ -369,48 +382,21 @@
                         'performer': [{
                             'reference': fields[8],
                         }],
-                        'component': [
-                            {
-                                'code': {
-                                    'coding': [{
-                                        'system': 'http://loinc.org',
-                                        'code': '8480-6',
-                                        'display': 'Systolic blood pressure'
-                                    }]
-                                },
-                                'valueQuantity': {
-                                    'value': Number(fields[11]),
-                                    'unit': fields[10],
-                                    'system': 'http://unitsofmeasure.org',
-                                    'code': fields[9],
-                                }
-                            },
-                            {
-                                'code': {
-                                    'coding': [{
-                                        'system': 'http://loinc.org',
-                                        'code': '8462-4',
-                                        'display': 'Diastolic blood pressure'
-                                    }]
-                                },
-                                'valueQuantity': {
-                                    'value': Number(fields[14]),
-                                    'unit': fields[13],
-                                    'system': 'http://unitsofmeasure.org',
-                                    'code': fields[12],
-                                }
-                            },
-                        ],
                     };
 
+                    let selectedObservationOption = $('#observation-options :selected').val();
+                    addValueQuantityFields(categoryCodeMapping);
+                    //Object.assign(payload, valueQuantityPayload);
+
+                    return false;
+
                     $(e.currentTarget).attr('disabled', 'disabled');
-                    payload.profile_urls = [''];
 
                     if ($('#observation-id').val() !== '') {
                         payload['id'] = $('#observation-id').val();
                     }
 
-                    await doGenerateObservationVitalBloodPressureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    await doGenerateObservationVitalRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
                     let observationId = localStorage.getItem('created_observation_vital_id');
                     $(e.currentTarget).removeAttr('disabled');
                 });

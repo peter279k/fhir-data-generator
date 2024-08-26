@@ -1,0 +1,40 @@
+{
+  "resourceType" : "Observation",
+  "id" : "protein-example",
+  "meta" : {
+    "profile" : ["https://hapi.fhir.tw/fhir/StructureDefinition/Protein-sport"]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Observation protein-example</b></p><a name=\"protein-example\"> </a><a name=\"hcprotein-example\"> </a><a name=\"protein-example-en-US\"> </a><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category vital-signs}\">Vital Signs</span></p><p><b>code</b>: <span title=\"Codes:{https://hapi.fhir.tw/fhir/CodeSystem/tempcode Protein}\">Protein</span></p><p><b>subject</b>: <a href=\"Patient-patient-ex-example.html\">連小妹(official) Female, DoB: 1990-01-01 ( Provider number\u00a0(use:\u00a0official,\u00a0))</a></p><p><b>effective</b>: 2024-07-01</p><p><b>performer</b>: <a href=\"Practitioner-practitioner-c-example.html\">Practitioner 陳建升</a></p><p><b>value</b>: 6.4 kg<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM  codekg = 'kg')</span></p></div>"
+  },
+  "status" : "final",
+  "category" : [{
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+      "code" : "vital-signs",
+      "display" : "Vital Signs"
+    }]
+  }],
+  "code" : {
+    "coding" : [{
+      "system" : "https://hapi.fhir.tw/fhir/CodeSystem/tempcode",
+      "code" : "Protein",
+      "display" : "蛋白質重"
+    }],
+    "text" : "Protein"
+  },
+  "subject" : {
+    "reference" : "Patient/patient-ex-example"
+  },
+  "effectiveDateTime" : "2024-07-01",
+  "performer" : [{
+    "reference" : "Practitioner/practitioner-c-example"
+  }],
+  "valueQuantity" : {
+    "value" : 6.4,
+    "unit" : "kg",
+    "system" : "http://unitsofmeasure.org",
+    "code" : "kg"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "resourceType" : "Observation",
+  "id" : "VFI-example",
+  "meta" : {
+    "profile" : ["https://hapi.fhir.tw/fhir/StructureDefinition/VFI-sport"]
+  },
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Observation VFI-example</b></p><a name=\"VFI-example\"> </a><a name=\"hcVFI-example\"> </a><a name=\"VFI-example-en-US\"> </a><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category vital-signs}\">Vital Signs</span></p><p><b>code</b>: <span title=\"Codes:{https://hapi.fhir.tw/fhir/CodeSystem/tempcode VFI}\">Visceral Fat Index</span></p><p><b>subject</b>: <a href=\"Patient-patient-ex-example.html\">連小妹(official) Female, DoB: 1990-01-01 ( Provider number\u00a0(use:\u00a0official,\u00a0))</a></p><p><b>effective</b>: 2024-07-01</p><p><b>performer</b>: <a href=\"Practitioner-practitioner-c-example.html\">Practitioner 陳建升</a></p><p><b>value</b>: 5</p></div>"
+  },
+  "status" : "final",
+  "category" : [{
+    "coding" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+      "code" : "vital-signs",
+      "display" : "Vital Signs"
+    }]
+  }],
+  "code" : {
+    "coding" : [{
+      "system" : "https://hapi.fhir.tw/fhir/CodeSystem/tempcode",
+      "code" : "VFI",
+      "display" : "內臟脂肪指數"
+    }],
+    "text" : "Visceral Fat Index"
+  },
+  "subject" : {
+    "reference" : "Patient/patient-ex-example"
+  },
+  "effectiveDateTime" : "2024-07-01",
+  "performer" : [{
+    "reference" : "Practitioner/practitioner-c-example"
+  }],
+  "valueQuantity" : {
+    "value" : 5
+  }
+}
