@@ -379,3 +379,101 @@ async function doGenerateGoalRequest(trackServerEndpoint, oauthServerEndpoint, p
         return false;
     });
 }
+
+async function doGenerateCarePlanRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
+    await $.ajax({
+        url: `/track13/2024/${roleType}/CarePlan`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#13'],
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
+        let carePlanResource = jsonData;
+        if (jsonData.entry) {
+            goalResource = jsonData.entry[0].resource;
+        }
+
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-care-plan-id').html(carePlanResource.id);
+        localStorage.setItem('created_care_plan_id', carePlanResource.id);
+
+        $('#result-care-plan-status').html(
+            `${carePlanResource.status}`
+        );
+
+        $('#result-care-plan-intent').html(
+            `${carePlanResource.intent}`
+        );
+
+        $('#result-care-plan-category').html(
+            `${carePlanResource.category[0].coding[0].display} (${carePlanResource.category[0].coding[0].system}#${carePlanResource.category[0].coding[0].code})`
+        );
+
+        $('#result-care-plan-description').html(
+            `${carePlanResource.description}`
+        );
+
+        $('#result-care-plan-patient').html(
+            `${carePlanResource.subject.reference}`
+        );
+
+        $('#result-care-plan-author').html(
+            `${carePlanResource.author.reference}`
+        );
+
+        $('#result-care-plan-goal').html(
+            `${carePlanResource.goal[0].reference}`
+        );
+
+        $('#result-care-plan-progress').html(
+            `${carePlanResource.activity[0].progress[0].text} (©${carePlanResource.activity[0].progress[0].time})`
+        );
+
+        $('#table-detail-status').html(
+            `${carePlanResource.activity[0].detail.status}`
+        );
+
+        $('#activity-detail-description').html(
+            `${carePlanResource.activity[0].detail.description}`
+        );
+
+        $('#result-care-plan-note').html(
+            `${carePlanResource.note[0].text} (©${carePlanResource.note[0].time})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
+        return false;
+    });
+}

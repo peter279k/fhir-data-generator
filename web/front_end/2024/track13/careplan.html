@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="This is the web demonstration for MITW Connectathon" />
         <meta name="author" content="" />
-        <title>MITW 2024 Track13 Condition</title>
+        <title>MITW 2024 Track13 CarePlan</title>
         <link href="../../css/styles.css" rel="stylesheet" />
         <script src="../../js/all.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../../css/sweetalert2.min.css">
@@ -40,7 +40,7 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Condition Resource</div>
+                            <div class="sb-sidenav-menu-heading">CarePlan Resource</div>
                             <a class="nav-link" href="../index.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 基本設定
@@ -80,9 +80,9 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Condition</h1>
+                        <h1 class="mt-4">CarePlan</h1>
                         <ol class="breadcrumb mb-4">
-                            <li id="scenario-name" class="breadcrumb-item text-primary active">Physical Activity Condition(病史、運動史)<li>
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">Physical Activity CarePlan(運動計畫)<li>
                         </ol>
                         <ol class="breadcrumb mb-4">
                             <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
@@ -108,54 +108,70 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="condition-id" class="form-label">請輸入Condition id</label>
-                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="condition-id">
+                                        <label for="care-plan-id" class="form-label">請輸入CarePlan id</label>
+                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="care-plan-id">
                                     </div>
                                     <div class="mb-3">
                                         <label for="meta-profile-url">請選擇meta profile URL</label>
                                         <select id="meta-profile-url" class="form-select" aria-label="">
-                                            <option value="https://hapi.fhir.tw/fhir/StructureDefinition/Condition-medical-history">Condition-medical-history</option>
-                                            <option value="https://hapi.fhir.tw/fhir/StructureDefinition/Condition-excercise-history">Condition-excercise-history</option>
+                                            <option value="https://hapi.fhir.tw/fhir/StructureDefinition/CarePlan-sport">CarePlan-sport</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="condition-type">請選擇病史或運動史</label>
-                                        <select id="condition-type" class="form-select" aria-label="">
-                                            <option value="medical">病史</option>
-                                            <option value="sport">運動史</option>
-                                        </select>
+                                        <label for="status" class="form-label">請輸入狀態</label>
+                                        <input class="form-control" type="text" id="status" placeholder="active" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="clinical-status" class="form-label">請輸入臨床狀態代碼</label>
-                                        <input class="form-control" type="text" id="clinical-status" placeholder="active" >
+                                        <label for="intent" class="form-label">請輸入意圖(intent)</label>
+                                        <input class="form-control" type="text" id="intent" placeholder="plan" >
                                     </div>
                                     <div class="mb-3">
                                         <label for="category-code" class="form-label">請輸入分類代碼</label>
-                                        <input class="form-control" type="text" id="category-code" placeholder="10164-2" >
+                                        <input class="form-control" type="text" id="category-code" placeholder="PhysicalActivity" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="category-code-text" class="form-label">請輸入分類代碼敘述</label>
-                                        <input class="form-control" type="text" id="category-code-text" placeholder="History of Present illness Narrative">
+                                        <label for="category-code-display" class="form-label">請輸入分類代碼顯示</label>
+                                        <input class="form-control" type="text" id="category-code-display" placeholder="Physical Activity">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="code" class="form-label">請輸入病情、問題或診斷識別代碼</label>
-                                        <input class="form-control" type="text" id="code" placeholder="E08.649" >
+                                        <label for="description" class="form-label">請輸入敘述</label>
+                                        <input class="form-control" type="text" id="description" placeholder="椎間盤間隔小/退化擠壓狀況 核心訓練以髖部(臀部)和腹部訓練為主">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="code-text" class="form-label">請輸入病情、問題或診斷識別代碼敘述</label>
-                                        <input class="form-control" type="text" id="code-text" placeholder="起因於潛在病的糖尿病，伴有低血糖，未伴有昏迷" >
-                                    </div>
-                                    <div name="for-sport" class="d-none mb-3">
-                                        <label for="code-display" class="form-label">請輸入病情、問題或診斷識別代碼顯示</label>
-                                        <input class="form-control" type="text" id="code-display" placeholder="">
+                                        <label for="subject" class="form-label fw-bold text-info">請輸入病人參照</label>
+                                        <input class="form-control" type="text" id="subject" placeholder="Patient/pat-example" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="patient" class="form-label fw-bold text-info">請輸入病人參照</label>
-                                        <input class="form-control" type="text" id="patient" placeholder="Patient/pat-example" >
+                                        <label for="author" class="form-label fw-bold text-info">請輸入制定計畫者參照(author)</label>
+                                        <input class="form-control" type="text" id="author" placeholder="Practitioner/practitioner-c-example" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="asserter" class="form-label fw-bold text-info">請輸入診斷者參照</label>
-                                        <input class="form-control" type="text" id="asserter" placeholder="Practitioner/pra-dr-example" >
+                                        <label for="goal" class="form-label fw-bold text-info">請輸入運動目標參照</label>
+                                        <input class="form-control" type="text" id="goal" placeholder="Goal/goal-example">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="activity-progress-time" class="form-label">請輸入活動過程時間</label>
+                                        <input class="form-control" type="text" id="activity-progress-time" placeholder="2024-07-03">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="activity-progress-text" class="form-label">請輸入活動過程文字描述</label>
+                                        <textarea class="form-control" rows="5" id="activity-progress-text" placeholder="滾筒放鬆：1.胸椎伸展 8趟 2.上背滾動 10趟 3.胸椎旋轉 左右各8次 核心：1.死蟲 後腳跟點地板 單邊各六下 兩組 2.橋式+彈力圈 20下 1組 3.徒手弓箭步單側負重6公斤10下一組,前腳墊高10下一組"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="activity-detail-status" class="form-label">請輸入活動細節狀態</label>
+                                        <input class="form-control" type="text" id="activity-detail-status" placeholder="completed">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="activity-detail-text" class="form-label">請輸入活動細節描述</label>
+                                        <textarea class="form-control" rows="5" id="activity-detail-text" placeholder="機械臀推/彈力箱臀推 感受度不佳 暫時不做"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="note-time" class="form-label">請輸入紀錄備註的時間</label>
+                                        <input class="form-control" type="text" id="note-time" placeholder="2024-07-04">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="note" class="form-label">請輸入備註</label>
+                                        <textarea class="form-control" rows="5" id="note" placeholder="肚臍對應後方腰椎摸會痛，活動筋骨及輕微推拿後有好一點"></textarea>
                                     </div>
 
                                     <button form_name="source-form" name="generate-btn" type="button" class="btn btn-primary">產生</button>
@@ -195,14 +211,31 @@
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
-                                <p class="card-text">id: <span id="result-condition-id" class="text-primary"></span></p>
+                                <p class="card-text">id: <span id="result-care-plan-id" class="text-primary"></span></p>
 
-                                <p class="card-text">臨床狀態: <span id="result-condition-clinical" class="text-primary"></span></p>
-                                <p class="card-text">分類描述(category): <span id="result-condition-code" class="text-primary"></span></p>
-                                <p class="card-text">病情、問題或診斷識別(code): <span id="result-condition-message" class="text-primary"></span></p>
-                                <p class="card-text">病人(subject): <span id="result-condition-patient" class="text-primary"></span></p>
-                                <p class="card-text">診斷者(asserter): <span id="result-condition-asserter" class="text-primary"></span></p>
+                                <p class="card-text">狀態: <span id="result-care-plan-status" class="text-primary"></span></p>
+                                <p class="card-text">意圖(intent): <span id="result-care-plan-intent" class="text-primary"></span></p>
+                                <p class="card-text">類別: <span id="result-care-plan-category" class="text-primary"></span></p>
+                                <p class="card-text">描述: <span id="result-care-plan-description" class="text-primary"></span></p>
+                                <p class="card-text">病人(subject): <span id="result-care-plan-patient" class="text-primary"></span></p>
+                                <p class="card-text">訂定者(author): <span id="result-care-plan-author" class="text-primary"></span></p>
+                                <p class="card-text">運動目標: <span id="result-care-plan-goal" class="text-primary"></span></p>
 
+                                <h5 class="text-secondary fw-bold">運動資訊細節(Activity)</h5>
+                                <p class="card-text">過程: <span id="result-care-plan-progress" class="text-primary"></span></p>
+
+                                <table class="table-bordered border-secondary">
+                                    <tr>
+                                        <th>狀態(Status)</th>
+                                        <th>描述(Description)</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-primary" id="table-detail-status"></td>
+                                        <td class="text-primary" id="activity-detail-description"></td>
+                                    </tr>
+                                </table>
+
+                                <p class="card-text">備註: <span id="result-care-plan-note" class="text-primary"></span></p>
                             </div>
                         </div>
                     </div>
@@ -238,34 +271,15 @@
                 await loadMartialStatus();
                 await loadRelationshipCoding();
 
-                $('#condition-type').change((e) => {
+                $('#activity-progress-time,#note-time').datepicker(
+                    $.datepicker.regional['zh-TW']
+                );
+                $('#activity-progress-time,#note-time').change((e) => {
                     e.preventDefault();
-                    let conditionType = $('#condition-type :selected').val();
-                    let mapping = {};
 
-                    if (conditionType === 'medical') {
-                        mapping = {
-                            'category-code': '10164-2',
-                            'category-code-text': 'History of Present illness Narrative',
-                            'code': 'E08.649',
-                            'code-text': '起因於潛在病的糖尿病，伴有低血糖，未伴有昏迷',
-                            'code-display': '',
-                        };
-                        $('div[name="for-sport"]').addClass('d-none');
-                    } else {
-                        mapping = {
-                            'category-code': 'PhysicalActivity',
-                            'category-code-text': 'Physical Activity',
-                            'code': '229072005',
-                            'code-text': '一週2次有氧運動，每次30分鐘',
-                            'code-display': 'Aerobic exercises',
-                        };
-                        $('div[name="for-sport"]').removeClass('d-none');
-                    }
-                    for (key in mapping) {
-                        $(`#${key}`).val('');
-                        $(`#${key}`).attr('placeholder', mapping[key]);
-                    }
+                    let selected = $(e.currentTarget).val();
+                    selected = selected.replace(/\//g, '-');
+                    $(e.currentTarget).val(selected);
                 });
 
                 $('#source-form').removeClass('d-none');
@@ -295,14 +309,20 @@
                     let metaProfileUrl = $('#meta-profile-url :selected').val();
 
                     let fields = [
-                        'clinical-status',
+                        'status',
+                        'intent',
                         'category-code',
-                        'category-code-text',
-                        'code',
-                        'code-text',
-                        'code-display',
-                        'patient',
-                        'asserter',
+                        'category-code-display',
+                        'description',
+                        'subject',
+                        'author',
+                        'goal',
+                        'activity-progress-time',
+                        'activity-progress-text',
+                        'activity-detail-status',
+                        'activity-detail-text',
+                        'note-time',
+                        'note'
                     ];
 
                     let field = null;
@@ -316,53 +336,54 @@
                         } else {
                             field = $(`#${field}`).val();
                         }
-                        fields[index] = field;
+                        fields[index] = field.replace(/\n/g, '');
                     }
-
-                    let conditionType = $('#condition-type :selected').val();
 
                     let payload = {
                         'profile_urls': [$('#meta-profile-url :selected').val()],
-                        'clinical_status_coding': [{
-                            'system': 'http://terminology.hl7.org/CodeSystem/condition-clinical',
-                            'code': fields[0],
-                        }],
-                        'category_coding': [{
-                            'system': 'http://loinc.org',
-                            'code': fields[1],
-                            'display': fields[2],
-                        }],
-                        'code_coding': [{
-                            'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/icd-10-cm-2021-tw',
-                            'code': fields[3],
-                            'display': fields[5],
-                        }],
-                        'code_text': fields[4],
+                        'status': fields[0],
+                        'intent': fields[1],
+                        'category_coding': [
+                            {
+                                'system': 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode',
+                                'code': fields[2],
+                                'display': fields[3],
+                            },
+                        ],
+                        'description': fields[4],
                         'subject': {
+                            'reference': fields[5],
+                        },
+                        'author': {
                             'reference': fields[6],
                         },
-                        'asserter': {
+                        'goal': [{
                             'reference': fields[7],
+                        }],
+                        'activity_progress': [
+                            {
+                                'time': fields[8],
+                                'text': fields[9],
+                            },
+                        ],
+                        'activity_detail': {
+                            'status': fields[10],
+                            'description': fields[11],
                         },
+                        'note': [{
+                            'time': fields[12],
+                            'text': fields[13],
+                        }],
                     };
-
-                    if (conditionType !== 'medical') {
-                        payload.category_coding[0].system = 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode';
-                        payload.code_coding[0].system = 'http://snomed.info/sct';
-                    }
-
-                    if (payload.code_coding[0].display === '') {
-                        delete payload.code_coding[0].display;
-                    }
 
                     $(e.currentTarget).attr('disabled', 'disabled');
 
-                    if ($('#condition-id').val() !== '') {
-                        payload['id'] = $('#condition-id').val();
+                    if ($('#care-plan-id').val() !== '') {
+                        payload['id'] = $('#care-plan-id').val();
                     }
 
-                    await doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
-                    let encounterId = localStorage.getItem('created_condition_id');
+                    await doGenerateCarePlanRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    let carePlanId = localStorage.getItem('created_care_plan_id');
                     $(e.currentTarget).removeAttr('disabled');
                 });
 
