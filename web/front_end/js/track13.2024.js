@@ -298,3 +298,84 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         return false;
     });
 }
+
+async function doGenerateGoalRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
+    await $.ajax({
+        url: `/track13/2024/${roleType}/Goal`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#13'],
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
+        let goalResource = jsonData;
+        if (jsonData.entry) {
+            goalResource = jsonData.entry[0].resource;
+        }
+
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#result-goal-id').html(goalResource.id);
+        localStorage.setItem('created_goal_id', goalResource.id);
+
+        $('#result-goal-identifier').html(
+            `${goalResource.identifier[0].system}#${goalResource.identifier[0].value}`
+        );
+
+        $('#result-goal-lifecycle-status').html(
+            `${goalResource.lifecycleStatus}`
+        );
+
+        $('#result-goal-category').html(
+            `${goalResource.category[0].coding[0].display} (${goalResource.category[0].coding[0].system}#${goalResource.category[0].coding[0].code})`
+        );
+
+        $('#result-goal-description').html(
+            `${goalResource.description.text}`
+        );
+
+        $('#result-goal-subject').html(
+            `${goalResource.subject.reference}`
+        );
+
+        $('#result-goal-measure').html(
+            `${goalResource.target[0].measure.coding[0].display} (${goalResource.target[0].measure.coding[0].system}#${goalResource.target[0].measure.coding[0].code})`
+        );
+
+        $('#result-goal-detail').html(
+            `${goalResource.target[0].detailQuantity.value} ${goalResource.target[0].detailQuantity.unit} (Detail: ${goalResource.target[0].detailQuantity.system}#${goalResource.target[0].detailQuantity.code})`
+        );
+
+        $('#search-result-card').removeClass('d-none');
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
+        return false;
+    });
+}

@@ -1,8 +1,8 @@
-from fhir_data_generator import OrganizationH, OrganizationS
+from fhir_data_generator import Goal
 from fhir_data_generator import SimpleClient, ClientCredentials, AuthorizationCode
 
 
-class Track13ForOrganization:
+class Track13ForGoal:
     def __init__(self, resource, item_dict: dict):
         self.item_dict = item_dict
         self.payload = item_dict['patient_payload']
@@ -48,7 +48,7 @@ class Track13ForOrganization:
             access_token = authorization_code.retrieve_token()
             simple_client.headers['Authorization'] = f'Bearer {access_token}'
 
-        json_payload = self.generate_organization_resource()
+        json_payload = self.generate_goal_resource()
 
         req_path = f'/{self.resource}'
         if self.http_method == 'PUT':
@@ -64,27 +64,28 @@ class Track13ForOrganization:
 
         return simple_client.handle_response(response)
 
-    def generate_organization_resource(self):
-        if self.payload['org_type'] == 'hospital':
-            organization_class = OrganizationH
-        else:
-            organization_class = OrganizationS
-
+    def generate_goal_resource(self):
         if self.http_method == 'PUT':
-            organization_class = organization_class(self.payload['id'])
+            goal_class = Goal(self.payload['id'])
         else:
-            organization_class = organization_class()
+            goal_class = Goal()
 
         profile_urls = self.payload['profile_urls']
+        goal_class.set_profile_urls(profile_urls)
 
-        organization_class.set_profile_urls(profile_urls)
+        goal_class.set_identifiers(self.payload['identifiers'])
 
-        organization_class.set_identifiers(self.payload['identifiers'])
+        goal_class.set_lifecycle_status(self.payload['lifecycle_status'])
 
-        organization_class.set_type_coding(self.payload['type_coding'])
+        goal_class.set_category_coding(self.payload['category_coding'])
 
-        organization_class.set_name(self.payload['name'])
+        goal_class.set_description_text(self.payload['description_text'])
 
-        organization_class.create()
+        goal_class.set_subject(self.payload['subject'])
 
-        return organization_class.payload_template
+        goal_class.set_target_measure_coding(self.payload['target_measure_coding'])
+        goal_class.set_target_detail_quantity(self.payload['target_detail_quantity'])
+
+        goal_class.create()
+
+        return goal_class.payload_template

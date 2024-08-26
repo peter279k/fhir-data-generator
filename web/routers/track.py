@@ -27,6 +27,7 @@ from modules.track1_2024.Track1ForAllergyIntolerance import Track1ForAllergyInto
 from modules.track1_2024.Track1ForMedicationStatement import Track1ForMedicationStatement
 from modules.track1_2024.Track1ForObservationLabReport import Track1ForObservationLabReport
 
+from modules.track13_2024.Track13ForGoal import Track13ForGoal
 from modules.track13_2024.Track13ForPatient import Track13ForPatient
 from modules.track13_2024.Track13ForCondition import Track13ForCondition
 from modules.track13_2024.Track13ForPractitioner import Track13ForPractitioner
@@ -130,6 +131,8 @@ def track13_source_creator(item: ContentSourceModel, resource_name):
         track = Track13ForPractitioner(resource_name, item.model_dump())
     if resource_name == 'Condition':
         track = Track13ForCondition(resource_name, item.model_dump())
+    if resource_name == 'Goal':
+        track = Track13ForGoal(resource_name, item.model_dump())
 
     response_content = track.get_response_content()
     store_resource_log(resource_name, response_content, item)

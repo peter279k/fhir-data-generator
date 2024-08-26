@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="This is the web demonstration for MITW Connectathon" />
+        <meta name="author" content="" />
+        <title>MITW 2024 Track13 Goal</title>
+        <link href="../../css/styles.css" rel="stylesheet" />
+        <script src="../../js/all.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../../css/sweetalert2.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
+
+        <link rel="apple-touch-icon" href="../../assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="../../assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="../../assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="mask-icon" href="../../assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+        <link rel="icon" href="../../assets/img/favicons/favicon.ico">
+
+        <!-- Popperjs -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <!-- Tempus Dominus JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
+
+        <!-- Tempus Dominus Styles -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.html">fhir-data-generator</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Goal Resource</div>
+                            <a class="nav-link" href="../index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                基本設定
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Resources</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#1
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion"></div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#2
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/front_end/2024/track2/patient.html">Patient</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Track#13
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Goal</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li id="scenario-name" class="breadcrumb-item text-primary active">Physical Activity Goal(運動目標)<li>
+                        </ol>
+                        <ol class="breadcrumb mb-4">
+                            <li class="text-secondary">*如果可以，請在本測試中使用Gazelle Proxy，以獲取測試夥伴的查詢和回應。</li>
+                            <li class="text-secondary">*請使用大會核發UserID向大會授權主機 (Keycloak OAuth Server)取得存取授權Token後之Token，並放入HTTP header。</li>
+                        </ol>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a id="tw-core-creator-tab" class="nav-link active" aria-current="page" href="#">Creator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="tw-core-consumer-tab" class="nav-link" href="#">Consumer</a>
+                            </li>
+                        </ul>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form class="d-none" id="source-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="source-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="source-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="goal-id" class="form-label">請輸入Goal id</label>
+                                        <input type="text" class="form-control" placeholder="留空白則會自動產生" id="goal-id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="meta-profile-url">請選擇meta profile URL</label>
+                                        <select id="meta-profile-url" class="form-select" aria-label="">
+                                            <option value="https://hapi.fhir.tw/fhir/StructureDefinition/Goal-sport">Goal-sport</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="identifier" class="form-label">請輸入識別碼(identifier)</label>
+                                        <input class="form-control" type="text" id="identifier" placeholder="s141526" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="identifier-system" class="form-label">請輸入識別碼所屬代碼系統</label>
+                                        <input class="form-control" type="text" id="identifier-system" placeholder="https://www.health.ntpc.gov.tw/" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="lifecycle-status" class="form-label">請輸入運動週期階段(lifecycleStatus)</label>
+                                        <input class="form-control" type="text" id="lifecycle-status" placeholder="proposed" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="category-code" class="form-label">請輸入分類代碼</label>
+                                        <input class="form-control" type="text" id="category-code" placeholder="PhysicalActivity" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="category-code-display" class="form-label">請輸入分類代碼顯示</label>
+                                        <input class="form-control" type="text" id="category-code-display" placeholder="Physical Activity">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">請輸入描述</label>
+                                        <input class="form-control" type="text" id="description" placeholder="L5-S1椎間盤突出，在六個月內減少突出程度2-3毫米，疼痛評分減少50%">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="subject" class="text-info fw-bold form-label">請輸入病人參照</label>
+                                        <input class="form-control" type="text" id="subject" placeholder="Patient/patient-tw-example">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="target-measure-coding" class="form-label">請輸入目標測量代碼</label>
+                                        <input class="form-control" type="text" id="target-measure-coding" placeholder="41950-7">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="target-measure-coding-display" class="form-label">請輸入目標測量代碼顯示</label>
+                                        <input class="form-control" type="text" id="target-measure-coding-display" placeholder="Number of steps in 24 hour Measured">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="target-detail-quantity" class="form-label">請輸入目標測量值代碼</label>
+                                        <input class="form-control" type="text" id="target-detail-quantity" placeholder="/d">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="target-detail-quantity-unit" class="form-label">請輸入目標測量值單位</label>
+                                        <input class="form-control" type="text" id="target-detail-quantity-unit" placeholder="steps per day">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="target-detail-quantity-value" class="form-label">請輸入目標測量值</label>
+                                        <input class="form-control" type="text" id="target-detail-quantity-value" placeholder="5000">
+                                    </div>
+
+                                    <button form_name="source-form" name="generate-btn" type="button" class="btn btn-primary">產生</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button form_name="source-form" name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                </form>
+                                <form class="d-none" id="consumer-form" role="form">
+                                    <div class="mb-3">
+                                        <label for="consumer-token-level" class="form-label">請選擇Access Token驗證層級</label>
+                                        <select id="consumer-token-level" class="form-select" aria-label="">
+                                            <option value="level1">Level 1</option>
+                                            <option value="level3">Level 3</option>
+                                            <option value="no-level">No level</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="_id">請輸入id參數</label>
+                                        <input class="form-control" type="text" id="_id" placeholder="3878">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="severity">請輸入severity參數</label>
+                                        <input class="form-control" type="text" id="severity" placeholder="LA6752-5">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="clinical-status">請輸clinical-status參數</label>
+                                        <input class="form-control" type="text" id="clinical-status" placeholder="remission">
+                                    </div>
+
+                                    <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
+                                    <button type="reset" class="btn btn-secondary">重設</button>
+                                    <button name="capture-image" type="button" class="btn btn-warning">截圖</button>
+                                    <button name="delete-btn" type="button" class="btn btn-danger d-none">刪除</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="search-result-card" class="card mb-4 d-none">
+                            <div id="result-card-header" class="card-header">結果</div>
+                            <div class="card-body">
+                                <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
+                                <p class="card-text">id: <span id="result-goal-id" class="text-primary"></span></p>
+
+                                <p class="card-text">識別碼: <span id="result-goal-identifier" class="text-primary"></span></p>
+                                <p class="card-text">運動週期狀態(lifecycleStatus): <span id="result-goal-lifecycle-status" class="text-primary"></span></p>
+                                <p class="card-text">分類: <span id="result-goal-category" class="text-primary"></span></p>
+                                <p class="card-text">敘述: <span id="result-goal-description" class="text-primary"></span></p>
+                                <p class="card-text">病人(subject): <span id="result-goal-subject" class="text-primary"></span></p>
+
+                                <h5 class="fw-bold text-sceondary">運動目標</h5>
+                                <table class="table-bordered border-secondary">
+                                    <tr>
+                                        <th>測量(Measure)</th>
+                                        <th>細節資訊(Detail)</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-primary" id="result-goal-measure"></td>
+                                        <td class="text-primary" id="result-goal-detail"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; fhir-data-generator 2024</div>
+                            <div>
+                                <a target="_blank" href="https://github.com/peter279k/fhir-data-generator">GitHub連結</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../../js/scripts.js"></script>
+        <script src="../../js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="../../js/jquery-ui.js"></script>
+        <script src="../../js/jquery.ui.datepicker-zh-TW.min.js"></script>
+        <script src="../../js/sweetalert2.all.min.js"></script>
+        <script src="../../js/html2canvas.min.js"></script>
+        <script src="../../js/FileSaver.min.js"></script>
+        <script src="../../js/track1.coding.js"></script>
+        <script src="../../js/track1.utility.js"></script>
+        <script src="../../js/track13.2024.js"></script>
+        <script src="../../js/commLangCode.js"></script>
+        <script src="../../js/loadIGNavLink.js"></script>
+        <script>
+            $(async () => {
+                loadIGNavLink();
+                await loadMartialStatus();
+                await loadRelationshipCoding();
+
+                $('#source-form').removeClass('d-none');
+
+                $('button[name="delete-btn"]').click((e) => {});
+
+                $('button[name="generate-btn"]').click(async(e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let currentFormName = e.currentTarget.getAttribute('form_name');
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let metaProfileUrl = $('#meta-profile-url :selected').val();
+
+                    let fields = [
+                        'identifier',
+                        'identifier-system',
+                        'lifecycle-status',
+                        'category-code',
+                        'category-code-display',
+                        'description',
+                        'subject',
+                        'target-measure-coding',
+                        'target-measure-coding-display',
+                        'target-detail-quantity',
+                        'target-detail-quantity-unit',
+                        'target-detail-quantity-value',
+                    ];
+
+                    let field = null;
+                    for (index in fields) {
+                        field = fields[index];
+                        if ($(`#${field}`).val() === '') {
+                            $(`#${field}`).val(
+                                $(`#${field}`).attr('placeholder')
+                            );
+                            field = $(`#${field}`).attr('placeholder');
+                        } else {
+                            field = $(`#${field}`).val();
+                        }
+                        fields[index] = field;
+                    }
+
+                    let payload = {
+                        'profile_urls': [$('#meta-profile-url :selected').val()],
+                        'identifiers': [{
+                            'system': fields[1],
+                            'value': fields[0],
+                        }],
+                        'lifecycle_status': fields[2],
+                        'category_coding': [{
+                            'system': 'https://hapi.fhir.tw/fhir/CodeSystem/tempcode',
+                            'code': fields[3],
+                            'display': fields[4],
+                        }],
+                        'description_text': fields[5],
+                        'subject': {
+                            'reference': fields[6],
+                        },
+                        'target_measure_coding': [{
+                            'system': 'http://loinc.org',
+                            'code': fields[7],
+                            'display': fields[8],
+                        }],
+                        'target_detail_quantity': {
+                            'value': Number(fields[11]),
+                            'unit': fields[10],
+                            'system': 'http://unitsofmeasure.org',
+                            'code': fields[9],
+                        },
+                    };
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+
+                    if ($('#goal-id').val() !== '') {
+                        payload['id'] = $('#goal-id').val();
+                    }
+
+                    await doGenerateGoalRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage);
+                    let goalId = localStorage.getItem('created_goal_id');
+                    $(e.currentTarget).removeAttr('disabled');
+                });
+
+                $('button[name="submit-btn"]').click(async (e) => {
+                    e.preventDefault();
+
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '請輸入至少一個查詢參數！',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+                    let warningMessage = {
+                        title: '訊息',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+
+                    let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
+                    let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
+
+                    let fields = ['_id', 'severity', 'clinical-status'];
+                    for (index in fields) {
+                        if ($(`#${fields[index]}`).val() === '') {
+                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
+                        } else {
+                            fields[index] = $(`#${fields[index]}`).val();
+                        }
+                    }
+
+                    let searchParameters = '?';
+
+                    searchParameters += `_id=${fields[0]}&`;
+                    searchParameters += `severity=${fields[1]}&`;
+                    searchParameters += `clinical-status=${fields[2]}&`;
+
+                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
+
+                    if (searchParameters === '') {
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    $('#result-search-parameters').text(searchParameters.substring(1));
+
+                    $(e.currentTarget).attr('disabled', 'disabled');
+                    $(e.currentTarget).html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>查詢中...'
+                    );
+
+                    let payload = {
+                        'search_parameters': searchParameters,
+                    };
+
+                    await doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
+
+                    $(e.currentTarget).removeAttr('disabled');
+                    $(e.currentTarget).html('查詢');
+                });
+
+                $('button[name="capture-image"]').click((e) => {
+                    e.preventDefault();
+                    html2canvas(document.querySelector('#layoutSidenav_content')).then(canvas => {
+                        canvas.toBlob((blob) => {
+                            window.saveAs(blob, 'image.png');
+                        });
+                    });
+                });
+
+                $('[id*=-tab]').click((e) => {
+                    $(e.currentTarget).addClass('active');
+                    let currentId = e.currentTarget.id;
+                    if (currentId.includes('consumer')) {
+                        $('#tw-core-creator-tab').removeClass('active');
+                        $('#source-form').addClass('d-none');
+                        $('#consumer-form').removeClass('d-none');
+                    } else {
+                        $('#tw-core-consumer-tab').removeClass('active');
+                        $('#source-form').removeClass('d-none');
+                        $('#consumer-form').addClass('d-none');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
