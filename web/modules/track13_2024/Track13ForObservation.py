@@ -4,7 +4,7 @@ from fhir_data_generator import PhysicalActivityObservation as Observation
 from fhir_data_generator import SimpleClient, ClientCredentials, AuthorizationCode
 
 
-class Track1ForObservation:
+class Track13ForObservation:
     def __init__(self, resource, item_dict: dict):
         self.item_dict = item_dict
         self.payload = item_dict['patient_payload']
