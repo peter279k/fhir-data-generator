@@ -333,17 +333,133 @@ function loadObservationValueQuantityForm(observationMapping) {
     return valueQuantityMapping;
 }
 
-function addValueQuantityFields() {
+function addBodySiteFields(observationBasicInfo) {
+    let bodySitePayload = {};
+    let bodySiteForm = [
+        'gaitcycle-r', 'gaitcycle-l',
+        'gaittype-l', 'gaittype-r',
+    ];
+    let selectedObservationOption = $('#observation-options :selected').val();
+    let currentBasicInfo = observationBasicInfo[selectedObservationOption];
+
+    if (bodySiteForm.includes(selectedObservationOption)) {
+        bodySitePayload.body_site = {};
+        bodySitePayload.body_site.coding = [
+            {
+                system: currentBasicInfo.bodySite.coding[0].system,
+                code: currentBasicInfo.bodySite.coding[0].code,
+                display: currentBasicInfo.bodySite.coding[0].display,
+            },
+        ];
+    }
+
+    return bodySitePayload;
+}
+
+function addValueCodeableConcept(observationBasicInfo) {
+    let conceptForm = ['gaittype-l', 'gaittype-r', 'weighttraining'];
+    let selectedObservationOption = $('#observation-options :selected').val();
+    let currentBasicInfo = observationBasicInfo[selectedObservationOption];
+    let conceptPayload = {};
+
+    if (conceptForm.includes(selectedObservationOption)) {
+        conceptPayload.value_codeable_concept = {
+            coding: [{
+                system: currentBasicInfo.valueCodeableConcept.coding[0].system,
+                code: currentBasicInfo.valueCodeableConcept.coding[0].code,
+                display: currentBasicInfo.valueCodeableConcept.coding[0].display,
+            }],
+        };
+    }
+
+    return conceptPayload;
+}
+
+function addHasMemberField() {
+    let hasMemberForm = 'tbw';
+    let selectedObservationOption = $('#observation-options :selected').val();
+    let hasMemberPayload = {};
+    let icw = $('#value-quantity-icw').val();
+    let ecw = $('#value-quantity-ecw').val();
+
+    if (icw === '') {
+        icw = $('#value-quantity-icw').attr('placeholder');
+    }
+    if (ecw === '') {
+        ecw = $('#value-quantity-ecw').attr('placeholder');
+    }
+
+    if (hasMemberForm === selectedObservationOption) {
+        hasMemberPayload.has_member = [
+            {
+                reference: icw,
+            },
+            {
+                reference: ecw,
+            },
+        ];
+    }
+
+    return hasMemberPayload;
+}
+
+function addValueQuantityFields(observationBasicInfo) {
     let valueQuantityPayload = {};
     let selectedObservationOption = $('#observation-options :selected').val();
+    let currentBasicInfo = observationBasicInfo[selectedObservationOption];
 
-    let valueForm1 = [];
-    let valueForm2 = [];
-    let valueForm3 = [];
+    let componentForm = [
+        'gaitcycle-r', 'gaitcycle-l', 'weighttraining',
+        'gaittype-l', 'gaittype-r', 'treadmill', 'bloodpressure',
+    ];
+    let valueQuantitySystem = 'http://unitsofmeasure.org';
+    let valueQu = {};
 
-    $('#value-quantity-field > div > input').each((_, element) => {
-        console.log($(element).attr('id'));
-    });
+    if (componentForm.includes(selectedObservationOption)) {
+        for (let index=0; index<currentBasicInfo.component.length; index++) {
+            if (!valueQuantityPayload.component) {
+                valueQuantityPayload.component = [];
+            }
+
+            let measuredValue = $(`#value-quantity-value${index+1}`).val();
+            if (measuredValue === '') {
+                measuredValue = $(`#value-quantity-value${index+1}`).attr('placeholder');
+            }
+            valueQu = {
+                code: {
+                    coding: [{
+                        system: currentBasicInfo.component[index].code.coding[0].system,
+                        code: currentBasicInfo.component[index].code.coding[0].code,
+                        display: currentBasicInfo.component[index].code.coding[0].display,
+                    }],
+                },
+                value_quantity: {
+                    value: measuredValue,
+                },
+            };
+            if (currentBasicInfo.component[index].valueQuantity.unit) {
+                valueQu.value_quantity.unit = currentBasicInfo.component[index].valueQuantity.unit;
+                valueQu.value_quantity.system = currentBasicInfo.component[index].valueQuantity.system;
+                valueQu.value_quantity.code = currentBasicInfo.component[index].valueQuantity.code;
+            }
+            valueQuantityPayload.component.push(valueQu);
+        }
+    } else {
+        let measuredCoding = $('#value-quantity-coding1').val();
+        let measuredUnit = $('#value-quantity-unit1').val();
+        let measuredValue = $('#value-quantity-value1').val();
+        if (measuredValue === '') {
+            measuredValue = $('#value-quantity-value1').attr('placeholder');
+        }
+        valueQuantityPayload.value_quantity = {
+            value: measuredValue,
+        };
+        if (measuredCoding !== 'null') {
+            valueQuantityPayload.value_quantity.unit = measuredUnit;
+            valueQuantityPayload.value_quantity.system = valueQuantitySystem;
+            valueQuantityPayload.value_quantity.code = measuredCoding;
+        }
+    }
 
     return valueQuantityPayload;
 }

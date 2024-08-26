@@ -306,7 +306,7 @@
 
                     $('#code-coding').val(categoryCodeMapping.code_mapping[selectedObservationOption].code);
                     $('#code-coding-display').val(categoryCodeMapping.code_mapping[selectedObservationOption].display);
-                    $('#code-coding-text').val(categoryCodeMapping.code_mapping[selectedObservationOption].text);
+                    $('#code-coding-text').val(categoryCodeMapping.code_mapping[selectedObservationOption].text || '');
                 });
 
                 $('#source-form').removeClass('d-none');
@@ -361,6 +361,7 @@
                         fields[index] = field;
                     }
 
+                    let selectedObservationOption = $('#observation-options :selected').val();
                     let payload = {
                         'profile_urls': [$('#meta-profile-url :selected').val()],
                         'status': fields[0],
@@ -382,13 +383,20 @@
                         'performer': [{
                             'reference': fields[8],
                         }],
+                        'type': selectedObservationOption,
                     };
 
-                    let selectedObservationOption = $('#observation-options :selected').val();
-                    addValueQuantityFields(categoryCodeMapping);
-                    //Object.assign(payload, valueQuantityPayload);
+                    let valueQuantityPayload = addValueQuantityFields(observationBasicInfo);
+                    let codeableConceptPayload = addValueCodeableConcept(observationBasicInfo);
+                    let bodySitePayload = addBodySiteFields(observationBasicInfo);
+                    let hasMemberPayload = addHasMemberField();
 
-                    return false;
+                    Object.assign(payload, valueQuantityPayload);
+                    Object.assign(payload, codeableConceptPayload);
+                    Object.assign(payload, bodySitePayload);
+                    Object.assign(payload, hasMemberPayload);
+
+                    console.log(JSON.stringify(payload));
 
                     $(e.currentTarget).attr('disabled', 'disabled');
 

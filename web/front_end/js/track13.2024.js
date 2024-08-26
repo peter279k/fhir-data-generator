@@ -562,3 +562,94 @@ async function doGenerateServiceRequestRequest(trackServerEndpoint, oauthServerE
         return false;
     });
 }
+
+async function doGenerateObservationVitalRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, roleType='source') {
+    await $.ajax({
+        url: `/track13/2024/${roleType}/Observation`,
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify({
+            fhir_server: trackServerEndpoint.track1_server,
+            oauth_token_info: oauthServerEndpoint['track#1'],
+            oauth_level: $(`#${roleType}-token-level :selected`).val(),
+            patient_payload: payload,
+        }),
+    }).done((data) => {
+        let jsonData = data.json;
+        if (jsonData.total === 0) {
+            errorMessage['text'] = '尚未找到任何筆數！';
+            Swal.fire(errorMessage);
+            return false;
+        }
+        let observationResource = jsonData;
+        if (jsonData.entry) {
+            observationResource = jsonData.entry[0].resource;
+        }
+
+        if (data.status !== 200 && data.status !== 201) {
+            let htmlErrorMessage = `
+                <p>error; HTTP status code: ${data.status}</p>
+            `;
+            for (let index=0; index<jsonData.issue.length; index++) {
+                htmlErrorMessage += `<p class="text-danger">${jsonData.issue[index].severity}; ${jsonData.issue[index].diagnostics}</p>`;
+            }
+            errorMessage['html'] = htmlErrorMessage;
+
+            Swal.fire(errorMessage);
+
+            return false;
+        }
+
+        $('#search-result-card').removeClass('d-none');
+
+        return false;
+
+        $('#result-observation-id').html(observationResource.id);
+        localStorage.setItem('created_observation_vital_id', observationResource.id);
+
+        $('#result-observation-status').html(
+            `${observationResource.status}`
+        );
+
+        $('#result-observation-category').html(
+            `${observationResource.category[0].coding[0].display} (${observationResource.category[0].coding[0].system}#${observationResource.category[0].coding[0].code})`
+        );
+
+        $('#result-observation-item').html(
+            `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+        );
+
+        $('#result-observation-patient').html(
+            `${observationResource.subject.reference}`
+        );
+
+        $('#result-observation-performer').html(
+            `${observationResource.performer[0].reference}`
+        );
+
+        $('#result-observation-effective-date').html(
+            `${observationResource.effectiveDateTime}`
+        );
+
+        let observationResult = '';
+        for (let index=0; index<observationResource.component.length; index++) {
+            observationResult += `
+                <ul class="card-text">
+                    <li">檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
+                    <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit} (${observationResource.component[index].valueQuantity.system}#${observationResource.component[index].valueQuantity.code})</span></li>
+                </ul>
+            `;
+        }
+
+        $('#observation-result').html(observationResult);
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+
+        $('button[name="generate-btn"]').each((_, element) => {
+            $(element).removeAttr('disabled');
+        });
+
+        return false;
+    });
+}
