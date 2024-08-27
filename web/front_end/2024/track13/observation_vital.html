@@ -144,7 +144,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="patient" class="fw-bold text-info form-label">請輸入病人參照</label>
-                                        <input type="text" class="form-control" placeholder="Patient/pat-example" id="patient">
+                                        <input type="text" class="form-control" placeholder="Patient/950f065bb855" id="patient">
                                     </div>
                                     <div class="mb-3">
                                         <label for="effective-datetime" class="form-label">請輸入執行日期</label>
@@ -152,7 +152,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="performer" class="fw-bold text-info form-label">請輸入檢查者參照</label>
-                                        <input type="text" class="form-control" placeholder="Practitioner/pra-dr-example" id="performer">
+                                        <input type="text" class="form-control" placeholder="Practitioner/0be7f039-e804-4ef9-90e4-e07793c607f9" id="performer">
                                     </div>
                                     <span id="value-quantity-field"></span>
 
@@ -239,6 +239,7 @@
 
         <script src="../../js/track1.coding.js"></script>
         <script src="../../js/track13.utility.js"></script>
+        <script src="../../js/track13.2024.js"></script>
         <script src="../../js/commLangCode.js"></script>
         <script src="../../js/loadIGNavLink.js"></script>
         <script>
@@ -333,7 +334,7 @@
                     let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
                     let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
 
-                    let metaProfileUrl = $('#meta-profile-url :selected').val();
+                    let metaProfileUrl = $('#meta-profile-url').val();
 
                     let fields = [
                         'status',
@@ -363,15 +364,15 @@
 
                     let selectedObservationOption = $('#observation-options :selected').val();
                     let payload = {
-                        'profile_urls': [$('#meta-profile-url :selected').val()],
+                        'profile_urls': [metaProfileUrl],
                         'status': fields[0],
                         'category_coding': [{
-                            'system': 'http://terminology.hl7.org/CodeSystem/observation-category',
+                            'system': observationBasicInfo[selectedObservationOption].category[0].coding[0].system,
                             'code': fields[1],
                             'display': fields[2],
                         }],
                         'code_coding': [{
-                            'system': 'http://loinc.org',
+                            'system': observationBasicInfo[selectedObservationOption].code.coding[0].system,
                             'code': fields[3],
                             'display': fields[4],
                         }],
@@ -395,8 +396,6 @@
                     Object.assign(payload, codeableConceptPayload);
                     Object.assign(payload, bodySitePayload);
                     Object.assign(payload, hasMemberPayload);
-
-                    console.log(JSON.stringify(payload));
 
                     $(e.currentTarget).attr('disabled', 'disabled');
 

@@ -40,7 +40,7 @@ function loadIGNavLink() {
         'organization.html': 'Organization',
         'goal.html': 'Goal',
         'careplan.html': 'CarePlan',
-        'observation.html': 'Observation',
+        'observation_vital.html': 'Observation',
         'servicerequest.html': 'ServiceRequest',
     };
     for (key in resources) {

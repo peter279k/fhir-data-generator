@@ -68,7 +68,7 @@ function loadObservationValueQuantityForm(observationMapping) {
         '平均心率': [75, '/min', '/min'],
         '心率變異性': [50, 'ms', 'ms'],
         '體溫': [36.5, 'C', 'Cel'],
-        '呼吸速率': [36.5, 'min', '/min'],
+        '呼吸速率': [15, 'min', '/min'],
         '身體總水分': [23.9, 'kg', 'kg'],
         '細胞內水分': [14.7, 'kg', 'kg'],
         '細胞外水分': [9.2, 'kg', 'kg'],
@@ -79,11 +79,11 @@ function loadObservationValueQuantityForm(observationMapping) {
         '肌肉質量指數': [5.1, 'kg/m2', 'kg/m2'],
         '身體質量指數': [18.8, 'kg/m2', 'kg/m2'],
         '體脂率': [30.4, '%', '%'],
-        '基礎代謝率': [30.4, '%', '%'],
+        '基礎代謝率': [1075, 'kcal', 'kcal'],
         '去脂體重': [32.6, 'kg', 'kg'],
         '內臟脂肪指數': [5, null, null],
         '內臟脂肪面積': [37, 'cm2', 'cm2'],
-        '腰臀圍比': [37, null, null],
+        '腰臀圍比': [0.79, null, null],
         '肥胖度': [-15, '%', '%'],
         '體內年齡': [26, null, null],
         '肌肉量': [30.9, 'kg', 'kg'],
@@ -433,14 +433,14 @@ function addValueQuantityFields(observationBasicInfo) {
                         display: currentBasicInfo.component[index].code.coding[0].display,
                     }],
                 },
-                value_quantity: {
-                    value: measuredValue,
+                valueQuantity: {
+                    value: Number(measuredValue),
                 },
             };
             if (currentBasicInfo.component[index].valueQuantity.unit) {
-                valueQu.value_quantity.unit = currentBasicInfo.component[index].valueQuantity.unit;
-                valueQu.value_quantity.system = currentBasicInfo.component[index].valueQuantity.system;
-                valueQu.value_quantity.code = currentBasicInfo.component[index].valueQuantity.code;
+                valueQu.valueQuantity.unit = currentBasicInfo.component[index].valueQuantity.unit;
+                valueQu.valueQuantity.system = currentBasicInfo.component[index].valueQuantity.system;
+                valueQu.valueQuantity.code = currentBasicInfo.component[index].valueQuantity.code;
             }
             valueQuantityPayload.component.push(valueQu);
         }
@@ -452,7 +452,7 @@ function addValueQuantityFields(observationBasicInfo) {
             measuredValue = $('#value-quantity-value1').attr('placeholder');
         }
         valueQuantityPayload.value_quantity = {
-            value: measuredValue,
+            value: Number(measuredValue),
         };
         if (measuredCoding !== 'null') {
             valueQuantityPayload.value_quantity.unit = measuredUnit;

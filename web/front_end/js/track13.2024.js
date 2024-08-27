@@ -4,7 +4,7 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
+            fhir_server: trackServerEndpoint.track13_server,
             oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: patientPayload,
@@ -92,7 +92,7 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
+            fhir_server: trackServerEndpoint.track13_server,
             oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
@@ -159,7 +159,7 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
+            fhir_server: trackServerEndpoint.track13_server,
             oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
@@ -226,7 +226,7 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
+            fhir_server: trackServerEndpoint.track13_server,
             oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
@@ -305,7 +305,7 @@ async function doGenerateGoalRequest(trackServerEndpoint, oauthServerEndpoint, p
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
+            fhir_server: trackServerEndpoint.track13_server,
             oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
@@ -386,7 +386,7 @@ async function doGenerateCarePlanRequest(trackServerEndpoint, oauthServerEndpoin
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
+            fhir_server: trackServerEndpoint.track13_server,
             oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
@@ -484,7 +484,7 @@ async function doGenerateServiceRequestRequest(trackServerEndpoint, oauthServerE
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
+            fhir_server: trackServerEndpoint.track13_server,
             oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
@@ -569,8 +569,8 @@ async function doGenerateObservationVitalRequest(trackServerEndpoint, oauthServe
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         data: JSON.stringify({
-            fhir_server: trackServerEndpoint.track1_server,
-            oauth_token_info: oauthServerEndpoint['track#1'],
+            fhir_server: trackServerEndpoint.track13_server,
+            oauth_token_info: oauthServerEndpoint['track#13'],
             oauth_level: $(`#${roleType}-token-level :selected`).val(),
             patient_payload: payload,
         }),

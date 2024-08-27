@@ -102,6 +102,9 @@ class Track13ForObservation:
 
         if self.payload['type'] in self.component_form:
             observation_class.set_component(self.payload['component'])
+        else:
+            observation_class.set_value_quantity(self.payload['value_quantity'])
+
         if self.payload['type'] in self.concept_form:
             observation_class.set_value_codeable_concept(self.payload['value_codeable_concept'])
         if self.payload['type'] == self.has_member_form:
@@ -110,6 +113,9 @@ class Track13ForObservation:
             observation_class.set_body_site(self.payload['body_site'])
 
         observation_class.create()
+
+        # Temporarily remove meta profile
+        del observation_class.payload_template['meta']
 
         file_name = self.payload['type']
         with open(f'{file_name}.json', 'w') as f:
