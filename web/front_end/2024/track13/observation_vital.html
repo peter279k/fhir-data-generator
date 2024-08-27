@@ -178,12 +178,16 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="_id">請輸入id參數</label>
-                                        <input class="form-control" type="text" id="_id" placeholder="cb402f89-512b-41ca-9ce7-fc48b88abe9d">
+                                        <label class="form-label" for="patient-id">請輸入Patient id參數</label>
+                                        <input class="form-control" type="text" id="patient-id" placeholder="950f065bb855">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="query-status">請輸入status參數</label>
-                                        <input class="form-control" type="text" id="query-status" placeholder="final">
+                                        <label for="observation-consumer-options" class="form-label">請選擇量測項目</label>
+                                        <select id="observation-consumer-options" class="form-select"></select>
+                                    </div>
+                                    <div id="code-parameter" class="mb-3">
+                                        <label class="form-label" for="code-options">請選擇code參數</label>
+                                        <select id="code-options" class="form-select"></select>
                                     </div>
 
                                     <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
@@ -279,6 +283,7 @@
                 $('#code-coding-display').val(categoryCodeMapping.code_mapping['height'].display);
                 $('#code-coding-text').val(categoryCodeMapping.code_mapping['height'].text);
                 $('#value-quantity-field').html(valueQuantityMapping['height']);
+                $('#code-options').html(`<option value="${observationBasicInfo['height'].code.coding[0].code}">${observationBasicInfo['height'].code.text}(${observationBasicInfo['height'].code.coding[0].code})</option>`);
 
                 for (group in observationOpts) {
                     observationOpt = observationOpts[group];
@@ -292,8 +297,15 @@
                     htmlContents += '</optgroup>';
                 }
                 $('#observation-options').html(htmlContents);
+                $('#observation-consumer-options').html(htmlContents);
 
                 $('#observation-options').select2({
+                    tags: true,
+                    themes: 'bootstrap-5',
+                    placeholder: '請選擇量測項目',
+                    width: '100%',
+                });
+                $('#observation-consumer-options').select2({
                     tags: true,
                     themes: 'bootstrap-5',
                     placeholder: '請選擇量測項目',
@@ -316,12 +328,32 @@
                     $('#code-coding-text').val(categoryCodeMapping.code_mapping[selectedObservationOption].text || '');
                 });
 
+                $('#observation-consumer-options').change((e) => {
+                    e.preventDefault();
+                    let componentForm = ['treadmill', 'weighttraining'];
+                    let selectedObservationOption = $('#observation-consumer-options :selected').val();
+                    let exampleJson = observationBasicInfo[selectedObservationOption];
+
+                    let optionHtmlContents = '';
+                    if (componentForm.includes(selectedObservationOption)) {
+                        $('label[for="code-options"]').html('請選擇Component.code參數');
+                        for (let index=0; index<exampleJson.component.length; index++) {
+                            optionHtmlContents += `<option value="${exampleJson.component[index].code.coding[0].code}">${exampleJson.component[index].code.coding[0].display}(${exampleJson.component[index].code.coding[0].code})</option>`;
+                        }
+                    } else {
+                        $('label[for="code-options"]').html('請選擇code參數');
+                        optionHtmlContents += `<option value="${exampleJson.code.coding[0].code}">${exampleJson.code.text}(${exampleJson.code.coding[0].code})</option>`;
+                    }
+                    $('#code-options').html(optionHtmlContents);
+                });
+
                 $('#source-form').removeClass('d-none');
 
                 $('button[name="delete-btn"]').click((e) => {});
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -416,6 +448,11 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+
+                    let selectedObservationOption = $('#observation-consumer-options :selected').val();
+                    let componentForm = ['treadmill', 'weighttraining'];
+                    let isComponent = componentForm.includes(selectedObservationOption);
 
                     let errorMessage = {
                         title: '錯誤',
@@ -435,22 +472,22 @@
 
                     let overrideServer = $('#consumer-fhir-server-endpoint :selected').val();
                     if (overrideServer !== 'no-value') {
-                        trackServerEndpoint.track1_server = overrideServer;
+                        trackServerEndpoint.track13_server = overrideServer;
                     }
 
-                    let fields = ['_id', 'query-status'];
-                    for (index in fields) {
-                        if ($(`#${fields[index]}`).val() === '') {
-                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
-                        } else {
-                            fields[index] = $(`#${fields[index]}`).val();
-                        }
-                    }
-
+                    let patientId = $('#patient-id').val();
+                    let codeOption = $('#code-options :selected').val();
                     let searchParameters = '?';
 
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `status=${fields[1]}&`;
+                    if (patientId !== '') {
+                        searchParameters += `patient=${patientId}&`;
+                    }
+
+                    if (isComponent) {
+                        searchParameters += `component-code=${codeOption}&`;
+                    } else {
+                        searchParameters += `code=${codeOption}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
@@ -470,7 +507,7 @@
                         'search_parameters': searchParameters,
                     };
 
-                    await doGenerateObservationVitalBloodPressureRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
+                    await doGenerateObservationVitalRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');

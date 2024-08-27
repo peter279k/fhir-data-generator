@@ -206,6 +206,10 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p>
+                                    <select id="entries-counter" class="form-select"></select>
+                                </p>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-care-plan-id" class="text-primary"></span></p>
 
@@ -439,6 +443,69 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let carePlanResource = entries[counter].resource;
+                    console.log(carePlanResource);
+                    $('#result-care-plan-id').html(carePlanResource.id);
+                    localStorage.setItem('created_care_plan_id', carePlanResource.id);
+
+                    $('#result-care-plan-status').html(
+                        `${carePlanResource.status}`
+                    );
+
+                    $('#result-care-plan-intent').html(
+                        `${carePlanResource.intent}`
+                    );
+
+                    $('#result-care-plan-category').html(
+                        `${carePlanResource.category[0].coding[0].display} (${carePlanResource.category[0].coding[0].system}#${carePlanResource.category[0].coding[0].code})`
+                    );
+
+                    $('#result-care-plan-description').html(
+                        `${carePlanResource.description}`
+                    );
+
+                    $('#result-care-plan-patient').html(
+                        `${carePlanResource.subject.reference}`
+                    );
+
+                    $('#result-care-plan-author').html(
+                        `${carePlanResource.author.reference}`
+                    );
+
+                    $('#result-care-plan-goal').html(
+                        `${carePlanResource.goal[0].reference}`
+                    );
+
+                    $('#result-care-plan-progress').html(
+                        `${carePlanResource.activity[0].progress[0].text} (©${carePlanResource.activity[0].progress[0].time})`
+                    );
+
+                    $('#table-detail-status').html(
+                        `${carePlanResource.activity[0].detail.status}`
+                    );
+
+                    $('#activity-detail-description').html(
+                        `${carePlanResource.activity[0].detail.description}`
+                    );
+
+                    $('#result-care-plan-note').html(
+                        `${carePlanResource.note[0].text} (©${carePlanResource.note[0].time})`
+                    );
                 });
 
                 $('button[name="capture-image"]').click((e) => {
