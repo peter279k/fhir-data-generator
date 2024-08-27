@@ -527,6 +527,14 @@ async function doGenerateServiceRequestRequest(trackServerEndpoint, oauthServerE
         if (jsonData.entry) {
             serviceRequestResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            let entryOptions = '<option value="請選擇顯示第幾筆資料">請選擇顯示第幾筆資料</option>';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
