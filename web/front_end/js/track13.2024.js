@@ -243,7 +243,7 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
             conditionResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            let entryOptions = '<option value="請選擇顯示第幾筆資料">請選擇顯示第幾筆資料</option>';
+            let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
                     <option value=${index}>${index+1}</option>
@@ -331,7 +331,7 @@ async function doGenerateGoalRequest(trackServerEndpoint, oauthServerEndpoint, p
             goalResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            let entryOptions = '<option value="請選擇顯示第幾筆資料">請選擇顯示第幾筆資料</option>';
+            let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
                     <option value=${index}>${index+1}</option>
@@ -421,7 +421,7 @@ async function doGenerateCarePlanRequest(trackServerEndpoint, oauthServerEndpoin
             carePlanResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            let entryOptions = '<option value="請選擇顯示第幾筆資料">請選擇顯示第幾筆資料</option>';
+            let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
                     <option value=${index}>${index+1}</option>
@@ -528,7 +528,7 @@ async function doGenerateServiceRequestRequest(trackServerEndpoint, oauthServerE
             serviceRequestResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            let entryOptions = '<option value="請選擇顯示第幾筆資料">請選擇顯示第幾筆資料</option>';
+            let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
                     <option value=${index}>${index+1}</option>
@@ -623,7 +623,7 @@ async function doGenerateObservationVitalRequest(trackServerEndpoint, oauthServe
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
             $('#result-search-entries').attr('obs_type', payload.type);
-            let entryOptions = '<option value="請選擇顯示第幾筆資料">請選擇顯示第幾筆資料</option>';
+            let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
                     <option value=${index}>${index+1}</option>
