@@ -56,7 +56,10 @@ def pat_source_consumer(item: ContentSourceScenario1Model, current_form_name):
     elif current_form_name == 'pat-source-sc3-json-2023-form':
         track = Track2ForSource(current_form_name, item.model_dump())
 
-    return JSONResponse(content=track.get_response_content())
+    response_content = track.get_response_content()
+    store_resource_log(current_form_name, response_content, item, 2)
+
+    return JSONResponse(content=response_content)
 
 def delete_pat_source_consumer(item: DeleteContentSourceScenario1Model, current_form_name):
     if current_form_name == 'pat-source-sc1-json-2023-form':
@@ -145,7 +148,7 @@ def track13_source_creator(item: ContentSourceModel, resource_name):
         track = Track13ForObservation(resource_name, item.model_dump())
 
     response_content = track.get_response_content()
-    store_resource_log(resource_name, response_content, item)
+    store_resource_log(resource_name, response_content, item, 13)
 
     return JSONResponse(content=response_content)
 
@@ -161,7 +164,7 @@ def track13_consumer(item: ContentSourceModel, resource_name):
     return JSONResponse(content=track.get_response_content())
 
 
-def store_resource_log(resource_name, response_content, item):
+def store_resource_log(resource_name, response_content, item, track=1):
     if response_content['status'] == 200 or response_content['status'] == 201:
         sql = '''
             INSERT INTO resources (
@@ -174,7 +177,7 @@ def store_resource_log(resource_name, response_content, item):
         with sqlite3.connect('resource_log.sqlite3') as db:
             db.execute(sql, [
                 'MITW2024',
-                1,
+                track,
                 resource_name,
                 response_content['json']['id'],
                 item.model_dump().get('fhir_server'),

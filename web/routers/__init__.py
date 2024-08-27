@@ -19,5 +19,5 @@ track_router.add_api_route('/track13/2024/source/{resource_name}', track13_sourc
 track_router.add_api_route('/track13/2024/consumer/{resource_name}', track13_consumer, methods=['POST'], description='Track13 2024相關', summary='Track13')
 
 resource_log_router = APIRouter(tags=['Resource log'])
-resource_log_router.add_api_route('/resources/connect_name_lists', resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')
-resource_log_router.add_api_route('/resources/{connect_name}', query_resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')
+resource_log_router.add_api_route('/resources/option_lists', resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')
+resource_log_router.add_api_route('/resources/query/', query_resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')

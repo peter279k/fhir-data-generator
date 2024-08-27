@@ -80,10 +80,22 @@
                         </ul>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <form role="form">
+                                <form id="search-form" class="d-none" role="form">
+                                    <div class="mb-3">
+                                        <label for="fhir-lists" class="form-label">請選擇FHIR server</label>
+                                        <select class="form-select" id="fhir-lists" aria-label=""></select>
+                                    </div>
                                     <div class="mb-3">
                                         <label for="connect-activity" class="form-label">請選擇年度聯測松</label>
                                         <select class="form-select" id="connect-activity" aria-label=""></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="track-lists" class="form-label">請選擇賽道</label>
+                                        <select class="form-select" id="track-lists" aria-label=""></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="resource-lists" class="form-label">請選擇Resource名稱</label>
+                                        <select class="form-select" id="resource-lists" aria-label=""></select>
                                     </div>
 
                                     <button id="query-list-btn" type="button" class="btn btn-primary">送出</button>
@@ -117,21 +129,51 @@
         <script src="../js/loadIGNavLink.js"></script>
         <script src="../js/FileSaver.min.js"></script>
         <script src="../js/jszip.min.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
         <script>
             $(async () => {
                 loadIGNavLink();
 
                 await $.ajax({
-                    url: '/resources/connect_name_lists',
+                    url: '/resources/option_lists',
                     method: 'GET',
                 }).done((data) => {
-                    let connectLists = '';
-                    for (let index=0; index<data.data.length; index++) {
-                        connectLists += `<option value="${data.data[index]}">${data.data[index]}</option>`;
+                    let warningMessage = {
+                        title: '警告',
+                        text: '',
+                        icon: 'warning',
+                        confirmButtonText: '確定',
+                    };
+                    $(`#search-form`).addClass('d-none');
+                    let optionArray = ['fhir-lists', 'connect-activity', 'track-lists', 'resource-lists'];
+                    let htmlContents = '';
+                    for (index in optionArray) {
+                        htmlContents = '';
+                        if (data.data[optionArray[index]].length === 0) {
+                            warningMessage.text = '資料表中沒有資料！';
+                            Swal.fire(warningMessage);
+                            return false;
+                        }
+
+                        for (let dataIndex=0; dataIndex<data.data[optionArray[index]].length; dataIndex++) {
+                            htmlContents += `<option value="${data.data[optionArray[index]][dataIndex]}">${data.data[optionArray[index]][dataIndex]}</option>`;
+                        }
+                        $(`#${optionArray[index]}`).html(htmlContents);
+                        $(`#search-form`).removeClass('d-none');
                     }
-                    $('#connect-activity').html(connectLists);
                 }).fail((error) => {
                     console.log(error);
+                });
+
+                $('#resource-lists').select2({
+                    tags: true,
+                    themes: 'bootstrap-5',
+                    placeholder: '請選擇Resource名稱',
+                    width: '100%',
                 });
 
                 $(document).on('click', 'a[name="download-resource-file"]', (e) => {
@@ -194,9 +236,16 @@
 
                 $('#query-list-btn').click(async (e) => {
                     e.preventDefault();
-                    let connectName = $('#connect-activity :selected').val();
+                    let searchParameters = '?';
+                    let optionArray = ['fhir-lists', 'connect-activity', 'track-lists', 'resource-lists'];
+                    let option = '';
+                    for (index in optionArray) {
+                        option = $(`#${optionArray[index]} :selected`).val();
+                        searchParameters += `${optionArray[index].replace(/-/g, '_')}=${option}&`;
+                    }
+                    searchParameters = searchParameters.substring(0, searchParameters.length-1);
                     await $.ajax({
-                        url: `/resources/${connectName}`,
+                        url: `/resources/query/${searchParameters}`,
                         method: 'GET',
                     }).done((data) => {
                         let tableContents = '<table class="table table-striped">';
