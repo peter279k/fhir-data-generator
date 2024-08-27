@@ -30,6 +30,7 @@ from modules.track1_2024.Track1ForObservationLabReport import Track1ForObservati
 from modules.track13_2024.Track13ForGoal import Track13ForGoal
 from modules.track13_2024.Track13ForPatient import Track13ForPatient
 from modules.track13_2024.Track13ForCarePlan import Track13ForCarePlan
+from modules.track13_2024.Track13ForConsumer import Track13ForConsumer
 from modules.track13_2024.Track13ForCondition import Track13ForCondition
 from modules.track13_2024.Track13ForObservation import Track13ForObservation
 from modules.track13_2024.Track13ForPractitioner import Track13ForPractitioner
@@ -147,6 +148,17 @@ def track13_source_creator(item: ContentSourceModel, resource_name):
     store_resource_log(resource_name, response_content, item)
 
     return JSONResponse(content=response_content)
+
+def track13_consumer(item: ContentSourceModel, resource_name):
+    item_dict = item.model_dump()
+    item_dict['search_parameters'] = item_dict['patient_payload']['search_parameters']
+
+    if 'Observation' in resource_name:
+        resource_name = 'Observation'
+
+    track = Track13ForConsumer(resource_name, item_dict)
+
+    return JSONResponse(content=track.get_response_content())
 
 
 def store_resource_log(resource_name, response_content, item):

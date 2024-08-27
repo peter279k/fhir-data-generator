@@ -176,16 +176,20 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="_id">請輸入id參數</label>
-                                        <input class="form-control" type="text" id="_id" placeholder="3878">
+                                        <label class="form-label" for="patient-id">請輸入Patient id參數</label>
+                                        <input class="form-control" type="text" id="patient-id" placeholder="3751">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="severity">請輸入severity參數</label>
-                                        <input class="form-control" type="text" id="severity" placeholder="LA6752-5">
+                                        <label class="form-label" for="service-request-code">請輸入code參數</label>
+                                        <input class="form-control" type="text" id="service-request-code" placeholder="229065009">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="clinical-status">請輸clinical-status參數</label>
-                                        <input class="form-control" type="text" id="clinical-status" placeholder="remission">
+                                        <label class="form-label" for="service-request-status">請輸入status參數</label>
+                                        <input class="form-control" type="text" id="service-request-status" placeholder="completed">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="service-request-authored-on">請輸入authoredOn參數</label>
+                                        <input class="form-control" type="text" id="service-request-authored-on" placeholder="2024-07-01">
                                     </div>
 
                                     <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
@@ -245,10 +249,10 @@
                 await loadMartialStatus();
                 await loadRelationshipCoding();
 
-                $('#authored-on').datepicker(
+                $('#authored-on,#service-request-authored-on').datepicker(
                     $.datepicker.regional['zh-TW']
                 );
-                $('#authored-on').change((e) => {
+                $('#authored-on,#service-request-authored-on').change((e) => {
                     e.preventDefault();
 
                     let selected = $(e.currentTarget).val();
@@ -262,6 +266,7 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -350,6 +355,7 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -367,20 +373,32 @@
                     let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
                     let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
 
-                    let fields = ['_id', 'severity', 'clinical-status'];
-                    for (index in fields) {
-                        if ($(`#${fields[index]}`).val() === '') {
-                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
-                        } else {
-                            fields[index] = $(`#${fields[index]}`).val();
-                        }
-                    }
+                    let fields = [
+                        'patient-id',
+                        'service-request-code',
+                        'service-request-status',
+                        'service-request-authored-on',
+                    ];
 
                     let searchParameters = '?';
+                    let value = '';
 
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `severity=${fields[1]}&`;
-                    searchParameters += `clinical-status=${fields[2]}&`;
+                    if ($(`#${fields[0]}`).val() !== '') {
+                        value = $(`#${fields[0]}`).val();
+                        searchParameters += `patient=${value}&`;
+                    }
+                    if ($(`#${fields[1]}`).val() !== '') {
+                        value = $(`#${fields[1]}`).val();
+                        searchParameters += `code=${value}&`;
+                    }
+                    if ($(`#${fields[2]}`).val() !== '') {
+                        value = $(`#${fields[2]}`).val();
+                        searchParameters += `status=${value}&`;
+                    }
+                    if ($(`#${fields[3]}`).val() !== '') {
+                        value = $(`#${fields[3]}`).val();
+                        searchParameters += `authored=${value}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
@@ -400,7 +418,7 @@
                         'search_parameters': searchParameters,
                     };
 
-                    await doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
+                    await doGenerateServiceRequestRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
