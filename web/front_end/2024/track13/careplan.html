@@ -188,16 +188,12 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="_id">請輸入id參數</label>
-                                        <input class="form-control" type="text" id="_id" placeholder="3878">
+                                        <label class="form-label" for="patient-id">請輸入Patient id參數</label>
+                                        <input class="form-control" type="text" id="patient-id" placeholder="3751">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="severity">請輸入severity參數</label>
-                                        <input class="form-control" type="text" id="severity" placeholder="LA6752-5">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="clinical-status">請輸clinical-status參數</label>
-                                        <input class="form-control" type="text" id="clinical-status" placeholder="remission">
+                                        <label class="form-label" for="category">請輸category參數</label>
+                                        <input class="form-control" type="text" id="category" placeholder="PhysicalActivity">
                                     </div>
 
                                     <button name="submit-btn" type="button" class="btn btn-primary">送出</button>
@@ -288,6 +284,7 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -389,6 +386,7 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -406,20 +404,18 @@
                     let trackServerEndpoint = JSON.parse(localStorage.getItem('fhir_server_endpoint'));
                     let oauthServerEndpoint = JSON.parse(localStorage.getItem('oauth_server_endpoint'));
 
-                    let fields = ['_id', 'severity', 'clinical-status'];
-                    for (index in fields) {
-                        if ($(`#${fields[index]}`).val() === '') {
-                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
-                        } else {
-                            fields[index] = $(`#${fields[index]}`).val();
-                        }
-                    }
-
+                    let fields = ['patient-id', 'category'];
                     let searchParameters = '?';
 
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `severity=${fields[1]}&`;
-                    searchParameters += `clinical-status=${fields[2]}&`;
+                    let patientId = $(`#${fields[0]}`).val();
+                    let category = $(`#${fields[1]}`).val();
+
+                    if (patientId !== '') {
+                        searchParameters += `patient=${patientId}&`;
+                    }
+                    if (category !== '') {
+                        searchParameters += `category=${category}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
@@ -439,7 +435,7 @@
                         'search_parameters': searchParameters,
                     };
 
-                    await doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
+                    await doGenerateCarePlanRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
