@@ -864,7 +864,7 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
         for (let index=0; index<observationResource.component.length; index++) {
             observationResult += `
                 <ul class="card-text">
-                    <li">檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
+                    <li>檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
                     <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit} (${observationResource.component[index].valueQuantity.system}#${observationResource.component[index].valueQuantity.code})</span></li>
                 </ul>
             `;

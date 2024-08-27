@@ -601,8 +601,45 @@ async function doGenerateObservationVitalRequest(trackServerEndpoint, oauthServe
         }
 
         $('#search-result-card').removeClass('d-none');
+        $('#result-value-codeable-concept').addClass('d-none');
+        $('#result-body-site').addClass('d-none');
+        $('p[name="result-has-member"]').addClass('d-none');
+        $('ul[name="result-has-member"]').addClass('d-none');
 
-        return false;
+        let payloadType = payload.type;
+        let componentForm = [
+            'gaitcycle-r',
+            'gaitcycle-l',
+            'weighttraining',
+            'gaittype-l',
+            'gaittype-r',
+            'treadmill',
+            'bloodpressure',
+        ];
+        let conceptForm = ['gaittype-l', 'gaittype-r', 'weighttraining'];
+        let hasMemberForm = 'tbw';
+        let bodySiteForm = ['gaitcycle-r', 'gaitcycle-l', 'gaittype-l', 'gaittype-r'];
+
+        if (conceptForm.includes(payloadType)) {
+            $('#result-value-codeable-concept').removeClass('d-none');
+            $('#result-observation-concept').html(
+                `${observationResource.valueCodeableConcept.coding[0].display} (${observationResource.valueCodeableConcept.coding[0].system}#${observationResource.valueCodeableConcept.coding[0].code})`
+            );
+        }
+        if (bodySiteForm.includes(payloadType)) {
+            $('#result-body-site').removeClass('d-none');
+            $('#result-observation-body-site').html(
+                `${observationResource.bodySite.coding[0].display} (${observationResource.bodySite.coding[0].system}#${observationResource.bodySite.coding[0].code})`
+            );
+        }
+        if (payloadType === hasMemberForm) {
+            $('p[name="result-has-member"]').removeClass('d-none');
+            $('ul[name="result-has-member"]').removeClass('d-none');
+            $('ul[name="result-has-member"]').html(`
+                <li><span class="text-primary">${observationResource.hasMember[0].reference}</span></li>
+                <li><span class="text-primary">${observationResource.hasMember[1].reference}</span></li>
+            `);
+        }
 
         $('#result-observation-id').html(observationResource.id);
         localStorage.setItem('created_observation_vital_id', observationResource.id);
@@ -632,11 +669,32 @@ async function doGenerateObservationVitalRequest(trackServerEndpoint, oauthServe
         );
 
         let observationResult = '';
-        for (let index=0; index<observationResource.component.length; index++) {
+        let sharpTag = '#';
+        let leftTag = '(';
+        let rightTag = ')';
+        if (componentForm.includes(payloadType)) {
+            for (let index=0; index<observationResource.component.length; index++) {
+                if (!observationResource.component[index].valueQuantity.code) {
+                    sharpTag = '';
+                    leftTag = '';
+                    rightTag = '';
+                }
+                observationResult += `
+                    <ul class="card-text">
+                        <li>檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
+                        <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit || ''} ${leftTag}${observationResource.component[index].valueQuantity.system || ''}${sharpTag}${observationResource.component[index].valueQuantity.code || ''}${rightTag}</span></li>
+                    </ul>
+                `;
+            }
+        } else {
+            if (!observationResource.valueQuantity.unit) {
+                sharpTag = '';
+                leftTag = '';
+                rightTag = '';
+            }
             observationResult += `
                 <ul class="card-text">
-                    <li">檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
-                    <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit} (${observationResource.component[index].valueQuantity.system}#${observationResource.component[index].valueQuantity.code})</span></li>
+                    <li>檢驗值: <span class="text-primary">${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit || ''} ${leftTag}${observationResource.valueQuantity.system || ''}${sharpTag}${observationResource.valueQuantity.code || ''}${rightTag}</span></li>
                 </ul>
             `;
         }

@@ -117,8 +117,4 @@ class Track13ForObservation:
         # Temporarily remove meta profile
         del observation_class.payload_template['meta']
 
-        file_name = self.payload['type']
-        with open(f'{file_name}.json', 'w') as f:
-            f.write(json.dumps(observation_class.payload_template))
-
         return observation_class.payload_template
