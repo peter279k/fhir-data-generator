@@ -200,6 +200,11 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span obs_type="height" id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
+
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-observation-id" class="text-primary"></span></p>
 
@@ -354,6 +359,7 @@
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
                     $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -449,6 +455,7 @@
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
                     $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let selectedObservationOption = $('#observation-consumer-options :selected').val();
                     let componentForm = ['treadmill', 'weighttraining'];
@@ -511,6 +518,116 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let observationResource = entries[counter].resource;
+                    let payloadType = $('#result-search-entries').attr('obs_type');
+                    let componentForm = [
+                        'gaitcycle-r',
+                        'gaitcycle-l',
+                        'weighttraining',
+                        'gaittype-l',
+                        'gaittype-r',
+                        'treadmill',
+                        'bloodpressure',
+                    ];
+                    let conceptForm = ['gaittype-l', 'gaittype-r', 'weighttraining'];
+                    let hasMemberForm = 'tbw';
+                    let bodySiteForm = ['gaitcycle-r', 'gaitcycle-l', 'gaittype-l', 'gaittype-r'];
+
+                    if (conceptForm.includes(payloadType)) {
+                        $('#result-value-codeable-concept').removeClass('d-none');
+                        $('#result-observation-concept').html(
+                            `${observationResource.valueCodeableConcept.coding[0].display} (${observationResource.valueCodeableConcept.coding[0].system}#${observationResource.valueCodeableConcept.coding[0].code})`
+                        );
+                    }
+                    if (bodySiteForm.includes(payloadType)) {
+                        $('#result-body-site').removeClass('d-none');
+                        $('#result-observation-body-site').html(
+                            `${observationResource.bodySite.coding[0].display} (${observationResource.bodySite.coding[0].system}#${observationResource.bodySite.coding[0].code})`
+                        );
+                    }
+                    if (payloadType === hasMemberForm) {
+                        $('p[name="result-has-member"]').removeClass('d-none');
+                        $('ul[name="result-has-member"]').removeClass('d-none');
+                        $('ul[name="result-has-member"]').html(`
+                            <li><span class="text-primary">${observationResource.hasMember[0].reference}</span></li>
+                            <li><span class="text-primary">${observationResource.hasMember[1].reference}</span></li>
+                        `);
+                    }
+
+                    $('#result-observation-id').html(observationResource.id);
+                    localStorage.setItem('created_observation_vital_id', observationResource.id);
+
+                    $('#result-observation-status').html(
+                        `${observationResource.status}`
+                    );
+
+                    $('#result-observation-category').html(
+                        `${observationResource.category[0].coding[0].display} (${observationResource.category[0].coding[0].system}#${observationResource.category[0].coding[0].code})`
+                    );
+
+                    $('#result-observation-item').html(
+                        `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+                    );
+
+                    $('#result-observation-patient').html(
+                        `${observationResource.subject.reference}`
+                    );
+
+                    $('#result-observation-performer').html(
+                        `${observationResource.performer[0].reference}`
+                    );
+
+                    $('#result-observation-effective-date').html(
+                        `${observationResource.effectiveDateTime}`
+                    );
+
+                    let observationResult = '';
+                    let sharpTag = '#';
+                    let leftTag = '(';
+                    let rightTag = ')';
+                    if (componentForm.includes(payloadType)) {
+                        for (let index=0; index<observationResource.component.length; index++) {
+                            if (!observationResource.component[index].valueQuantity.code) {
+                                sharpTag = '';
+                                leftTag = '';
+                                rightTag = '';
+                            }
+                            observationResult += `
+                                <ul class="card-text">
+                                    <li>檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
+                                    <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit || ''} ${leftTag}${observationResource.component[index].valueQuantity.system || ''}${sharpTag}${observationResource.component[index].valueQuantity.code || ''}${rightTag}</span></li>
+                                </ul>
+                            `;
+                        }
+                    } else {
+                        if (!observationResource.valueQuantity.unit) {
+                            sharpTag = '';
+                            leftTag = '';
+                            rightTag = '';
+                        }
+                        observationResult += `
+                            <ul class="card-text">
+                                <li>檢驗值: <span class="text-primary">${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit || ''} ${leftTag}${observationResource.valueQuantity.system || ''}${sharpTag}${observationResource.valueQuantity.code || ''}${rightTag}</span></li>
+                            </ul>
+                        `;
+                    }
+
+                    $('#observation-result').html(observationResult);
                 });
 
                 $('button[name="capture-image"]').click((e) => {
