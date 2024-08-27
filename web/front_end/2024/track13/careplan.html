@@ -207,8 +207,8 @@
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
                                 <span id="result-search-entries" class="d-none"></span>
-                                <p>
-                                    <select id="entries-counter" class="form-select"></select>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
                                 </p>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-care-plan-id" class="text-primary"></span></p>
@@ -289,6 +289,7 @@
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
                     $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -391,6 +392,7 @@
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
                     $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -459,7 +461,6 @@
                     $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
 
                     let carePlanResource = entries[counter].resource;
-                    console.log(carePlanResource);
                     $('#result-care-plan-id').html(carePlanResource.id);
                     localStorage.setItem('created_care_plan_id', carePlanResource.id);
 
