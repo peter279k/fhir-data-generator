@@ -400,6 +400,11 @@
                         searchParameters += `authored=${value}&`;
                     }
 
+                    if (searchParameters === '?') {
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
                     if (searchParameters === '') {

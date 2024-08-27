@@ -35,6 +35,7 @@ function loadIGNavLink() {
     navLinkContent = '<nav class="sb-sidenav-menu-nested nav">';
     resourceName = null;
     resources = {
+        'condition.html': 'Condition',
         'patient.html': 'Patient',
         'practitioner.html': 'Practitioner',
         'organization.html': 'Organization',

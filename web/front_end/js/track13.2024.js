@@ -241,6 +241,7 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         let conditionResource = jsonData;
         if (jsonData.entry) {
             conditionResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
         }
 
         if (data.status !== 200 && data.status !== 201) {
