@@ -19,6 +19,16 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         let patientResource = jsonData;
         if (jsonData.entry) {
             patientResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -200,6 +210,16 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         let organizationResource = jsonData;
         if (jsonData.entry) {
             organizationResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -274,6 +294,16 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         let practitionerResource = jsonData;
         if (jsonData.entry) {
             practitionerResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -388,6 +418,16 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
         let practitionerRoleResource = jsonData;
         if (jsonData.entry) {
             practitionerRoleResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -503,6 +543,16 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
         let encounterResource = jsonData;
         if (jsonData.entry) {
             encounterResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -608,6 +658,16 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
         let allergyResource = jsonData;
         if (jsonData.entry) {
             allergyResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -717,6 +777,16 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         let conditionResource = jsonData;
         if (jsonData.entry) {
             conditionResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -806,6 +876,16 @@ async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServe
         let diagnosticReportResource = jsonData;
         if (jsonData.entry) {
             diagnosticReportResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -891,6 +971,16 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
         let documentReferenceResource = jsonData;
         if (jsonData.entry) {
             documentReferenceResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {
@@ -976,6 +1066,16 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
         let ImagingStudyResource = jsonData;
         if (jsonData.entry) {
             ImagingStudyResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-search-entries').text(JSON.stringify(jsonData.entry));
+            $('#result-search-entries').attr('obs_type', payload.type);
+            let entryOptions = '';
+            for (let index=0; index<jsonData.entry.length; index++) {
+                entryOptions += `
+                    <option value=${index}>${index+1}</option>
+                `;
+            }
+            $('#entries-counter').html(entryOptions);
         }
 
         if (data.status !== 200 && data.status !== 201) {

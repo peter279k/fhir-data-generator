@@ -240,6 +240,11 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
+
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-practitioner-role-id" class="text-primary"></span></p>
 
@@ -310,6 +315,8 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -448,6 +455,8 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -496,6 +505,88 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let practitionerRoleResource = entries[counter].resource;
+
+
+                    $('#result-practitioner-role-id').html(practitionerRoleResource.id);
+                    localStorage.setItem('created_practitioner_id', practitionerRoleResource.id);
+
+                    let identifiers = practitionerRoleResource.identifier;
+                    let identifierHtml = '';
+                    identifierHtml += `<li>識別碼型別: <span name="result-practitioner-role-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
+                    identifierHtml += `<li>員工編號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
+
+                    $('#result-practitioner-role-identifier1').html(identifierHtml);
+
+                    $('#result-practitioner-role-active').html(practitionerRoleResource.active);
+
+                    $('#result-practitioner-role-business').html(
+                        `${practitionerRoleResource.period.start} ~ ${practitionerRoleResource.period.end}`
+                    );
+
+                    $('#result-practitioner').html(
+                        `${practitionerRoleResource.practitioner.reference} "${practitionerRoleResource.practitioner.display}"`
+                    );
+
+                    $('#result-practitioner-role-location').html(
+                        `${practitionerRoleResource.location[0].reference} "${practitionerRoleResource.location[0].display}"`
+                    );
+
+                    $('#result-practitioner-role').html(
+                        `${practitionerRoleResource.code[0].coding[0].display} (${practitionerRoleResource.code[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
+                    );
+
+                    $('#result-practitioner-role-profession').html(
+                        `${practitionerRoleResource.specialty[0].coding[0].display} (${practitionerRoleResource.specialty[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
+                    );
+
+                    $('#result-practitioner-role-phone').html(
+                        `${practitionerRoleResource.telecom[0].system}`
+                    );
+                    $('#result-practitioner-role-phone-number').html(
+                        `(${practitionerRoleResource.telecom[0].use}) ${practitionerRoleResource.telecom[0].value}`
+                    );
+
+                    let daysOfWeek = practitionerRoleResource.availableTime[0].daysOfWeek;
+                    let mappingWeeks = {
+                        'mon': '一',
+                        'tue': '二',
+                        'wed': '三',
+                        'thu': '四',
+                        'fri': '五',
+                        'sat': '六',
+                        'sun': '日',
+                    };
+                    $('#result-practitioner-role-business-contact').html(
+                        `週${mappingWeeks[daysOfWeek[0]]} ~ 週${mappingWeeks[daysOfWeek[daysOfWeek.length-1]]}，${practitionerRoleResource.availableTime[0].availableStartTime}-${practitionerRoleResource.availableTime[0].availableEndTime}`
+                    );
+
+                    $('#result-practitioner-role-message').html(
+                        practitionerRoleResource.availabilityExceptions
+                    );
+
+                    $('#result-practitioner-role-unavailable').html(
+                        `${practitionerRoleResource.notAvailable[0].during.start} ~ ${practitionerRoleResource.notAvailable[0].during.end}`
+                    );
+
+                    $('#result-practitioner-role-unavailable-reason').html(
+                        practitionerRoleResource.notAvailable[0].description
+                    );
                 });
 
                 $('button[name="capture-image"]').click((e) => {

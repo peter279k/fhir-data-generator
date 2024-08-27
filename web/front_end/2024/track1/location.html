@@ -240,6 +240,10 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-location-id" class="text-primary"></span></p>
 
@@ -305,6 +309,8 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -416,6 +422,8 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -464,6 +472,87 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let locationResource= entries[counter].resource;
+
+                    $('#result-location-id').html(locationResource.id);
+                    localStorage.setItem('created_location_id', locationResource.id);
+
+                    $('#result-location-status').html(
+                        locationResource.status
+                    );
+
+                    $('#result-location-name').html(
+                        locationResource.name
+                    );
+
+                    $('#result-location-kind').html(
+                        locationResource.mode
+                    );
+
+                    $('#result-location-type').html(
+                        `${locationResource.type[0].coding[0].display} (${locationResource.type[0].coding[0].system}#${locationResource.type[0].coding[0].code})`
+                    );
+
+                    $('#result-location-info').html(
+                        `${locationResource.description}`
+                    );
+
+                    $('#result-location-organization').html(
+                        `${locationResource.managingOrganization.reference}`
+                    );
+
+                    $('#result-location-phone').html(
+                        `${locationResource.telecom[0].system} (ContactPointSystem)`
+                    );
+
+                    $('#result-location-phone-number').html(
+                        `${locationResource.telecom[0].value} (${locationResource.telecom[0].use})`
+                    );
+
+                    $('#result-location-address').html(
+                        `${locationResource.address.text} (${locationResource.address.use})`
+                    );
+
+                    let daysOfWeekMapping = {
+                        'mon': '週一',
+                        'tue': '週二',
+                        'wed': '週三',
+                        'thu': '週四',
+                        'fri': '週五',
+                        'sat': '週六',
+                        'sun': '週日',
+                    };
+                    let weekString = '';
+                    let daysOfWeek = locationResource.hoursOfOperation[0].daysOfWeek;
+                    for (index in daysOfWeek) {
+                        weekString += daysOfWeekMapping[daysOfWeek[index]] + '、';
+                    }
+
+                    let allDay = locationResource.hoursOfOperation[0].allDay;
+                    if (allDay) {
+                        allDay = '全天';
+                    } else {
+                        allDay = '非全天';
+                    }
+
+                    $('#result-location-operation').html(
+                        `${weekString.substring(0, weekString.length-1)}，${allDay}`
+                    );
                 });
 
                 $('button[name="capture-image"]').click((e) => {

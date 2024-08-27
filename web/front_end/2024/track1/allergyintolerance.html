@@ -261,6 +261,10 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-allergy-id" class="text-primary"></span></p>
 
@@ -335,6 +339,8 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -444,6 +450,8 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -492,6 +500,80 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let allergyResource = entries[counter].resource;
+                    $('#result-allergy-id').html(allergyResource.id);
+                    localStorage.setItem('created_allergy_id', allergyResource.id);
+
+                    $('#result-allergy-status').html(allergyResource.clinicalStatus.text);
+
+                    $('#result-allergy-verification-status').html(allergyResource.verificationStatus.text);
+
+                    $('#result-allergy-type').html(allergyResource.type);
+
+                    $('#result-allergy-category').html(allergyResource.category[0]);
+
+                    $('#result-allergy-risk').html(`${allergyResource.criticality} risk`);
+
+                    $('#result-allergy-identify').html(
+                        `${allergyResource.code.text}(${allergyResource.code.coding[0].display})`
+                    );
+
+                    $('#result-allergy-identified-datetime').html(allergyResource.onsetDateTime);
+
+                    $('#result-allergy-patient').html(
+                        `${allergyResource.patient.reference} "${allergyResource.patient.display}"`
+                    );
+
+                    $('#result-allergy-recorder').html(
+                        `${allergyResource.recorder.reference} "${allergyResource.recorder.display}"`
+                    );
+
+                    $('#result-allergy-recorder-datetime').html(allergyResource.recordedDate);
+
+                    $('#result-allergy-practitioner').html(
+                        `${allergyResource.asserter.reference} "${allergyResource.asserter.display}"`
+                    );
+
+                    $('#result-allergy-last-occurrence').html(allergyResource.lastOccurrence);
+
+                    $('#result-allergy-med').html(
+                        `${allergyResource.reaction[0].substance.text} (${allergyResource.reaction[0].substance.coding[0].system}#${allergyResource.reaction[0].substance.coding[0].code})`
+                    );
+
+                    $('#result-allergy-clinical').html(
+                        `${allergyResource.reaction[0].manifestation[0].coding[0].display} (${allergyResource.reaction[0].manifestation[0].coding[0].system}#${allergyResource.reaction[0].manifestation[0].coding[0].code})`
+                    );
+
+                    $('#result-allergy-description').html(
+                        `${allergyResource.reaction[0].description}`
+                    );
+
+                    $('#result-allergy-sev').html(
+                        `${allergyResource.reaction[0].severity}`
+                    );
+
+                    $('#result-allergy-mainfest').html(
+                        `${allergyResource.reaction[0].exposureRoute.text} (${allergyResource.reaction[0].exposureRoute.coding[0].display}) (${allergyResource.reaction[0].exposureRoute.coding[0].system}#${allergyResource.reaction[0].exposureRoute.coding[0].code})`
+                    );
+
+                    $('#result-allergy-note').html(
+                        `${allergyResource.reaction[0].note[0].text}`
+                    );
                 });
 
                 $('button[name="capture-image"]').click((e) => {

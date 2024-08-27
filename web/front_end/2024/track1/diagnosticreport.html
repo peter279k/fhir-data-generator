@@ -192,6 +192,10 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-report-id" class="text-primary"></span></p>
 
@@ -255,6 +259,8 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -347,6 +353,8 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -396,6 +404,56 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let diagnosticReportResource= entries[counter].resource;
+                    $('#result-report-id').html(diagnosticReportResource.id);
+                    localStorage.setItem('created_report_id', diagnosticReportResource.id);
+
+                    $('#result-report-status').html(
+                        `${diagnosticReportResource.status} (DiagnosticReportStatus)`
+                    );
+
+                    $('#result-report-category').html(
+                        `${diagnosticReportResource.category[0].text} (${diagnosticReportResource.category[0].coding[0].system}#${diagnosticReportResource.category[0].coding[0].code})`
+                    );
+
+                    $('#result-report-patient').html(
+                        `${diagnosticReportResource.subject.reference}`
+                    );
+
+                    $('#result-report-effective').html(
+                        `${diagnosticReportResource.effectiveDateTime}`
+                    );
+
+                    $('#result-report-issued').html(
+                        `${diagnosticReportResource.issued}`
+                    );
+
+                    $('#result-report-code').html(
+                        `${diagnosticReportResource.code.text} (${diagnosticReportResource.code.coding[0].system}#${diagnosticReportResource.code.coding[0].code})`
+                    );
+
+                    $('#result-report-report').html(
+                        `${diagnosticReportResource.result[0].reference}`
+                    );
+
+                    $('#result-report-practitioner').html(
+                        `${diagnosticReportResource.performer[0].reference}`
+                    );
                 });
 
                 $('button[name="capture-image"]').click((e) => {

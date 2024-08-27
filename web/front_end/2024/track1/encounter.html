@@ -224,6 +224,10 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-encounter-id" class="text-primary"></span></p>
 
@@ -292,6 +296,8 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -413,6 +419,8 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -461,6 +469,76 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let encounterResource= entries[counter].resource;
+                    $('#result-encounter-id').html(encounterResource.id);
+                    localStorage.setItem('created_encounter_id', encounterResource.id);
+
+                    $('#result-encounter-identifier').html(
+                        encounterResource.identifier[0].value
+                    );
+
+                    $('#result-encounter-type').html(
+                        encounterResource.status
+                    );
+
+                    $('#result-encounter-class').html(
+                        `${encounterResource.class.code} (${encounterResource.class.system})`
+                    );
+
+                    $('#result-encounter-category').html(
+                        `${encounterResource.type[0].coding[0].code} (${encounterResource.type[0].coding[0].system})`
+                    );
+
+                    $('#result-encounter-service-type').html(
+                        `${encounterResource.serviceType.text}(${encounterResource.serviceType.coding[0].display}) (${encounterResource.serviceType.coding[0].system}#${encounterResource.serviceType.coding[0].code})`
+                    );
+
+                    $('#result-encounter-subject').html(
+                        `${encounterResource.subject.reference}`
+                    );
+
+                    $('#result-encounter-hos').html(
+                        `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
+                    );
+
+                    $('#result-encounter-location').html(
+                        `${encounterResource.location[0].location.reference}`
+                    );
+
+                    $('#result-encounter-participant-performer').html(
+                        `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`
+                    );
+
+                    $('#result-encounter-participant-period').html(
+                        `${encounterResource.participant[0].period.start} --> ${encounterResource.participant[0].period.end}`
+                    );
+
+                    $('#result-encounter-participant').html(
+                        `${encounterResource.participant[0].individual.reference}`
+                    );
+
+                    $('#result-encounter-hos-period').html(
+                        `${encounterResource.period.start} --> ${encounterResource.period.end}`
+                    );
+
+                    $('#result-encounter-reason').html(
+                        `${encounterResource.reasonCode[0].coding[0].display} (${encounterResource.reasonCode[0].coding[0].system}#${encounterResource.reasonCode[0].coding[0].code})`
+                    );
                 });
 
                 $('button[name="capture-image"]').click((e) => {

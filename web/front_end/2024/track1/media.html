@@ -230,6 +230,10 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-media-id" class="text-primary"></span></p>
 
@@ -305,6 +309,8 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -411,6 +417,8 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -458,6 +466,72 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let mediaResource= entries[counter].resource;
+                    $('#result-media-id').html(mediaResource.id);
+                    localStorage.setItem('created_media_id', mediaResource.id);
+
+                    $('#result-media-status').html(
+                        `${mediaResource.status} (EventStatus)`
+                    );
+
+                    $('#result-media-type').html(
+                        `${mediaResource.type.coding[0].code} (${mediaResource.type.coding[0].system})`
+                    );
+
+                    $('#result-media-patient').html(
+                        `${mediaResource.subject.reference} "${mediaResource.subject.display}"`
+                    );
+
+                    $('#result-media-view').html(
+                        `${mediaResource.view.text} (${mediaResource.view.coding[0].system}#${mediaResource.view.coding[0].code})`
+                    );
+
+                    $('#result-media-created').html(
+                        `${mediaResource.createdDateTime}`
+                    );
+
+                    $('#result-media-issued').html(
+                        `${mediaResource.issued}`
+                    );
+
+                    $('#result-media-practitioner').html(
+                        `${mediaResource.operator.reference}`
+                    );
+
+                    $('#result-media-reason').html(
+                        `${mediaResource.reasonCode[0].coding[0].display} (${mediaResource.reasonCode[0].coding[0].system}#${mediaResource.reasonCode[0].coding[0].code})`
+                    );
+
+                    $('#result-media-body').html(
+                        `${mediaResource.bodySite.coding[0].display} (${mediaResource.bodySite.coding[0].system}#${mediaResource.bodySite.coding[0].code})`
+                    );
+
+                    $('#result-media-device').html(mediaResource.deviceName);
+
+                    $('#result-media-file-id').html(mediaResource.content.id);
+                    $('#result-media-file-type').html(mediaResource.content.contentType);
+                    $('#result-media-width').html(mediaResource.width);
+                    $('#result-media-height').html(mediaResource.height);
+                    $('#result-media-base64').html(
+                        `(base64 data - ${atob(mediaResource.content.data).length} bytes)`
+                    );
+                    $('#result-media-file-created').html(mediaResource.content.creation);
+                    $('#result-media-note').html(mediaResource.note[0].text);
                 });
 
                 $('button[name="capture-image"]').click((e) => {

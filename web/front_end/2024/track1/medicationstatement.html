@@ -222,6 +222,11 @@
                         <div id="search-result-card" class="card mb-4 d-none">
                             <div id="result-card-header" class="card-header">結果</div>
                             <div class="card-body">
+                                <span id="result-search-entries" class="d-none"></span>
+                                <p id="entries-block" class="d-none">
+                                    請選擇第幾筆資料: <select id="entries-counter" class="form-select"></select>
+                                </p>
+
                                 <p class="card-text">查詢參數: <span id="result-search-parameters" class="text-primary">無查詢參數</span></p>
                                 <p class="card-text">id: <span id="result-medication-statement-id" class="text-primary"></span></p>
 
@@ -291,6 +296,8 @@
 
                 $('button[name="generate-btn"]').click(async(e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').addClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -393,6 +400,8 @@
 
                 $('button[name="submit-btn"]').click(async (e) => {
                     e.preventDefault();
+                    $('#result-card-header').html('結果');
+                    $('#entries-block').removeClass('d-none');
 
                     let errorMessage = {
                         title: '錯誤',
@@ -441,6 +450,65 @@
 
                     $(e.currentTarget).removeAttr('disabled');
                     $(e.currentTarget).html('查詢');
+                });
+
+                $('#entries-counter').change((e) => {
+                    e.preventDefault();
+
+                    let counter = $('#entries-counter :selected').val();
+                    let entries = JSON.parse($('#result-search-entries').text());
+
+                    if (isNaN(Number(counter))) {
+                        return false;
+                    }
+
+                    counter = Number(counter);
+                    $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
+
+                    let medicationStatementResource= entries[counter].resource;
+
+                    $('#result-medication-statement-id').html(medicationStatementResource.id);
+                    localStorage.setItem('created_medication_statement_id', medicationStatementResource.id);
+
+                    $('#result-medication-statement-status').html(
+                        `${medicationStatementResource.status} (Medication Status Codes)`
+                    );
+
+                    $('#result-medication-statement-category').html(
+                        `${medicationStatementResource.category.text} (${medicationStatementResource.category.coding[0].system}#${medicationStatementResource.category.coding[0].code})`
+                    );
+
+                    $('#result-medication-statement-med').html(
+                        `${medicationStatementResource.medicationCodeableConcept.text}(${medicationStatementResource.medicationCodeableConcept.coding[0].display}) (${medicationStatementResource.medicationCodeableConcept.coding[0].system}#${medicationStatementResource.medicationCodeableConcept.coding[0].code})`
+                    );
+
+                    $('#result-medication-statement-patient').html(
+                        `${medicationStatementResource.subject.reference}`
+                    );
+
+                    $('#result-medication-statement-use-datetime').html(
+                        `${medicationStatementResource.effectiveDateTime}`
+                    );
+
+                    $('#result-medication-statement-asserted').html(
+                        `${medicationStatementResource.dateAsserted}`
+                    );
+
+                    $('#result-medication-statement-use-reason').html(
+                        `${medicationStatementResource.reasonCode[0].text}(${medicationStatementResource.reasonCode[0].coding[0].display}) (${medicationStatementResource.reasonCode[0].coding[0].system}#${medicationStatementResource.reasonCode[0].coding[0].code})`
+                    );
+
+                    $('#result-medication-statement-freq').html(
+                        `${medicationStatementResource.dosage[0].text} (${medicationStatementResource.dosage[0].timing.repeat.frequency} per ${medicationStatementResource.dosage[0].timing.repeat.period} days)`
+                    );
+
+                    $('#result-medication-statement-use-approach').html(
+                        `${medicationStatementResource.dosage[0].route.text}(${medicationStatementResource.dosage[0].route.coding[0].display}) (${medicationStatementResource.dosage[0].route.coding[0].system}#${medicationStatementResource.dosage[0].route.coding[0].code})`
+                    );
+
+                    $('#result-medication-statement-note').html(
+                        `${medicationStatementResource.note[0].text}`
+                    );
                 });
 
                 $('button[name="capture-image"]').click((e) => {
