@@ -321,6 +321,7 @@ async function doGenerateGoalRequest(trackServerEndpoint, oauthServerEndpoint, p
         let goalResource = jsonData;
         if (jsonData.entry) {
             goalResource = jsonData.entry[0].resource;
+            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
         }
 
         if (data.status !== 200 && data.status !== 201) {
