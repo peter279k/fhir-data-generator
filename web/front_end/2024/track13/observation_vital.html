@@ -97,10 +97,10 @@
                         </ul>
                         <div class="card mb-4">
                             <div class="card-body">
+                                <div id="spinner-source-form" class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                                 <form class="d-none" id="source-form" role="form">
-                                    <div id="spinner-source-form" class="d-none spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
                                     <div class="mb-3">
                                         <label for="source-token-level" class="form-label">請選擇Access Token驗證層級</label>
                                         <select id="source-token-level" class="form-select" aria-label="">
@@ -262,7 +262,6 @@
         <script src="../../js/loadIGNavLink.js"></script>
         <script>
             $(async () => {
-                $('#spinner-source-form').removeClass('d-none');
                 loadIGNavLink();
                 await loadMartialStatus();
                 await loadRelationshipCoding();
