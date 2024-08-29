@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -234,6 +232,10 @@
         <script src="../../js/jquery.ui.datepicker-zh-TW.min.js"></script>
         <script src="../../js/sweetalert2.all.min.js"></script>
         <script src="../../js/html2canvas.min.js"></script>
+        <script type="module">
+            import Autocomplete from '../../js/autocomplete.js';
+            window.Autocomplete = Autocomplete;
+        </script>
         <script src="../../js/FileSaver.min.js"></script>
         <script src="../../js/track1.coding.js"></script>
         <script src="../../js/track1.utility.js"></script>
@@ -245,6 +247,41 @@
                 loadIGNavLink();
                 await loadMartialStatus();
                 await loadRelationshipCoding();
+                await loadCodeSystemModal();
+
+                Autocomplete.init('input.autocomplete', {
+                    items: JSON.parse(localStorage.getItem('code_system')),
+                    valueField: 'id',
+                    labelField: 'title',
+                });
+
+                $(document).on('click', '#use-code-btn', (e) => {
+                    e.preventDefault();
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+
+                    let codeOption = $('#for-code').val();
+                    if (codeOption.length === 0) {
+                        errorMessage.text = '請找出代碼！';
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    let codeArr = codeOption.split('(');
+                    if (codeArr.length !== 2) {
+                        errorMessage.text = '輸入的代碼不合法！';
+                        Swal.fire(errorMessage);
+                    }
+
+                    $('#code').val(codeArr[1].replace(/\)/g, ''));
+                    $('#code-text').val(codeArr[0]);
+
+                    $('#coding-system-modal').modal('hide');
+                });
 
                 $('#period-start,#period-end,#start-unavailable,#end-unavailable').datepicker(
                     $.datepicker.regional['zh-TW']

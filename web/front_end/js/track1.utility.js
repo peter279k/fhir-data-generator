@@ -83,3 +83,109 @@ function extractAddress(address) {
 
     return addressExtension;
 }
+
+async function loadCodeSystemModal() {
+    let parsedUrl = new URL(location.href);
+    let pathName = parsedUrl.pathname.toLowerCase();
+    let tracks = ['track1'];
+    let resources = [
+        'Condition', 'DiagnosticReport', 'ImagingStudy', 'Medication',
+        'MedicationRequest', 'MedicationStatement', 'observation_lab_result',
+        'Organization', 'Procedure', 'Location', 'Practitioner', 'Patient',
+    ];
+    let resourceMappingCodeSystemJson = {
+        'Condition': 'CodeSystem-icd-10-cm-2021-tw.json',
+        'DiagnosticReport': 'CodeSystem-medical-service-payment-tw.json',
+        'ImagingStudy': 'CodeSystem-icd-10-pcs-2021-tw.json',
+        'Medication': 'CodeSystem-medication-fda-tw.json',
+        'MedicationRequest': 'CodeSystem-medication-fda-tw.json',
+        'MedicationStatement': 'CodeSystem-medication-nhi-tw.json',
+        'observation_lab_result': 'CodeSystem-medical-service-payment-tw.json',
+        'Organization': 'CodeSystem-organization-identifier-tw.json',
+        'Procedure': 'CodeSystem-icd-10-pcs-2021-tw.json',
+        'Location': 'CodeSystem-postal-code3-tw.json',
+        'Practitioner': 'CodeSystem-postal-code3-tw.json',
+        'Patient': 'CodeSystem-postal-code3-tw.json',
+    };
+    let codeSystemJson = '';
+
+    let matched = false;
+    for (let index in tracks) {
+        if (pathName.includes(tracks[index])) {
+            matched = true;
+            break;
+        }
+    }
+
+    if (!matched) {
+        return false;
+    }
+
+    matched = false;
+    for (let index in resources) {
+        if (pathName.includes(resources[index].toLowerCase())) {
+            matched = true;
+            codeSystemJson = resourceMappingCodeSystemJson[resources[index]];
+            break;
+        }
+    }
+
+    if (!matched) {
+        return false;
+    }
+
+    await $.ajax({
+        type: 'GET',
+        url: `/front_end/assets/json/${codeSystemJson}`,
+        headers: {'Accept': 'application/json'},
+    }).done((data) => {
+        let jsonData = data;
+        let codeOptions = [];
+        for (let index=0; index<jsonData.concept.length; index++) {
+            codeOptions.push({
+                id: jsonData.concept[index].code,
+                label: jsonData.concept[index].display,
+                value: jsonData.concept[index].code,
+                title: `${jsonData.concept[index].display}(${jsonData.concept[index].code})`,
+                data: {
+                  key: index+1,
+                },
+            });
+        }
+        localStorage.setItem('code_system', JSON.stringify(codeOptions));
+        $('#source-form').after(
+            `<div class="modal fade" id="coding-system-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">代碼查詢</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="code-system-form" role="form">
+                                <div class="mb-3">
+                                    <label for="for-code" class="form-label">請輸入病情、問題或診斷識別代碼</label>
+                                    <input id="for-code" class="form-control autocomplete" type="text" aria-label="">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                            <button type="button" id="use-code-btn" class="btn btn-primary">使用代碼</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        );
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+    });
+
+    $('#source-form').append(
+        `<button id="coding-system-btn" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#coding-system-modal">
+            代碼查詢
+        </button>
+        `
+    );
+}
