@@ -302,6 +302,7 @@
                 $(document).on('click', '#use-code-btn', (e) => {
                     e.preventDefault();
                     let codeSystem = JSON.parse(localStorage.getItem('code_system'));
+                    let postalCodeSystem = JSON.parse(localStorage.getItem('postal_code_system'));
                     let errorMessage = {
                         title: '錯誤',
                         text: '',
@@ -322,7 +323,10 @@
                         Swal.fire(errorMessage);
                     }
 
-                    $('#address-postal').val(codeArr[1].replace(/\)/g, ''));
+                    let postalCode = codeArr[1].replace(/\)/g, '');
+                    $('#address-postal').val(postalCode.substring(0, 3));
+                    $('#address-city').val(postalCodeSystem[postalCode].city);
+                    $('#address-district').val(postalCodeSystem[postalCode].district);
 
                     $('#coding-system-modal').modal('hide');
                 });

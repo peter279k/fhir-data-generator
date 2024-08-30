@@ -160,13 +160,21 @@ async function loadCodeSystemModal() {
     }).done((data) => {
         let jsonData = data;
         let codeOptions = [];
+        let postalCodeMapping = {};
         for (let index=0; index<jsonData.concept.length; index++) {
             codeOptions.push({
                 code: jsonData.concept[index].code,
                 display: jsonData.concept[index].display,
                 label: `${jsonData.concept[index].display}(${jsonData.concept[index].code})`,
             });
+            if (jsonData.concept[index].city) {
+                postalCodeMapping[jsonData.concept[index].code] = {
+                    city: jsonData.concept[index].city,
+                    district: jsonData.concept[index].district,
+                };
+            }
         }
+        localStorage.setItem('postal_code_system', JSON.stringify(postalCodeMapping));
         localStorage.setItem('code_system', JSON.stringify(codeOptions));
         $('#source-form').after(
             `<div class="modal fade" id="coding-system-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

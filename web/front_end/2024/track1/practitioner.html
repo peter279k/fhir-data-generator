@@ -283,6 +283,10 @@
         <script src="../../js/jquery.ui.datepicker-zh-TW.min.js"></script>
         <script src="../../js/sweetalert2.all.min.js"></script>
         <script src="../../js/html2canvas.min.js"></script>
+        <script type="module">
+            import Autocomplete from '../../js/autocomplete.js';
+            window.Autocomplete = Autocomplete;
+        </script>
         <script src="../../js/FileSaver.min.js"></script>
         <script src="../../js/track1.coding.js"></script>
         <script src="../../js/track1.utility.js"></script>
@@ -294,6 +298,41 @@
                 loadIGNavLink();
                 await loadMartialStatus();
                 await loadRelationshipCoding();
+
+                let autoCompleteOption = await loadCodeSystemModal();
+                Autocomplete.init('input.autocomplete', autoCompleteOption);
+
+                $(document).on('click', '#use-code-btn', (e) => {
+                    e.preventDefault();
+                    let codeSystem = JSON.parse(localStorage.getItem('code_system'));
+                    let postalCodeSystem = JSON.parse(localStorage.getItem('postal_code_system'));
+                    let errorMessage = {
+                        title: '錯誤',
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: '確定',
+                    };
+
+                    let codeOption = $('#for-code').val();
+                    if (codeOption.length === 0) {
+                        errorMessage.text = '請找出代碼！';
+                        Swal.fire(errorMessage);
+                        return false;
+                    }
+
+                    let codeArr = codeOption.split('(');
+                    if (codeArr.length !== 2) {
+                        errorMessage.text = '輸入的代碼不合法！';
+                        Swal.fire(errorMessage);
+                    }
+
+                    let postalCode = codeArr[1].replace(/\)/g, '');
+                    $('#postal').val(postalCode.substring(0, 3));
+                    $('#district').val(postalCodeSystem[postalCode].district);
+                    $('#city').val(postalCodeSystem[postalCode].city);
+
+                    $('#coding-system-modal').modal('hide');
+                });
 
                 $("#birth-date,#phone-start,#phone-end,#qualification-start").datepicker(
                     $.datepicker.regional['zh-TW']
