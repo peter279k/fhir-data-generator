@@ -143,13 +143,9 @@ async function loadCodeSystemModal() {
         let codeOptions = [];
         for (let index=0; index<jsonData.concept.length; index++) {
             codeOptions.push({
-                id: jsonData.concept[index].code,
-                label: jsonData.concept[index].display,
-                value: jsonData.concept[index].code,
-                title: `${jsonData.concept[index].display}(${jsonData.concept[index].code})`,
-                data: {
-                  key: index+1,
-                },
+                code: jsonData.concept[index].code,
+                display: jsonData.concept[index].display,
+                label: `${jsonData.concept[index].display}(${jsonData.concept[index].code})`,
             });
         }
         localStorage.setItem('code_system', JSON.stringify(codeOptions));
@@ -182,10 +178,23 @@ async function loadCodeSystemModal() {
         Swal.fire(errorMessage);
     });
 
+    $('#coding-system-btn').remove();
     $('#source-form').append(
         `<button id="coding-system-btn" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#coding-system-modal">
             代碼查詢
         </button>
         `
     );
+
+    return {
+        items: JSON.parse(localStorage.getItem('code_system')),
+        showAllSuggestions: false,
+        suggestionsThreshold: 2,
+        autoselectFirst: true,
+        updateOnSelect: false,
+        preventBrowserAutocomplete: true,
+        valueField: 'label',
+        labelField: 'label',
+        searchFields: ['code', 'display'],
+    };
 }

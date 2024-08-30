@@ -247,16 +247,13 @@
                 loadIGNavLink();
                 await loadMartialStatus();
                 await loadRelationshipCoding();
-                await loadCodeSystemModal();
+                let autoCompleteOption = await loadCodeSystemModal();
 
-                Autocomplete.init('input.autocomplete', {
-                    items: JSON.parse(localStorage.getItem('code_system')),
-                    valueField: 'id',
-                    labelField: 'title',
-                });
+                Autocomplete.init('input.autocomplete', autoCompleteOption);
 
                 $(document).on('click', '#use-code-btn', (e) => {
                     e.preventDefault();
+                    let codeSystem = JSON.parse(localStorage.getItem('code_system'));
                     let errorMessage = {
                         title: '錯誤',
                         text: '',
