@@ -103,9 +103,9 @@ async function loadCodeSystemModal() {
         'observation_lab_result': 'CodeSystem-medical-service-payment-tw.json',
         'Organization': 'CodeSystem-organization-identifier-tw.json',
         'Procedure': 'CodeSystem-icd-10-pcs-2021-tw.json',
-        'Location': 'CodeSystem-postal-code3-tw.json',
-        'Practitioner': 'CodeSystem-postal-code3-tw.json',
-        'Patient': 'CodeSystem-postal-code3-tw.json',
+        'Location': 'tw_postal_1031225.json',
+        'Practitioner': 'tw_postal_1031225.json',
+        'Patient': 'tw_postal_1031225.json',
     };
     let resourceMappingCodeSystemLabel = {
         'Condition': '請輸入病情、問題或診斷識別代碼',
