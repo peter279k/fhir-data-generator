@@ -205,6 +205,11 @@ async function loadCodeSystemModal() {
         `
     );
 
+    $(document).on('click', '#coding-system-btn', (e) => {
+        e.preventDefault();
+        $('#for-code').val('');
+    });
+
     return {
         items: JSON.parse(localStorage.getItem('code_system')),
         showAllSuggestions: false,
