@@ -122,8 +122,11 @@ async function loadCodeSystemModal() {
     }
 
     matched = false;
+    let pathResource = '';
     for (let index in resources) {
-        if (pathName.includes(resources[index].toLowerCase())) {
+        pathResource = pathName.split('/');
+        pathResource = pathResource[pathResource.length-1].split('.');
+        if (pathResource[0].toLowerCase() === resources[index].toLowerCase()) {
             matched = true;
             codeSystemJson = resourceMappingCodeSystemJson[resources[index]];
             break;
