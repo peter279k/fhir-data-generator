@@ -107,7 +107,22 @@ async function loadCodeSystemModal() {
         'Practitioner': 'CodeSystem-postal-code3-tw.json',
         'Patient': 'CodeSystem-postal-code3-tw.json',
     };
+    let resourceMappingCodeSystemLabel = {
+        'Condition': '請輸入病情、問題或診斷識別代碼',
+        'DiagnosticReport': '',
+        'ImagingStudy': '',
+        'Medication': '',
+        'MedicationRequest': '',
+        'MedicationStatement': '',
+        'observation_lab_result': '',
+        'Organization': '',
+        'Procedure': '',
+        'Location': '',
+        'Practitioner': '',
+        'Patient': '',
+    };
     let codeSystemJson = '';
+    let codeSystemLabel = '';
 
     let matched = false;
     for (let index in tracks) {
@@ -129,6 +144,7 @@ async function loadCodeSystemModal() {
         if (pathResource[0].toLowerCase() === resources[index].toLowerCase()) {
             matched = true;
             codeSystemJson = resourceMappingCodeSystemJson[resources[index]];
+            codeSystemLabel = resourceMappingCodeSystemLabel[resources[index]];
             break;
         }
     }
@@ -163,7 +179,7 @@ async function loadCodeSystemModal() {
                         <div class="modal-body">
                             <form id="code-system-form" role="form">
                                 <div class="mb-3">
-                                    <label for="for-code" class="form-label">請輸入病情、問題或診斷識別代碼</label>
+                                    <label for="for-code" class="form-label">${codeSystemLabel}</label>
                                     <input id="for-code" class="form-control autocomplete" type="text" aria-label="">
                                 </div>
                             </form>
