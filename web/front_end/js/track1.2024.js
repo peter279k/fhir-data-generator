@@ -21,7 +21,7 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
             patientResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -96,10 +96,10 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
             `${patientResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code}`
         );
         $('#result-patient-address-city').html(
-            `${patientResource.address[0].city}`
+            `${patientResource.address[0].district}`
         );
         $('#result-patient-address-district').html(
-            `${patientResource.address[0].district}`
+            `${patientResource.address[0].city}`
         );
         $('#result-patient-address-line').html(
             `${patientResource.address[0].line[0]}`
@@ -212,7 +212,7 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
             organizationResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -296,7 +296,7 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
             practitionerResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -420,7 +420,7 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
             practitionerRoleResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -545,7 +545,7 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
             encounterResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -660,7 +660,7 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
             allergyResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -779,7 +779,7 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
             conditionResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -878,7 +878,7 @@ async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServe
             diagnosticReportResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -973,7 +973,7 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
             documentReferenceResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -1068,7 +1068,7 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
             ImagingStudyResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `

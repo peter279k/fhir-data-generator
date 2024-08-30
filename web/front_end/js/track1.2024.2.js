@@ -21,7 +21,7 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
             locationResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -132,7 +132,7 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
             mediaResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -243,7 +243,7 @@ async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpo
             medicationResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -313,7 +313,7 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
             medicationRequestResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -436,7 +436,7 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
             medicationDispenseResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -563,7 +563,7 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
             medicationStatementResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -666,7 +666,7 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
             procedureResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -761,7 +761,7 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
             specimenResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -899,7 +899,7 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
             observationResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
@@ -998,7 +998,7 @@ async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthS
             observationResource = jsonData.entry[0].resource;
             $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
-            $('#result-search-entries').attr('obs_type', payload.type);
+
             let entryOptions = '';
             for (let index=0; index<jsonData.entry.length; index++) {
                 entryOptions += `
