@@ -463,3 +463,130 @@ function addValueQuantityFields(observationBasicInfo) {
 
     return valueQuantityPayload;
 }
+
+async function loadCodeSystemModalForTrack13() {
+    let parsedUrl = new URL(location.href);
+    let pathName = parsedUrl.pathname.toLowerCase();
+    let tracks = ['track13'];
+    let resources = [
+        'ServiceRequest', 'Condition',
+    ];
+    let resourceMappingCodeSystemJson = {
+        'Condition': 'track13_condition.json',
+        'ServiceRequest': 'ValueSet-servicerequest-pa.json',
+    };
+    let resourceMappingCodeSystemLabel = {
+        'Condition': '',
+        'ServiceRequest': '',
+    };
+    let codeSystemJson = '';
+    let codeSystemLabel = '';
+
+    let matched = false;
+    for (let index in tracks) {
+        if (pathName.includes(tracks[index])) {
+            matched = true;
+            break;
+        }
+    }
+
+    if (!matched) {
+        return false;
+    }
+
+    matched = false;
+    let pathResource = '';
+    for (let index in resources) {
+        pathResource = pathName.split('/');
+        pathResource = pathResource[pathResource.length-1].split('.');
+        if (pathResource[0].toLowerCase() === resources[index].toLowerCase() || resources[index].toLowerCase().includes(pathResource[0].toLowerCase())) {
+            matched = true;
+            codeSystemJson = resourceMappingCodeSystemJson[resources[index]];
+            codeSystemLabel = resourceMappingCodeSystemLabel[resources[index]];
+            break;
+        }
+    }
+
+    if (!matched) {
+        return false;
+    }
+
+    await $.ajax({
+        type: 'GET',
+        url: `/front_end/assets/json/physical_activity/${codeSystemJson}`,
+        headers: {'Accept': 'application/json'},
+    }).done((data) => {
+        let jsonData = data;
+        let codeOptions = [];
+        let label = '';
+        for (let index=0; index<jsonData.concept.length; index++) {
+            if (jsonData.concept[index].type) {
+                if (jsonData.concept[index].type === 'm') {
+                    jsonData.concept[index].type = '病史';
+                } else {
+                    jsonData.concept[index].type = '運動史';
+                }
+            }
+            label = `${jsonData.concept[index].display}(${jsonData.concept[index].code})` + `(${jsonData.concept[index].type || ''})`;
+            label = label.replace('()', '');
+            codeOptions.push({
+                code: jsonData.concept[index].code,
+                display: jsonData.concept[index].display,
+                label: label,
+            });
+        }
+        localStorage.setItem('code_system', JSON.stringify(codeOptions));
+        $('#source-form').after(
+            `<div class="modal fade" id="coding-system-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">代碼查詢</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="code-system-form" role="form">
+                                <div class="mb-3">
+                                    <label for="for-code" class="form-label">${codeSystemLabel}</label>
+                                    <input id="for-code" class="form-control autocomplete" type="text" aria-label="">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                            <button type="button" id="use-code-btn" class="btn btn-primary">使用代碼</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        );
+    }).fail((error) => {
+        errorMessage['text'] = `${error.status} ${error.statusText}`;
+        Swal.fire(errorMessage);
+    });
+
+    $('#coding-system-btn').remove();
+    $('#source-form').append(
+        `<button id="coding-system-btn" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#coding-system-modal">
+            代碼查詢
+        </button>
+        `
+    );
+
+    $(document).on('click', '#coding-system-btn', (e) => {
+        e.preventDefault();
+        $('#for-code').val('');
+    });
+
+    return {
+        items: JSON.parse(localStorage.getItem('code_system')),
+        showAllSuggestions: false,
+        suggestionsThreshold: 2,
+        autoselectFirst: true,
+        updateOnSelect: false,
+        preventBrowserAutocomplete: true,
+        valueField: 'label',
+        labelField: 'label',
+        searchFields: ['code', 'display'],
+    };
+}

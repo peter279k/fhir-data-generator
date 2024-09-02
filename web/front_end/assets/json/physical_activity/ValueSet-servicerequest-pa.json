@@ -1,0 +1,57 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "servicerequest-pa",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet servicerequest-pa</b></p><a name=\"servicerequest-pa\"> </a><a name=\"hcservicerequest-pa\"> </a><a name=\"servicerequest-pa-en-US\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/819961005\">819961005</a></td><td>PA guidance</td></tr><tr><td><a href=\"http://snomed.info/id/398636004\">398636004</a></td><td>PA assessment</td></tr><tr><td><a href=\"http://snomed.info/id/435551000124105\">435551000124105</a></td><td>Counseling about physical activity</td></tr><tr><td><a href=\"http://snomed.info/id/390893007\">390893007</a></td><td>Referral to physical activity program</td></tr><tr><td><a href=\"http://snomed.info/id/426866005\">426866005</a></td><td>Determination of phyisical activity tolerance</td></tr><tr><td><a href=\"http://snomed.info/id/229095001\">229095001</a></td><td>Exercise class</td></tr><tr><td><a href=\"http://snomed.info/id/229065009\">229065009</a></td><td>Exercise therapy</td></tr></table></li></ul></div>"
+  },
+  "url" : "https://hapi.fhir.tw/fhir/ValueSet/servicerequest-pa",
+  "version" : "0.1.0",
+  "name" : "ServiceRequestPA",
+  "title" : "適用運動處方之服務請求代碼值集",
+  "status" : "active",
+  "experimental" : false,
+  "date" : "2024-06-04",
+  "publisher" : "CYLAB",
+  "contact" : [{
+    "name" : "CYLAB",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "https://mitw.dicom.org.tw/"
+    }]
+  }],
+  "description" : "運動處方之服務請求類型代碼。",
+  "compose" : {
+    "include" : [{
+      "system" : "http://snomed.info/sct",
+      "concept" : [{
+        "code" : "819961005",
+        "display" : "PA guidance"
+      },
+      {
+        "code" : "398636004",
+        "display" : "PA assessment"
+      },
+      {
+        "code" : "435551000124105",
+        "display" : "Counseling about physical activity"
+      },
+      {
+        "code" : "390893007",
+        "display" : "Referral to physical activity program"
+      },
+      {
+        "code" : "426866005",
+        "display" : "Determination of phyisical activity tolerance"
+      },
+      {
+        "code" : "229095001",
+        "display" : "Exercise class"
+      },
+      {
+        "code" : "229065009",
+        "display" : "Exercise therapy"
+      }]
+    }]
+  }
+}
