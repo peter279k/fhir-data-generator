@@ -109,17 +109,17 @@ async function loadCodeSystemModal() {
     };
     let resourceMappingCodeSystemLabel = {
         'Condition': '請輸入病情、問題或診斷識別代碼',
-        'DiagnosticReport': '',
-        'ImagingStudy': '',
-        'Medication': '',
-        'MedicationRequest': '',
-        'MedicationStatement': '',
-        'observation_lab_result': '',
-        'Organization': '',
-        'Procedure': '',
-        'Location': '',
-        'Practitioner': '',
-        'Patient': '',
+        'DiagnosticReport': '請輸入病情或診斷識別代碼、或病情診斷識別中文名稱',
+        'ImagingStudy': '請輸入執行處置手術代碼、或處置手術的名稱',
+        'Medication': '請輸入藥品代碼或藥品名稱',
+        'MedicationRequest': '請輸入藥品識別碼',
+        'MedicationStatement': '請輸入藥品名稱代碼或藥品名稱英文',
+        'observation_lab_result': '請輸入檢驗項目代碼或檢驗項目文字敘述',
+        'Organization': '請輸入機構名稱或代碼',
+        'Procedure': '請輸入處置手術識別代碼或中文',
+        'Location': '請輸入地址行政區域名稱、郵遞區號或部份地址',
+        'Practitioner': '請輸入地址行政區域名稱、郵遞區號或部份地址',
+        'Patient': '請輸入地址行政區域名稱、郵遞區號或部份地址',
     };
     let codeSystemJson = '';
     let codeSystemLabel = '';
