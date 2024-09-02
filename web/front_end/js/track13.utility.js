@@ -517,6 +517,10 @@ async function loadCodeSystemModalForTrack13() {
         headers: {'Accept': 'application/json'},
     }).done((data) => {
         let jsonData = data;
+        if (!jsonData.concept) {
+            jsonData.concept = jsonData.compose.include[0].concept;
+        }
+
         let codeOptions = [];
         let label = '';
         for (let index=0; index<jsonData.concept.length; index++) {
