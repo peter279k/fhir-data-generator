@@ -222,7 +222,7 @@
                         for (let keyIndex=0; keyIndex<oauthServerKey.length; keyIndex++) {
                             selector = oauthServerKey[keyIndex].replace(/_/g, '-');
                             if (oauthServerEndpoint[trackOption][oauthServerKey[keyIndex]]) {
-                                $(`#${selector}`).val();
+                                $(`#${selector}`).val(oauthServerEndpoint[trackOption][oauthServerKey[keyIndex]]);
                             }
                         }
                     }
