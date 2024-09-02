@@ -580,7 +580,9 @@
                     e.preventDefault();
                     html2canvas(document.querySelector('#layoutSidenav_content')).then(canvas => {
                         canvas.toBlob((blob) => {
-                            window.saveAs(blob, 'image.png');
+                            let parsed = new URL(location.href);
+                            let pathArr = parsed.pathname.split('/');
+                            window.saveAs(blob, `${pathArr[3]}_${pathArr[4]}_${new Date().getTime()}.png`);
                         });
                     });
                 });
