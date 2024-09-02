@@ -348,6 +348,8 @@
                         fields[index] = field;
                     }
 
+                    // 一站式驗證網站：https://validator.dicom.tw
+                    // 由於一站式驗證網站尚未收錄9258009代碼，先改用其他代碼測試，e.g. 9242006
                     fields[6] = $('#body-site').attr('hidden');
 
                     let payload = {
