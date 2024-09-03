@@ -143,7 +143,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="body-site" class="form-label">請輸入身體部位代碼(若不填寫則請填入0)</label>
-                                        <input type="text" class="form-control" hidden="9242006" placeholder="9258009" id="body-site">
+                                        <input type="text" class="form-control" hidden_value="9242006" placeholder="9258009" id="body-site">
                                     </div>
                                     <div class="mb-3">
                                         <label for="actor" class="fw-bold text-info form-label">請輸入執行處置或手術人員參照</label>
@@ -352,7 +352,7 @@
 
                     // 一站式驗證網站：https://validator.dicom.tw
                     // 由於一站式驗證網站尚未收錄9258009代碼，先改用其他代碼測試，e.g. 9242006
-                    fields[6] = $('#body-site').attr('hidden');
+                    fields[6] = $('#body-site').attr('hidden_value');
 
                     let payload = {
                         'profile_urls': [$('#meta-profile-url :selected').val()],
