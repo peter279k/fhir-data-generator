@@ -855,19 +855,22 @@
                     let gender = $('#gender').val();
 
                     if (patientId === '') {
-                        patientId = $('#_id').attr('placeholder');
+                        patientId = '';
+                    } else {
+                        searchParameters += `_id=${patientId}&`;
                     }
-                    searchParameters += `_id=${patientId}&`;
 
                     if (birthDate === '') {
-                        birthDate = $('#birth-date').attr('placeholder');
+                        birthDate = '';
+                    } else {
+                        searchParameters += `birthdate=${birthDate}&`;
                     }
-                    searchParameters += `birthdate=${birthDate}&`;
 
                     if (gender === '') {
-                        gender = $('#gender').attr('placeholder');
+                        gender = '';
+                    } else {
+                        searchParameters += `gender=${gender}&`;
                     }
-                    searchParameters += `gender=${gender}&`;
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 

@@ -517,6 +517,7 @@
 
                     let payload = {
                         'search_parameters': searchParameters,
+                        'type': selectedObservationOption,
                     };
 
                     await doGenerateObservationVitalRequest(trackServerEndpoint, oauthServerEndpoint, payload, errorMessage, 'consumer');

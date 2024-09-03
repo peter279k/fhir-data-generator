@@ -19,7 +19,7 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         let patientResource = jsonData;
         if (jsonData.entry) {
             patientResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -210,7 +210,7 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
         let organizationResource = jsonData;
         if (jsonData.entry) {
             organizationResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -253,12 +253,17 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
             `${organizationResource.type[0].coding[0].code} (${organizationResource.type[0].coding[0].system})`
         );
 
-        $('#result-phone').html(
-            `${organizationResource.telecom[0].system}`
-        );
-        $('#result-phone-number').html(
-            `${organizationResource.telecom[0].value}`
-        );
+        if (organizationResource.telecom) {
+            $('#result-phone').html(
+                `${organizationResource.telecom[0].system}`
+            );
+            $('#result-phone-number').html(
+                `${organizationResource.telecom[0].value}`
+            );
+        } else {
+            $('#result-phone').html('無');
+            $('#result-phone-number').html('無');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -294,7 +299,7 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
         let practitionerResource = jsonData;
         if (jsonData.entry) {
             practitionerResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -418,7 +423,7 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
         let practitionerRoleResource = jsonData;
         if (jsonData.entry) {
             practitionerRoleResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -543,7 +548,7 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
         let encounterResource = jsonData;
         if (jsonData.entry) {
             encounterResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -658,7 +663,7 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
         let allergyResource = jsonData;
         if (jsonData.entry) {
             allergyResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total }筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -777,7 +782,7 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         let conditionResource = jsonData;
         if (jsonData.entry) {
             conditionResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -876,7 +881,7 @@ async function doGenerateDiagnosticReportRequest(trackServerEndpoint, oauthServe
         let diagnosticReportResource = jsonData;
         if (jsonData.entry) {
             diagnosticReportResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -971,7 +976,7 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
         let documentReferenceResource = jsonData;
         if (jsonData.entry) {
             documentReferenceResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -1066,7 +1071,7 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
         let ImagingStudyResource = jsonData;
         if (jsonData.entry) {
             ImagingStudyResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -1099,9 +1104,13 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
             `${ImagingStudyResource.status} (ImagingStudyStatus)`
         );
 
-        $('#result-imaging-identifier').html(
-            `${ImagingStudyResource.identifier[0].value} (${ImagingStudyResource.identifier[0].use})`
-        );
+        if (ImagingStudyResource.identifier) {
+            $('#result-imaging-identifier').html(
+                `${ImagingStudyResource.identifier[0].value} (${ImagingStudyResource.identifier[0].use})`
+            );
+        } else {
+            $('#result-imaging-identifier').html('無identifier');
+        }
 
         $('#result-imaging-start').html(
             `${ImagingStudyResource.started}`
@@ -1123,37 +1132,60 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
             `${ImagingStudyResource.numberOfInstances}`
         );
 
-        $('#result-imaging-procedure').html(
-            `${ImagingStudyResource.procedureReference.reference}`
-        );
+        if (ImagingStudyResource.procedureReference) {
+            $('#result-imaging-procedure').html(
+                `${ImagingStudyResource.procedureReference.reference}`
+            );
+        } else {
+            $('#result-imaging-procedure').html('無');
+        }
 
-        $('#result-imaging-procedure-code').html(
-            `${ImagingStudyResource.procedureCode[0].coding[0].display} (${ImagingStudyResource.procedureCode[0].coding[0].system}#${ImagingStudyResource.procedureCode[0].coding[0].code})`
-        );
+        if (ImagingStudyResource.procedureCode) {
+            $('#result-imaging-procedure-code').html(
+                `${ImagingStudyResource.procedureCode[0].coding[0].display} (${ImagingStudyResource.procedureCode[0].coding[0].system}#${ImagingStudyResource.procedureCode[0].coding[0].code})`
+            );
+        }
+        else {
+            $('#result-imaging-procedure-code').html('無');
+        }
 
-        $('#result-imaging-dicom-uid').html(
-            `${ImagingStudyResource.series[0].uid}`
-        );
+        if (ImagingStudyResource.series) {
+            $('#result-imaging-dicom-uid').html(
+                `${ImagingStudyResource.series[0].uid}`
+            );
 
-        $('#result-imaging-device').html(
-            `${ImagingStudyResource.series[0].modality.system}#${ImagingStudyResource.series[0].modality.code}`
-        );
+            $('#result-imaging-device').html(
+                `${ImagingStudyResource.series[0].modality.system}#${ImagingStudyResource.series[0].modality.code}`
+            );
 
-        $('#result-imaging-body-site').html(
-            `${ImagingStudyResource.series[0].bodySite.display} (${ImagingStudyResource.series[0].bodySite.system}#${ImagingStudyResource.series[0].bodySite.code})`
-        );
+            $('#result-imaging-body-site').html(
+                `${ImagingStudyResource.series[0].bodySite.display} (${ImagingStudyResource.series[0].bodySite.system}#${ImagingStudyResource.series[0].bodySite.code})`
+            );
 
-        $('#result-imaging-body-practitioner').html(
-            `${ImagingStudyResource.series[0].performer[0].actor.reference}`
-        );
+            $('#result-imaging-body-practitioner').html(
+                `${ImagingStudyResource.series[0].performer[0].actor.reference}`
+            );
 
-        $('#result-imaging-body-sop-uid').html(
-            `${ImagingStudyResource.series[0].instance[0].uid}`
-        );
+            $('#result-imaging-body-sop-uid').html(
+                `${ImagingStudyResource.series[0].instance[0].uid}`
+            );
 
-        $('#result-imaging-body-sop-class').html(
-            `${ImagingStudyResource.series[0].instance[0].sopClass.code}`
-        );
+            $('#result-imaging-body-sop-class').html(
+                `${ImagingStudyResource.series[0].instance[0].sopClass.code}`
+            );
+        } else {
+            $('#result-imaging-dicom-uid').html('無');
+
+            $('#result-imaging-device').html('無');
+
+            $('#result-imaging-body-site').html('無');
+
+            $('#result-imaging-body-practitioner').html('無');
+
+            $('#result-imaging-body-sop-uid').html('無');
+
+            $('#result-imaging-body-sop-class').html('無');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {

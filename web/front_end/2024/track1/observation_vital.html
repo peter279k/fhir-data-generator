@@ -452,7 +452,7 @@
                     let fields = ['_id', 'query-status'];
                     for (index in fields) {
                         if ($(`#${fields[index]}`).val() === '') {
-                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
+                            fields[index] = '';
                         } else {
                             fields[index] = $(`#${fields[index]}`).val();
                         }
@@ -460,8 +460,12 @@
 
                     let searchParameters = '?';
 
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `status=${fields[1]}&`;
+                    if (fields[0] !== '') {
+                        searchParameters += `_id=${fields[0]}&`;
+                    }
+                    if (fields[1] !== '') {
+                        searchParameters += `status=${fields[1]}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
@@ -510,11 +514,11 @@
                     );
 
                     $('#result-observation-category').html(
-                        `${observationResource.category[0].coding[0].display} (${observationResource.category[0].coding[0].system}#${observationResource.category[0].coding[0].code})`
+                        `${observationResource.category[0].coding[0].display || ''} (${observationResource.category[0].coding[0].system}#${observationResource.category[0].coding[0].code})`
                     );
 
                     $('#result-observation-item').html(
-                        `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+                        `${observationResource.code.text || ''} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
                     );
 
                     $('#result-observation-patient').html(
@@ -530,13 +534,15 @@
                     );
 
                     let observationResult = '';
-                    for (let index=0; index<observationResource.component.length; index++) {
-                        observationResult += `
-                            <ul class="card-text">
-                                <li>檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
-                                <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit} (${observationResource.component[index].valueQuantity.system}#${observationResource.component[index].valueQuantity.code})</span></li>
-                            </ul>
-                        `;
+                    if (observationResource.component) {
+                        for (let index=0; index<observationResource.component.length; index++) {
+                            observationResult += `
+                                <ul class="card-text">
+                                    <li>檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
+                                    <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit} (${observationResource.component[index].valueQuantity.system}#${observationResource.component[index].valueQuantity.code})</span></li>
+                                </ul>
+                            `;
+                        }
                     }
 
                     $('#observation-result').html(observationResult);

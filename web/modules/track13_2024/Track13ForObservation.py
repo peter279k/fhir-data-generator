@@ -114,7 +114,4 @@ class Track13ForObservation:
 
         observation_class.create()
 
-        # Temporarily remove meta profile
-        del observation_class.payload_template['meta']
-
         return observation_class.payload_template

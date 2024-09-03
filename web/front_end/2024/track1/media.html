@@ -441,15 +441,20 @@
                     let fields = ['_id', 'query-status'];
                     for (index in fields) {
                         if ($(`#${fields[index]}`).val() === '') {
-                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
+                            fields[index] = '';
                         } else {
                             fields[index] = $(`#${fields[index]}`).val();
                         }
                     }
 
                     let searchParameters = '?';
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `status=${fields[1]}&`;
+
+                    if (fields[0] !== '') {
+                        searchParameters += `_id=${fields[0]}&`;
+                    }
+                    if (fields[1] !== '') {
+                        searchParameters += `status=${fields[1]}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 

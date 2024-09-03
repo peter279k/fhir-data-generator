@@ -369,15 +369,21 @@
                     for (index in fields) {
                         field = fields[index];
                         if ($(`#${field}`).val() === '') {
-                            fields[index] = $(`#${field}`).attr('placeholder');
+                            fields[index] = '';
                         } else {
                             fields[index] = $(`#${field}`).val();
                         }
                     }
 
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `name=${fields[1]}&`;
-                    searchParameters += `type=${fields[2]}&`;
+                    if (fields[0] !== '') {
+                        searchParameters += `_id=${fields[0]}&`;
+                    }
+                    if (fields[1] !== '') {
+                        searchParameters += `name=${fields[1]}&`;
+                    }
+                    if (fields[2] !== '') {
+                        searchParameters += `type=${fields[2]}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
@@ -435,12 +441,17 @@
                         `${organizationResource.type[0].coding[0].code} (${organizationResource.type[0].coding[0].system})`
                     );
 
-                    $('#result-phone').html(
-                        `${organizationResource.telecom[0].system}`
-                    );
-                    $('#result-phone-number').html(
-                        `${organizationResource.telecom[0].value}`
-                    );
+                    if (organizationResource.telecom) {
+                        $('#result-phone').html(
+                            `${organizationResource.telecom[0].system}`
+                        );
+                        $('#result-phone-number').html(
+                            `${organizationResource.telecom[0].value}`
+                        );
+                    } else {
+                        $('#result-phone').html('無');
+                        $('#result-phone-number').html('無');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

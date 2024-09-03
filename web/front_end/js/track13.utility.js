@@ -62,7 +62,7 @@ function loadObservationValueQuantityForm(observationMapping) {
         '體重': [50, 'kg', 'kg'],
         '腰圍': [63, 'cm', 'cm'],
         '脈搏血氧飽和度': [38, '%', '%'],
-        '血糖': [80, 'mg/dL', 'mg/dL'],
+        '血糖': [80, 'mg/dl', 'mg/dl'],
         '心率': [80, '/min', '/min'],
         '安靜心率': [50, '/min', '/min'],
         '平均心率': [75, '/min', '/min'],

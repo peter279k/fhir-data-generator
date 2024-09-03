@@ -480,15 +480,21 @@
                     let fields = ['_id', 'identifier', 'specialty'];
                     for (index in fields) {
                         if ($(`#${fields[index]}`).val() === '') {
-                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
+                            fields[index] = '';
                         } else {
                             fields[index] = $(`#${fields[index]}`).val();
                         }
                     }
 
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `identifier=${fields[1]}&`;
-                    searchParameters += `specialty=${fields[2]}&`;
+                    if (fields[0] !== '') {
+                        searchParameters += `_id=${fields[0]}&`;
+                    }
+                    if (fields[1] !== '') {
+                        searchParameters += `identifier=${fields[1]}&`;
+                    }
+                    if (fields[2] !== '') {
+                        searchParameters += `specialty=${fields[2]}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 

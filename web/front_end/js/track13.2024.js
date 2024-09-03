@@ -719,6 +719,7 @@ async function doGenerateObservationVitalRequest(trackServerEndpoint, oauthServe
         let sharpTag = '#';
         let leftTag = '(';
         let rightTag = ')';
+        console.log(payloadType);
         if (componentForm.includes(payloadType)) {
             for (let index=0; index<observationResource.component.length; index++) {
                 if (!observationResource.component[index].valueQuantity.code) {
@@ -734,7 +735,7 @@ async function doGenerateObservationVitalRequest(trackServerEndpoint, oauthServe
                 `;
             }
         } else {
-            if (!observationResource.valueQuantity.unit) {
+            if (!observationResource.valueQuantity) {
                 sharpTag = '';
                 leftTag = '';
                 rightTag = '';

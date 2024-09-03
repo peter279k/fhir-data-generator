@@ -427,7 +427,7 @@
 
                     for (index in fields) {
                         if ($(`#${fields[index]}`).val() === '') {
-                            fields[index] = $(`#${fields[index]}`).attr('placeholder');
+                            fields[index] = '';
                         } else {
                             fields[index] = $(`#${fields[index]}`).val();
                         }
@@ -435,8 +435,12 @@
 
                     let searchParameters = '?';
 
-                    searchParameters += `_id=${fields[0]}&`;
-                    searchParameters += `status=${fields[1]}&`;
+                    if (fields[0] !== '') {
+                        searchParameters += `_id=${fields[0]}&`;
+                    }
+                    if (fields[1] !== '') {
+                        searchParameters += `status=${fields[1]}&`;
+                    }
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
@@ -480,11 +484,11 @@
                     );
 
                     $('#result-observation-category').html(
-                        `${observationResource.category[0].coding[0].code} (${observationResource.category[0].coding[0].system})`
+                        `${observationResource.category[0].coding[0].code || ''} (${observationResource.category[0].coding[0].system})`
                     );
 
                     $('#result-observation-item').html(
-                        `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+                        `${observationResource.code.text || ''} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
                     );
 
                     $('#result-observation-patient').html(
@@ -499,9 +503,13 @@
                         `${observationResource.effectiveDateTime}`
                     );
 
-                    $('#result-observation-value').html(
-                        `${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit}`
-                    );
+                    if (observationResource.valueQuantity) {
+                        $('#result-observation-value').html(
+                            `${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit}`
+                        );
+                    } else {
+                        $('#result-observation-value').html('無');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

@@ -19,7 +19,7 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
         let locationResource = jsonData;
         if (jsonData.entry) {
             locationResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -130,7 +130,7 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
         let mediaResource = jsonData;
         if (jsonData.entry) {
             mediaResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -241,7 +241,7 @@ async function doGenerateMedicationRequest(trackServerEndpoint, oauthServerEndpo
         let medicationResource = jsonData;
         if (jsonData.entry) {
             medicationResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -311,7 +311,7 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
         let medicationRequestResource = jsonData;
         if (jsonData.entry) {
             medicationRequestResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -340,25 +340,43 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
         $('#result-medication-request-id').html(medicationRequestResource.id);
         localStorage.setItem('created_medication_request_id', medicationRequestResource.id);
 
-        $('#result-medication-request-identifier').html(
-            `${medicationRequestResource.identifier[0].value} (${medicationRequestResource.identifier[0].system})`
-        );
+        if (medicationRequestResource.identifier) {
+            $('#result-medication-request-identifier').html(
+                `${medicationRequestResource.identifier[0].value} (${medicationRequestResource.identifier[0].system})`
+            );
+        } else {
+            $('#result-medication-request-identifier').html('無');
+        }
 
-        $('#result-medication-request-status').html(
-            `${medicationRequestResource.status} (${medicationRequestResource.statusReason.coding[0].system}#${medicationRequestResource.statusReason.coding[0].code})`
-        );
+        if (medicationRequestResource.statusReason) {
+            $('#result-medication-request-status').html(
+                `${medicationRequestResource.status} (${medicationRequestResource.statusReason.coding[0].system}#${medicationRequestResource.statusReason.coding[0].code})`
+            );
+        } else {
+            $('#result-medication-request-status').html(
+                `${medicationRequestResource.status}`
+            );
+        }
 
         $('#result-medication-request-intent').html(
             `${medicationRequestResource.intent} (medicationRequest Intent)`
         );
 
-        $('#result-medication-request-category').html(
-            `${medicationRequestResource.category[0].coding[0].code} (${medicationRequestResource.category[0].coding[0].system}#${medicationRequestResource.category[0].coding[0].code})`
-        );
+        if (medicationRequestResource.category) {
+            $('#result-medication-request-category').html(
+                `${medicationRequestResource.category[0].coding[0].code} (${medicationRequestResource.category[0].coding[0].system}#${medicationRequestResource.category[0].coding[0].code})`
+            );
+        } else {
+            $('#result-medication-request-category').html('無');
+        }
 
-        $('#result-medication-request-med').html(
-            `${medicationRequestResource.medicationReference.reference}`
-        );
+        if (medicationRequestResource.medicationReference) {
+            $('#result-medication-request-med').html(
+                `${medicationRequestResource.medicationReference.reference}`
+            );
+        } else {
+            $('#result-medication-request-med').html('無');
+        }
 
         $('#result-medication-request-patient').html(
             `${medicationRequestResource.subject.reference}`
@@ -376,29 +394,47 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
             `${medicationRequestResource.requester.reference}`
         );
 
-        $('#result-medication-request-reason').html(
-            `${medicationRequestResource.reasonReference[0].reference}`
-        );
+        if (medicationRequestResource.reasonReference) {
+            $('#result-medication-request-reason').html(
+                `${medicationRequestResource.reasonReference[0].reference}`
+            );
+        } else {
+            $('#result-medication-request-reason').html('無');
+        }
 
-        $('#result-medication-dosage-text').html(
-            `${medicationRequestResource.dosageInstruction[0].text}`
-        );
+        if (medicationRequestResource.dosageInstruction) {
+            $('#result-medication-dosage-text').html(
+                `${medicationRequestResource.dosageInstruction[0].text}`
+            );
 
-        $('#result-medication-dosage-timing').html(
-            `${medicationRequestResource.dosageInstruction[0].timing.code.text} (${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].system}#${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].code})`
-        );
+            $('#result-medication-dosage-timing').html(
+                `${medicationRequestResource.dosageInstruction[0].timing.code.text} (${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].system}#${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].code})`
+            );
 
-        $('#result-medication-dosage-route').html(
-            `${medicationRequestResource.dosageInstruction[0].route.coding[0].code} (${medicationRequestResource.dosageInstruction[0].route.coding[0].system})`
-        );
+            $('#result-medication-dosage-route').html(
+                `${medicationRequestResource.dosageInstruction[0].route.coding[0].code} (${medicationRequestResource.dosageInstruction[0].route.coding[0].system})`
+            );
 
-        $('#result-medication-dosage-rate').html(
-            `${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].code} (${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].system})`
-        );
+            $('#result-medication-dosage-rate').html(
+                `${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].code} (${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].system})`
+            );
+        } else {
+            $('#result-medication-dosage-text').html('無');
 
-        $('#result-medication-request-period').html(
-            `${medicationRequestResource.dispenseRequest.validityPeriod.start} --> ${medicationRequestResource.dispenseRequest.validityPeriod.end}`
-        );
+            $('#result-medication-dosage-timing').html('無');
+
+            $('#result-medication-dosage-route').html('無');
+
+            $('#result-medication-dosage-rate').html('無');
+        }
+
+        if (medicationRequestResource.dispenseRequest) {
+            $('#result-medication-request-period').html(
+                `${medicationRequestResource.dispenseRequest.validityPeriod.start} --> ${medicationRequestResource.dispenseRequest.validityPeriod.end}`
+            );
+        } else {
+            $('#result-medication-request-period').html('無');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -434,7 +470,7 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
         let medicationDispenseResource = jsonData;
         if (jsonData.entry) {
             medicationDispenseResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -561,7 +597,7 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
         let medicationStatementResource = jsonData;
         if (jsonData.entry) {
             medicationStatementResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -664,7 +700,7 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
         let procedureResource = jsonData;
         if (jsonData.entry) {
             procedureResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -759,7 +795,7 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
         let specimenResource = jsonData;
         if (jsonData.entry) {
             specimenResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -897,7 +933,7 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
         let observationResource = jsonData;
         if (jsonData.entry) {
             observationResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -931,11 +967,11 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
         );
 
         $('#result-observation-category').html(
-            `${observationResource.category[0].coding[0].display} (${observationResource.category[0].coding[0].system}#${observationResource.category[0].coding[0].code})`
+            `${observationResource.category[0].coding[0].display || ''} (${observationResource.category[0].coding[0].system}#${observationResource.category[0].coding[0].code})`
         );
 
         $('#result-observation-item').html(
-            `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+            `${observationResource.code.text || ''} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
         );
 
         $('#result-observation-patient').html(
@@ -951,13 +987,15 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
         );
 
         let observationResult = '';
-        for (let index=0; index<observationResource.component.length; index++) {
-            observationResult += `
+        if (observationResource.component) {
+            for (let index=0; index<observationResource.component.length; index++) {
+                observationResult += `
                 <ul class="card-text">
                     <li>檢驗項目: <span class="text-primary">${observationResource.component[index].code.coding[0].display} (${observationResource.component[index].code.coding[0].system}#${observationResource.component[index].code.coding[0].code})</span></li>
                     <li>檢驗值: <span class="text-primary">${observationResource.component[index].valueQuantity.value} ${observationResource.component[index].valueQuantity.unit} (${observationResource.component[index].valueQuantity.system}#${observationResource.component[index].valueQuantity.code})</span></li>
                 </ul>
             `;
+            }
         }
 
         $('#observation-result').html(observationResult);
@@ -996,7 +1034,7 @@ async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthS
         let observationResource = jsonData;
         if (jsonData.entry) {
             observationResource = jsonData.entry[0].resource;
-            $('#result-card-header').html(`總共查到${jsonData.total}筆資料，顯示第1筆資料`);
+            $('#result-card-header').html(`總共查到${jsonData.total || jsonData.entry.length}筆資料，顯示第1筆資料`);
             $('#result-search-entries').text(JSON.stringify(jsonData.entry));
 
             let entryOptions = '';
@@ -1030,11 +1068,11 @@ async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthS
         );
 
         $('#result-observation-category').html(
-            `${observationResource.category[0].coding[0].code} (${observationResource.category[0].coding[0].system})`
+            `${observationResource.category[0].coding[0].code || ''} (${observationResource.category[0].coding[0].system})`
         );
 
         $('#result-observation-item').html(
-            `${observationResource.code.text} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
+            `${observationResource.code.text || ''} (${observationResource.code.coding[0].system}#${observationResource.code.coding[0].code})`
         );
 
         $('#result-observation-patient').html(
@@ -1049,9 +1087,13 @@ async function doGenerateObservationLabReportRequest(trackServerEndpoint, oauthS
             `${observationResource.effectiveDateTime}`
         );
 
-        $('#result-observation-value').html(
-            `${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit}`
-        );
+        if (observationResource.valueQuantity) {
+            $('#result-observation-value').html(
+                `${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit}`
+            );
+        } else {
+            $('#result-observation-value').html('無');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
