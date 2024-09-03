@@ -48,21 +48,31 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
         $('#result-patient-id').html(patientResource.id);
         localStorage.setItem('created_patient_id', patientResource.id);
 
-        let identifiers = patientResource.identifier;
-        let identifierHtml = '';
-        identifierHtml += `<li>病患識別碼型別: <span name="result-patient-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
-        identifierHtml += `<li>身份證字號: <span name="result-patient-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
+        try {
+            let identifiers = patientResource.identifier;
+            let identifierHtml = '';
+            identifierHtml += `<li>病患識別碼型別: <span name="result-patient-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
+            identifierHtml += `<li>身份證字號: <span name="result-patient-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
 
-        $('#result-patient-identifier1').html(identifierHtml);
+            $('#result-patient-identifier1').html(identifierHtml);
 
-        identifierHtml = '';
-        identifierHtml += `<li>病患識別碼型別: <span name="result-patient-identifier" class="text-primary">${identifiers[1].type.coding[0].system}#${identifiers[1].type.coding[0].code}</span></li>`;
-        identifierHtml += `<li>病歷號: <span name="result-patient-identifier" class="text-primary">${identifiers[1].value}</span></li>`;
+            identifierHtml = '';
+            identifierHtml += `<li>病患識別碼型別: <span name="result-patient-identifier" class="text-primary">${identifiers[1].type.coding[0].system}#${identifiers[1].type.coding[0].code}</span></li>`;
+            identifierHtml += `<li>病歷號: <span name="result-patient-identifier" class="text-primary">${identifiers[1].value}</span></li>`;
 
-        $('#result-patient-identifier2').html(identifierHtml);
+            $('#result-patient-identifier2').html(identifierHtml);
+        } catch {
+            $('#result-patient-identifier1').html('無');
+            $('#result-patient-identifier2').html('無');
+        }
 
         $('#result-patient-active').html(patientResource.active);
-        $('#result-patient-name').html(`${patientResource.name[0].text} ${patientResource.name[0].family}, ${patientResource.name[0].given[0]}`);
+
+        try {
+            $('#result-patient-name').html(`${patientResource.name[0].text} ${patientResource.name[0].family}, ${patientResource.name[0].given[0]}`);
+        } catch {
+            $('#result-patient-name').html('');
+        }
 
         let genderMapping = {
             'male': '男性',
@@ -72,109 +82,168 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
 
         $('#result-patient-birth-date').html(patientResource.birthDate);
 
-        $('#result-patient-age').html(
-            `[extension: ${patientResource.extension[0].url}]: ${patientResource.extension[0].valueAge.value}`
-        );
-        $('#result-patient-nationality').html(
-            `[extension: ${patientResource.extension[1].url}]: ${patientResource.extension[1].extension[0].valueCodeableConcept.coding[0].code}`
-        );
-
-        $('#result-patient-phone').html(
-            `${patientResource.telecom[0].system}`
-        )
-        $('#result-patient-mobile').html(
-            `${patientResource.telecom[0].value}`
-        )
-        $('#result-patient-period').html(
-            `${patientResource.telecom[0].period.start}~${patientResource.telecom[0].period.end}`
-        )
-
-        $('#result-patient-address').html(
-            `(${patientResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code})${patientResource.address[0].text}`
-        );
-        $('#result-patient-address-postal').html(
-            `${patientResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code}`
-        );
-        $('#result-patient-address-city').html(
-            `${patientResource.address[0].district}`
-        );
-        $('#result-patient-address-district').html(
-            `${patientResource.address[0].city}`
-        );
-        $('#result-patient-address-line').html(
-            `${patientResource.address[0].line[0]}`
-        );
-        $('#result-patient-address-country').html(
-            `${patientResource.address[0].country}`
-        );
-        let extension = null;
-        for (index in patientResource.address[0].extension) {
-            extension = patientResource.address[0].extension[index];
-            if (extension.url.includes('village')) {
-                $('#result-patient-address-village').html(
-                    `${extension.valueString}`
-                );
-            } else if (extension.url.includes('neighborhood')) {
-                $('#result-patient-address-neighborhood').html(
-                    `${extension.valueString}`
-                );
-            } else if (extension.url.includes('section')) {
-                $('#result-patient-address-section').html(
-                    `${extension.valueString}`
-                );
-            } else if (extension.url.includes('lane')) {
-                $('#result-patient-address-lane').html(
-                    `${extension.valueString}`
-                );
-            } else if (extension.url.includes('alley')) {
-                $('#result-patient-address-alley').html(
-                    `${extension.valueString}`
-                );
-            } else if (extension.url.includes('number')) {
-                $('#result-patient-address-number').html(
-                    `${extension.valueString}`
-                );
-            } else if (extension.url.includes('floor')) {
-                $('#result-patient-address-floor').html(
-                    `${extension.valueString}`
-                );
-            } else if (extension.url.includes('room')) {
-                $('#result-patient-address-room').html(
-                    `${extension.valueString}`
-                );
-            }
+        try {
+            $('#result-patient-age').html(
+                `[extension: ${patientResource.extension[0].url}]: ${patientResource.extension[0].valueAge.value}`
+            );
+        } catch {
+            $('#result-patient-age').html('無');
         }
 
-        $('#result-patient-address-martial').html(
-            `${patientResource.maritalStatus.coding[0].code}(${patientResource.maritalStatus.coding[0].system})`
-        );
+        try {
+            $('#result-patient-nationality').html(
+                `[extension: ${patientResource.extension[1].url}]: ${patientResource.extension[1].extension[0].valueCodeableConcept.coding[0].code}`
+            );
+        } catch {
+            $('#result-patient-nationality').html('無');
+        }
 
-        $('#result-patient-contact-name').html(
-            patientResource.contact[0].name.text
-        );
-        $('#result-patient-contact-relationship').html(
-            `${patientResource.contact[0].relationship[0].coding[0].code}(${patientResource.contact[0].relationship[0].coding[0].system})`
-        );
-        $('#result-patient-contact-phone').html(
-            patientResource.contact[0].telecom[0].system
-        );
-        $('#result-patient-contact-mobile').html(
-            patientResource.contact[0].telecom[0].value
-        );
-        $('#result-patient-contact-period').html(
-            `${patientResource.contact[0].telecom[0].period.start}~${patientResource.contact[0].telecom[0].period.end}`
-        );
-        $('#result-patient-communication').html(
-            patientResource.communication[0].language.coding[0].code
-        );
-        $('#result-patient-managing-organization').html(
-            patientResource.managingOrganization.reference
-        );
+        try {
+            $('#result-patient-phone').html(
+                `${patientResource.telecom[0].system}`
+            )
+        } catch {
+            $('#result-patient-phone').html('');
+        }
 
-        $('#result-patient-photo').attr(
-            'src',
-            `data:${patientResource.photo[0].contentType};base64, ${patientResource.photo[0].data}`
-        );
+        try {
+            $('#result-patient-mobile').html(
+                `${patientResource.telecom[0].value}`
+            )
+        } catch {
+            $('#result-patient-mobile').html('無');
+        }
+
+        try {
+            $('#result-patient-period').html(
+                `${patientResource.telecom[0].period.start}~${patientResource.telecom[0].period.end}`
+            )
+        } catch {
+            $('#result-patient-period').html('無');
+        }
+
+        try {
+            $('#result-patient-address').html(
+                `(${patientResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code})${patientResource.address[0].text}`
+            );
+            $('#result-patient-address-postal').html(
+                `${patientResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code}`
+            );
+            $('#result-patient-address-city').html(
+                `${patientResource.address[0].district}`
+            );
+            $('#result-patient-address-district').html(
+                `${patientResource.address[0].city}`
+            );
+            $('#result-patient-address-line').html(
+                `${patientResource.address[0].line[0]}`
+            );
+            $('#result-patient-address-country').html(
+                `${patientResource.address[0].country}`
+            );
+
+            let extension = null;
+            for (index in patientResource.address[0].extension) {
+                extension = patientResource.address[0].extension[index];
+                if (extension.url.includes('village')) {
+                    $('#result-patient-address-village').html(
+                        `${extension.valueString}`
+                    );
+                } else if (extension.url.includes('neighborhood')) {
+                    $('#result-patient-address-neighborhood').html(
+                        `${extension.valueString}`
+                    );
+                } else if (extension.url.includes('section')) {
+                    $('#result-patient-address-section').html(
+                        `${extension.valueString}`
+                    );
+                } else if (extension.url.includes('lane')) {
+                    $('#result-patient-address-lane').html(
+                        `${extension.valueString}`
+                    );
+                } else if (extension.url.includes('alley')) {
+                    $('#result-patient-address-alley').html(
+                        `${extension.valueString}`
+                    );
+                } else if (extension.url.includes('number')) {
+                    $('#result-patient-address-number').html(
+                        `${extension.valueString}`
+                    );
+                } else if (extension.url.includes('floor')) {
+                    $('#result-patient-address-floor').html(
+                        `${extension.valueString}`
+                    );
+                } else if (extension.url.includes('room')) {
+                    $('#result-patient-address-room').html(
+                        `${extension.valueString}`
+                    );
+                }
+            }
+        } catch {
+            $('#result-patient-address').html('');
+            $('#result-patient-address-postal').html('');
+            $('#result-patient-address-city').html('');
+            $('#result-patient-address-district').html('');
+            $('#result-patient-address-line').html('');
+            $('#result-patient-address-country').html('');
+        }
+
+        try {
+            $('#result-patient-address-martial').html(
+                `${patientResource.maritalStatus.coding[0].code}(${patientResource.maritalStatus.coding[0].system})`
+            );
+        } catch {
+            $('#result-patient-address-martial').html('無');
+        }
+
+        try {
+            $('#result-patient-contact-name').html(
+                patientResource.contact[0].name.text
+            );
+            $('#result-patient-contact-relationship').html(
+                `${patientResource.contact[0].relationship[0].coding[0].code}(${patientResource.contact[0].relationship[0].coding[0].system})`
+            );
+            $('#result-patient-contact-phone').html(
+                patientResource.contact[0].telecom[0].system
+            );
+            $('#result-patient-contact-mobile').html(
+                patientResource.contact[0].telecom[0].value
+            );
+            $('#result-patient-contact-period').html(
+                `${patientResource.contact[0].telecom[0].period.start}~${patientResource.contact[0].telecom[0].period.end}`
+            );
+        } catch {
+            $('#result-patient-contact-name').html('');
+            $('#result-patient-contact-relationship').html('');
+            $('#result-patient-contact-phone').html('');
+            $('#result-patient-contact-mobile').html('');
+            $('#result-patient-contact-period').html('');
+        }
+
+        try {
+            $('#result-patient-communication').html(
+                patientResource.communication[0].language.coding[0].code
+            );
+        } catch {
+            $('#result-patient-communication').html('');
+        }
+
+        try {
+            $('#result-patient-managing-organization').html(
+                patientResource.managingOrganization.reference
+            );
+        } catch {
+            $('#result-patient-managing-organization').html('');
+        }
+
+        try {
+            $('#result-patient-photo').attr(
+                'src',
+                `data:${patientResource.photo[0].contentType};base64, ${patientResource.photo[0].data}`
+            );
+        } catch {
+            $('#result-patient-photo').attr('src', '');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -241,9 +310,13 @@ async function doGenerateOrganizationRequest(trackServerEndpoint, oauthServerEnd
 
         $('#result-prn-name').html(organizationResource.name);
 
-        $('#result-prn-identifier').html(
-            `${organizationResource.identifier[0].type.coding[0].code} (${organizationResource.identifier[0].type.coding[0].system})`
-        );
+        try {
+            $('#result-prn-identifier').html(
+                `${organizationResource.identifier[0].type.coding[0].code} (${organizationResource.identifier[0].type.coding[0].system})`
+            );
+        } catch {
+            $('#result-prn-identifier').html('無');
+        }
 
         $('#result-prn-number').html(
             `${organizationResource.identifier[0].value} (${organizationResource.identifier[0].system})`
@@ -361,32 +434,56 @@ async function doGeneratePractitionerRequest(trackServerEndpoint, oauthServerEnd
             `${practitionerResource.telecom[0].period.start}至${practitionerResource.telecom[0].period.end}`
         );
 
-        $('#result-practitioner-address').html(
-            `(${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code})${practitionerResource.address[0].text}`
-        );
-        $('#result-practitioner-postal').html(
-            `${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code} (${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].system})`
-        );
+        try {
+            $('#result-practitioner-address').html(
+                `(${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code})${practitionerResource.address[0].text}`
+            );
+            $('#result-practitioner-postal').html(
+                `${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code} (${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].system})`
+            );
+        } catch {
+            $('#result-practitioner-address').html('');
+            $('#result-practitioner-postal').html('');
+        }
+
         $('#result-practitioner-district').html(practitionerResource.address[0].district);
         $('#result-practitioner-city').html(practitionerResource.address[0].city);
         $('#result-practitioner-road').html(practitionerResource.address[0].line[0]);
-        $('#result-practitioner-number').html(
-            practitionerResource.address[0].extension[0].valueString
-        );
+
+        try {
+            $('#result-practitioner-number').html(
+                practitionerResource.address[0].extension[0].valueString
+            );
+        } catch {
+            $('#result-practitioner-number').html('');
+        }
 
         $('#result-practitioner-country').html(practitionerResource.address[0].country);
 
-        $('#result-practitioner-qualification').html(
-            `${practitionerResource.qualification[0].code.coding[0].display} (${practitionerResource.qualification[0].code.coding[0].system}#${practitionerResource.qualification[0].code.coding[0].code})`
-        );
-        $('#result-practitioner-qualification-start').html(
-            practitionerResource.qualification[0].period.start
-        );
+        try {
+            $('#result-practitioner-qualification').html(
+                `${practitionerResource.qualification[0].code.coding[0].display} (${practitionerResource.qualification[0].code.coding[0].system}#${practitionerResource.qualification[0].code.coding[0].code})`
+            );
+        } catch {
+            $('#result-practitioner-qualification').html('');
+        }
 
-        $('#result-practitioner-photo').attr(
-            'src',
-            `data:${practitionerResource.photo[0].contentType};base64, ${practitionerResource.photo[0].data}`
-        );
+        try {
+            $('#result-practitioner-qualification-start').html(
+                practitionerResource.qualification[0].period.start
+            );
+        } catch {
+            $('#result-practitioner-qualification-start').html('');
+        }
+
+        try {
+            $('#result-practitioner-photo').attr(
+                'src',
+                `data:${practitionerResource.photo[0].contentType};base64, ${practitionerResource.photo[0].data}`
+            );
+        } catch {
+            $('#result-practitioner-photo').attr('src', '');
+        }
 
         $('#search-result-card').removeClass('d-none');
 
@@ -577,9 +674,13 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
         $('#result-encounter-id').html(encounterResource.id);
         localStorage.setItem('created_encounter_id', encounterResource.id);
 
-        $('#result-encounter-identifier').html(
-            encounterResource.identifier[0].value
-        );
+        if (encounterResource.identifier) {
+            $('#result-encounter-identifier').html(
+                encounterResource.identifier[0].value
+            );
+        } else {
+            $('#result-encounter-identifier').html('無');
+        }
 
         $('#result-encounter-type').html(
             encounterResource.status
@@ -589,25 +690,41 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
             `${encounterResource.class.code} (${encounterResource.class.system})`
         );
 
-        $('#result-encounter-category').html(
-            `${encounterResource.type[0].coding[0].code} (${encounterResource.type[0].coding[0].system})`
-        );
+        if (encounterResource.type) {
+            $('#result-encounter-category').html(
+                `${encounterResource.type[0].coding[0].code} (${encounterResource.type[0].coding[0].system})`
+            );
+        } else {
+            $('#result-encounter-category').html('無');
+        }
 
-        $('#result-encounter-service-type').html(
-            `${encounterResource.serviceType.text}(${encounterResource.serviceType.coding[0].display}) (${encounterResource.serviceType.coding[0].system}#${encounterResource.serviceType.coding[0].code})`
-        );
+        if (encounterResource.serviceType) {
+            $('#result-encounter-service-type').html(
+                `${encounterResource.serviceType.text}(${encounterResource.serviceType.coding[0].display}) (${encounterResource.serviceType.coding[0].system}#${encounterResource.serviceType.coding[0].code})`
+            );
+        } else {
+            $('#result-encounter-service-type').html('無');
+        }
 
         $('#result-encounter-subject').html(
             `${encounterResource.subject.reference}`
         );
 
-        $('#result-encounter-hos').html(
-            `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
-        );
+        if (encounterResource.hospitalization) {
+            $('#result-encounter-hos').html(
+                `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
+            );
+        } else {
+            $('#result-encounter-hos').html('');
+        }
 
-        $('#result-encounter-location').html(
-            `${encounterResource.location[0].location.reference}`
-        );
+        if (encounterResource.location) {
+            $('#result-encounter-location').html(
+                `${encounterResource.location[0].location.reference}`
+            );
+        } else {
+            $('#result-encounter-location').html('');
+        }
 
         $('#result-encounter-participant-performer').html(
             `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`
@@ -712,15 +829,23 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
             `${allergyResource.patient.reference} "${allergyResource.patient.display}"`
         );
 
-        $('#result-allergy-recorder').html(
-            `${allergyResource.recorder.reference} "${allergyResource.recorder.display}"`
-        );
+        if (allergyResource.recorder) {
+            $('#result-allergy-recorder').html(
+                `${allergyResource.recorder.reference} "${allergyResource.recorder.display}"`
+            );
+        } else {
+            $('#result-allergy-recorder').html('無');
+        }
 
         $('#result-allergy-recorder-datetime').html(allergyResource.recordedDate);
 
-        $('#result-allergy-practitioner').html(
-            `${allergyResource.asserter.reference} "${allergyResource.asserter.display}"`
-        );
+        if (allergyResource.asserter) {
+            $('#result-allergy-practitioner').html(
+                `${allergyResource.asserter.reference} "${allergyResource.asserter.display}"`
+            );
+        } else {
+            $('#result-allergy-practitioner').html('無');
+        }
 
         $('#result-allergy-last-occurrence').html(allergyResource.lastOccurrence);
 
@@ -740,9 +865,13 @@ async function doGenerateAllergyIntoleranceRequest(trackServerEndpoint, oauthSer
             `${allergyResource.reaction[0].severity}`
         );
 
-        $('#result-allergy-mainfest').html(
-            `${allergyResource.reaction[0].exposureRoute.text} (${allergyResource.reaction[0].exposureRoute.coding[0].display}) (${allergyResource.reaction[0].exposureRoute.coding[0].system}#${allergyResource.reaction[0].exposureRoute.coding[0].code})`
-        );
+        if (allergyResource.reaction[0].exposureRoute) {
+            $('#result-allergy-mainfest').html(
+                `${allergyResource.reaction[0].exposureRoute.text} (${allergyResource.reaction[0].exposureRoute.coding[0].display}) (${allergyResource.reaction[0].exposureRoute.coding[0].system}#${allergyResource.reaction[0].exposureRoute.coding[0].code})`
+            );
+        } else {
+            $('#result-allergy-mainfest').html('');
+        }
 
         $('#result-allergy-note').html(
             `${allergyResource.reaction[0].note[0].text}`
@@ -815,17 +944,25 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
             `${conditionResource.clinicalStatus.coding[0].code} (${conditionResource.clinicalStatus.coding[0].system})`
         );
 
-        $('#result-condition-verification-status').html(
-            `${conditionResource.verificationStatus.coding[0].code} (${conditionResource.verificationStatus.coding[0].system})`
-        );
+        if (conditionResource.verificationStatus) {
+            $('#result-condition-verification-status').html(
+                `${conditionResource.verificationStatus.coding[0].code} (${conditionResource.verificationStatus.coding[0].system})`
+            );
+        } else {
+            $('#result-condition-verification-status').html('無');
+        }
 
         $('#result-condition-diagnosis').html(
             `${conditionResource.category[0].coding[0].code} (${conditionResource.category[0].coding[0].system})`
         );
 
-        $('#result-condition-code').html(
-            `${conditionResource.severity.coding[0].code} (${conditionResource.severity.coding[0].system})`
-        );
+        if (conditionResource.severity) {
+            $('#result-condition-code').html(
+                `${conditionResource.severity.coding[0].code} (${conditionResource.severity.coding[0].system})`
+            );
+        } else {
+            $('#result-condition-code').html('無');
+        }
 
         $('#result-condition-message').html(
             `${conditionResource.code.text} (${conditionResource.code.coding[0].system}#${conditionResource.code.coding[0].code})`
@@ -836,11 +973,11 @@ async function doGenerateConditionRequest(trackServerEndpoint, oauthServerEndpoi
         );
 
         $('#result-condition-onset-datetime').html(
-            `${conditionResource.onsetDateTime}`
+            `${conditionResource.onsetDateTime || '無'}`
         );
 
         $('#result-condition-abatement-datetime').html(
-            `${conditionResource.abatementDateTime}`
+            `${conditionResource.abatementDateTime || '無'}`
         );
 
         $('#result-condition-asserter').html(
@@ -1125,11 +1262,11 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
         );
 
         $('#result-imaging-series').html(
-            `${ImagingStudyResource.numberOfSeries}`
+            `${ImagingStudyResource.numberOfSeries || '無'}`
         );
 
         $('#result-imaging-instances').html(
-            `${ImagingStudyResource.numberOfInstances}`
+            `${ImagingStudyResource.numberOfInstances || '無'}`
         );
 
         if (ImagingStudyResource.procedureReference) {
@@ -1140,7 +1277,7 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
             $('#result-imaging-procedure').html('無');
         }
 
-        if (ImagingStudyResource.procedureCode) {
+        if (ImagingStudyResource.procedureCode && ImagingStudyResource.procedureCode[0].coding) {
             $('#result-imaging-procedure-code').html(
                 `${ImagingStudyResource.procedureCode[0].coding[0].display} (${ImagingStudyResource.procedureCode[0].coding[0].system}#${ImagingStudyResource.procedureCode[0].coding[0].code})`
             );
@@ -1149,7 +1286,7 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
             $('#result-imaging-procedure-code').html('無');
         }
 
-        if (ImagingStudyResource.series) {
+        if (ImagingStudyResource.series && ImagingStudyResource.series[0].performer) {
             $('#result-imaging-dicom-uid').html(
                 `${ImagingStudyResource.series[0].uid}`
             );

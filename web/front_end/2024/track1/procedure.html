@@ -475,9 +475,13 @@
                         `${procedureResource.status}`
                     );
 
-                    $('#result-procedure-coding').html(
-                        `${procedureResource.code.text} (${procedureResource.code.coding[0].system}#${procedureResource.code.coding[0].code})`
-                    );
+                    try {
+                        $('#result-procedure-coding').html(
+                            `${procedureResource.code.text || ''} (${procedureResource.code.coding[0].system}#${procedureResource.code.coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-procedure-coding').html('');
+                    }
 
                     $('#result-procedure-patient').html(
                         `${procedureResource.subject.reference}`
@@ -487,21 +491,37 @@
                         `${procedureResource.performedDateTime}`
                     );
 
-                    $('#result-procedure-performed-asserter').html(
-                        `${procedureResource.asserter.reference}`
-                    );
+                    try {
+                       $('#result-procedure-performed-asserter').html(
+                            `${procedureResource.asserter.reference}`
+                        );
+                    } catch {
+                        $('#result-procedure-performed-asserter').html('');
+                    }
 
-                    $('#result-procedure-performed-body-site').html(
-                        `${procedureResource.bodySite[0].coding[0].code} (${procedureResource.bodySite[0].coding[0].system})`
-                    );
+                    try {
+                        $('#result-procedure-performed-body-site').html(
+                            `${procedureResource.bodySite[0].coding[0].code} (${procedureResource.bodySite[0].coding[0].system})`
+                        );
+                    } catch {
+                        $('#result-procedure-performed-body-site').html('');
+                    }
 
-                    $('#result-procedure-practitioner').html(
-                        `${procedureResource.performer[0].actor.reference}`
-                    );
+                    try {
+                        $('#result-procedure-practitioner').html(
+                            `${procedureResource.performer[0].actor.reference}`
+                        );
+                    } catch {
+                        $('#result-procedure-practitioner').html('');
+                    }
 
-                    $('#result-procedure-practitioner-org').html(
-                        `${procedureResource.performer[0].onBehalfOf.reference}`
-                    );
+                    try {
+                        $('#result-procedure-practitioner-org').html(
+                            `${procedureResource.performer[0].onBehalfOf.reference}`
+                        );
+                    } catch {
+                        $('#result-procedure-practitioner-org').html('');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

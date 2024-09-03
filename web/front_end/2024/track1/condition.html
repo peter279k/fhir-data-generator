@@ -479,17 +479,25 @@
                         `${conditionResource.clinicalStatus.coding[0].code} (${conditionResource.clinicalStatus.coding[0].system})`
                     );
 
-                    $('#result-condition-verification-status').html(
-                        `${conditionResource.verificationStatus.coding[0].code} (${conditionResource.verificationStatus.coding[0].system})`
-                    );
+                    if (conditionResource.verificationStatus) {
+                        $('#result-condition-verification-status').html(
+                            `${conditionResource.verificationStatus.coding[0].code} (${conditionResource.verificationStatus.coding[0].system})`
+                        );
+                    } else {
+                        $('#result-condition-verification-status').html('無');
+                    }
 
                     $('#result-condition-diagnosis').html(
                         `${conditionResource.category[0].coding[0].code} (${conditionResource.category[0].coding[0].system})`
                     );
 
-                    $('#result-condition-code').html(
-                        `${conditionResource.severity.coding[0].code} (${conditionResource.severity.coding[0].system})`
-                    );
+                    if (conditionResource.severity) {
+                        $('#result-condition-code').html(
+                            `${conditionResource.severity.coding[0].code} (${conditionResource.severity.coding[0].system})`
+                        );
+                    } else {
+                        $('#result-condition-code').html('無');
+                    }
 
                     $('#result-condition-message').html(
                         `${conditionResource.code.text} (${conditionResource.code.coding[0].system}#${conditionResource.code.coding[0].code})`
@@ -500,11 +508,11 @@
                     );
 
                     $('#result-condition-onset-datetime').html(
-                        `${conditionResource.onsetDateTime}`
+                        `${conditionResource.onsetDateTime || '無'}`
                     );
 
                     $('#result-condition-abatement-datetime').html(
-                        `${conditionResource.abatementDateTime}`
+                        `${conditionResource.abatementDateTime || '無'}`
                     );
 
                     $('#result-condition-asserter').html(

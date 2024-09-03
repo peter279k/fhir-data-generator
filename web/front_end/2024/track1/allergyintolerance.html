@@ -522,6 +522,7 @@
                     $('#result-card-header').html(`總共查到${entries.length}筆資料，顯示第${counter+1}筆資料`);
 
                     let allergyResource = entries[counter].resource;
+
                     $('#result-allergy-id').html(allergyResource.id);
                     localStorage.setItem('created_allergy_id', allergyResource.id);
 
@@ -545,15 +546,23 @@
                         `${allergyResource.patient.reference} "${allergyResource.patient.display}"`
                     );
 
-                    $('#result-allergy-recorder').html(
-                        `${allergyResource.recorder.reference} "${allergyResource.recorder.display}"`
-                    );
+                    if (allergyResource.recorder) {
+                        $('#result-allergy-recorder').html(
+                            `${allergyResource.recorder.reference} "${allergyResource.recorder.display}"`
+                        );
+                    } else {
+                        $('#result-allergy-recorder').html('無');
+                    }
 
                     $('#result-allergy-recorder-datetime').html(allergyResource.recordedDate);
 
-                    $('#result-allergy-practitioner').html(
-                        `${allergyResource.asserter.reference} "${allergyResource.asserter.display}"`
-                    );
+                    if (allergyResource.asserter) {
+                        $('#result-allergy-practitioner').html(
+                            `${allergyResource.asserter.reference} "${allergyResource.asserter.display}"`
+                        );
+                    } else {
+                        $('#result-allergy-practitioner').html('無');
+                    }
 
                     $('#result-allergy-last-occurrence').html(allergyResource.lastOccurrence);
 
@@ -573,9 +582,13 @@
                         `${allergyResource.reaction[0].severity}`
                     );
 
-                    $('#result-allergy-mainfest').html(
-                        `${allergyResource.reaction[0].exposureRoute.text} (${allergyResource.reaction[0].exposureRoute.coding[0].display}) (${allergyResource.reaction[0].exposureRoute.coding[0].system}#${allergyResource.reaction[0].exposureRoute.coding[0].code})`
-                    );
+                    if (allergyResource.reaction[0].exposureRoute) {
+                        $('#result-allergy-mainfest').html(
+                            `${allergyResource.reaction[0].exposureRoute.text} (${allergyResource.reaction[0].exposureRoute.coding[0].display}) (${allergyResource.reaction[0].exposureRoute.coding[0].system}#${allergyResource.reaction[0].exposureRoute.coding[0].code})`
+                        );
+                    } else {
+                        $('#result-allergy-mainfest').html('');
+                    }
 
                     $('#result-allergy-note').html(
                         `${allergyResource.reaction[0].note[0].text}`

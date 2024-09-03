@@ -496,37 +496,57 @@
                         `${mediaResource.status} (EventStatus)`
                     );
 
-                    $('#result-media-type').html(
-                        `${mediaResource.type.coding[0].code} (${mediaResource.type.coding[0].system})`
-                    );
+                    if (mediaResource.type) {
+                        $('#result-media-type').html(
+                            `${mediaResource.type.coding[0].code} (${mediaResource.type.coding[0].system})`
+                        );
+                    } else {
+                        $('#result-media-type').html('無');
+                    }
 
                     $('#result-media-patient').html(
-                        `${mediaResource.subject.reference} "${mediaResource.subject.display}"`
+                        `${mediaResource.subject.reference} "${mediaResource.subject.display || ''}"`
                     );
 
-                    $('#result-media-view').html(
-                        `${mediaResource.view.text} (${mediaResource.view.coding[0].system}#${mediaResource.view.coding[0].code})`
-                    );
+                    if (mediaResource.view) {
+                        $('#result-media-view').html(
+                            `${mediaResource.view.text} (${mediaResource.view.coding[0].system}#${mediaResource.view.coding[0].code})`
+                        );
+                    } else {
+                        $('#result-media-view').html('無');
+                    }
 
                     $('#result-media-created').html(
-                        `${mediaResource.createdDateTime}`
+                        `${mediaResource.createdDateTime || ''}`
                     );
 
                     $('#result-media-issued').html(
-                        `${mediaResource.issued}`
+                        `${mediaResource.issued || ''}`
                     );
 
-                    $('#result-media-practitioner').html(
-                        `${mediaResource.operator.reference}`
-                    );
+                    if (mediaResource.operator) {
+                        $('#result-media-practitioner').html(
+                            `${mediaResource.operator.reference}`
+                        );
+                    } else {
+                        $('#result-media-practitioner').html('無');
+                    }
 
-                    $('#result-media-reason').html(
-                        `${mediaResource.reasonCode[0].coding[0].display} (${mediaResource.reasonCode[0].coding[0].system}#${mediaResource.reasonCode[0].coding[0].code})`
-                    );
+                    if (mediaResource.reasonCode) {
+                        $('#result-media-reason').html(
+                            `${mediaResource.reasonCode[0].coding[0].display} (${mediaResource.reasonCode[0].coding[0].system}#${mediaResource.reasonCode[0].coding[0].code})`
+                        );
+                    } else {
+                        $('#result-media-reason').html('無');
+                    }
 
-                    $('#result-media-body').html(
-                        `${mediaResource.bodySite.coding[0].display} (${mediaResource.bodySite.coding[0].system}#${mediaResource.bodySite.coding[0].code})`
-                    );
+                    if (mediaResource.bodySite) {
+                        $('#result-media-body').html(
+                            `${mediaResource.bodySite.coding[0].display} (${mediaResource.bodySite.coding[0].system}#${mediaResource.bodySite.coding[0].code})`
+                        );
+                    } else {
+                        $('#result-media-body').html('無');
+                    }
 
                     $('#result-media-device').html(mediaResource.deviceName);
 
@@ -535,10 +555,15 @@
                     $('#result-media-width').html(mediaResource.width);
                     $('#result-media-height').html(mediaResource.height);
                     $('#result-media-base64').html(
-                        `(base64 data - ${atob(mediaResource.content.data).length} bytes)`
+                        `(base64 data - ${atob(mediaResource.content.data || '').length} bytes)`
                     );
                     $('#result-media-file-created').html(mediaResource.content.creation);
-                    $('#result-media-note').html(mediaResource.note[0].text);
+
+                    if (mediaResource.note) {
+                        $('#result-media-note').html(mediaResource.note[0].text);
+                    } else {
+                        $('#result-media-note').html('無');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

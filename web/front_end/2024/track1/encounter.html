@@ -496,9 +496,13 @@
                     $('#result-encounter-id').html(encounterResource.id);
                     localStorage.setItem('created_encounter_id', encounterResource.id);
 
-                    $('#result-encounter-identifier').html(
-                        encounterResource.identifier[0].value
-                    );
+                    if (encounterResource.identifier) {
+                        $('#result-encounter-identifier').html(
+                            encounterResource.identifier[0].value
+                        );
+                    } else {
+                        $('#result-encounter-identifier').html('無');
+                    }
 
                     $('#result-encounter-type').html(
                         encounterResource.status
@@ -508,25 +512,41 @@
                         `${encounterResource.class.code} (${encounterResource.class.system})`
                     );
 
-                    $('#result-encounter-category').html(
-                        `${encounterResource.type[0].coding[0].code} (${encounterResource.type[0].coding[0].system})`
-                    );
+                    if (encounterResource.type) {
+                        $('#result-encounter-category').html(
+                            `${encounterResource.type[0].coding[0].code} (${encounterResource.type[0].coding[0].system})`
+                        );
+                    } else {
+                        $('#result-encounter-category').html('無');
+                    }
 
-                    $('#result-encounter-service-type').html(
-                        `${encounterResource.serviceType.text}(${encounterResource.serviceType.coding[0].display}) (${encounterResource.serviceType.coding[0].system}#${encounterResource.serviceType.coding[0].code})`
-                    );
+                    if (encounterResource.serviceType) {
+                        $('#result-encounter-service-type').html(
+                            `${encounterResource.serviceType.text}(${encounterResource.serviceType.coding[0].display}) (${encounterResource.serviceType.coding[0].system}#${encounterResource.serviceType.coding[0].code})`
+                        );
+                    } else {
+                        $('#result-encounter-service-type').html('無');
+                    }
 
                     $('#result-encounter-subject').html(
                         `${encounterResource.subject.reference}`
                     );
 
-                    $('#result-encounter-hos').html(
-                        `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
-                    );
+                    if (encounterResource.hospitalization) {
+                        $('#result-encounter-hos').html(
+                            `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
+                        );
+                    } else {
+                        $('#result-encounter-hos').html('');
+                    }
 
-                    $('#result-encounter-location').html(
-                        `${encounterResource.location[0].location.reference}`
-                    );
+                    if (encounterResource.location) {
+                        $('#result-encounter-location').html(
+                            `${encounterResource.location[0].location.reference}`
+                        );
+                    } else {
+                        $('#result-encounter-location').html('');
+                    }
 
                     $('#result-encounter-participant-performer').html(
                         `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`

@@ -163,37 +163,57 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
             `${mediaResource.status} (EventStatus)`
         );
 
-        $('#result-media-type').html(
-            `${mediaResource.type.coding[0].code} (${mediaResource.type.coding[0].system})`
-        );
+        if (mediaResource.type) {
+            $('#result-media-type').html(
+                `${mediaResource.type.coding[0].code} (${mediaResource.type.coding[0].system})`
+            );
+        } else {
+            $('#result-media-type').html('無');
+        }
 
         $('#result-media-patient').html(
-            `${mediaResource.subject.reference} "${mediaResource.subject.display}"`
+            `${mediaResource.subject.reference} "${mediaResource.subject.display || ''}"`
         );
 
-        $('#result-media-view').html(
-            `${mediaResource.view.text} (${mediaResource.view.coding[0].system}#${mediaResource.view.coding[0].code})`
-        );
+        if (mediaResource.view) {
+            $('#result-media-view').html(
+                `${mediaResource.view.text} (${mediaResource.view.coding[0].system}#${mediaResource.view.coding[0].code})`
+            );
+        } else {
+            $('#result-media-view').html('無');
+        }
 
         $('#result-media-created').html(
-            `${mediaResource.createdDateTime}`
+            `${mediaResource.createdDateTime || ''}`
         );
 
         $('#result-media-issued').html(
-            `${mediaResource.issued}`
+            `${mediaResource.issued || ''}`
         );
 
-        $('#result-media-practitioner').html(
-            `${mediaResource.operator.reference}`
-        );
+        if (mediaResource.operator) {
+            $('#result-media-practitioner').html(
+                `${mediaResource.operator.reference}`
+            );
+        } else {
+            $('#result-media-practitioner').html('無');
+        }
 
-        $('#result-media-reason').html(
-            `${mediaResource.reasonCode[0].coding[0].display} (${mediaResource.reasonCode[0].coding[0].system}#${mediaResource.reasonCode[0].coding[0].code})`
-        );
+        if (mediaResource.reasonCode) {
+            $('#result-media-reason').html(
+                `${mediaResource.reasonCode[0].coding[0].display} (${mediaResource.reasonCode[0].coding[0].system}#${mediaResource.reasonCode[0].coding[0].code})`
+            );
+        } else {
+            $('#result-media-reason').html('無');
+        }
 
-        $('#result-media-body').html(
-            `${mediaResource.bodySite.coding[0].display} (${mediaResource.bodySite.coding[0].system}#${mediaResource.bodySite.coding[0].code})`
-        );
+        if (mediaResource.bodySite) {
+            $('#result-media-body').html(
+                `${mediaResource.bodySite.coding[0].display} (${mediaResource.bodySite.coding[0].system}#${mediaResource.bodySite.coding[0].code})`
+            );
+        } else {
+            $('#result-media-body').html('無');
+        }
 
         $('#result-media-device').html(mediaResource.deviceName);
 
@@ -202,10 +222,15 @@ async function doGenerateMediaRequest(trackServerEndpoint, oauthServerEndpoint, 
         $('#result-media-width').html(mediaResource.width);
         $('#result-media-height').html(mediaResource.height);
         $('#result-media-base64').html(
-            `(base64 data - ${atob(mediaResource.content.data).length} bytes)`
+            `(base64 data - ${atob(mediaResource.content.data || '').length} bytes)`
         );
         $('#result-media-file-created').html(mediaResource.content.creation);
-        $('#result-media-note').html(mediaResource.note[0].text);
+
+        if (mediaResource.note) {
+            $('#result-media-note').html(mediaResource.note[0].text);
+        } else {
+            $('#result-media-note').html('無');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -382,17 +407,25 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
             `${medicationRequestResource.subject.reference}`
         );
 
-        $('#result-medication-request-encounter').html(
-            `${medicationRequestResource.encounter.reference}`
-        );
+        if (medicationRequestResource.encounter) {
+            $('#result-medication-request-encounter').html(
+                `${medicationRequestResource.encounter.reference}`
+            );
+        } else {
+            $('#result-medication-request-encounter').html('無');
+        }
 
         $('#result-medication-request-datetime').html(
-            `${medicationRequestResource.authoredOn}`
+            `${medicationRequestResource.authoredOn || ''}`
         );
 
-        $('#result-medication-request-requester').html(
-            `${medicationRequestResource.requester.reference}`
-        );
+        if (medicationRequestResource.requester) {
+            $('#result-medication-request-requester').html(
+                `${medicationRequestResource.requester.reference}`
+            );
+        } else {
+            $('#result-medication-request-requester').html('無');
+        }
 
         if (medicationRequestResource.reasonReference) {
             $('#result-medication-request-reason').html(
@@ -404,20 +437,36 @@ async function doGenerateMedicationRequestRequest(trackServerEndpoint, oauthServ
 
         if (medicationRequestResource.dosageInstruction) {
             $('#result-medication-dosage-text').html(
-                `${medicationRequestResource.dosageInstruction[0].text}`
+                `${medicationRequestResource.dosageInstruction[0].text || ''}`
             );
 
-            $('#result-medication-dosage-timing').html(
-                `${medicationRequestResource.dosageInstruction[0].timing.code.text} (${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].system}#${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].code})`
-            );
+            if (medicationRequestResource.dosageInstruction[0].timing && medicationRequestResource.dosageInstruction[0].timing.code) {
+                $('#result-medication-dosage-timing').html(
+                    `${medicationRequestResource.dosageInstruction[0].timing.code.text} (${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].system}#${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].code})`
+                );
+            } else {
+                $('#result-medication-dosage-timing').html('無');
+            }
 
-            $('#result-medication-dosage-route').html(
-                `${medicationRequestResource.dosageInstruction[0].route.coding[0].code} (${medicationRequestResource.dosageInstruction[0].route.coding[0].system})`
-            );
+            if (medicationRequestResource.dosageInstruction[0].route) {
+                $('#result-medication-dosage-route').html(
+                    `${medicationRequestResource.dosageInstruction[0].route.coding[0].code} (${medicationRequestResource.dosageInstruction[0].route.coding[0].system})`
+                );
+            } else {
+                $('#result-medication-dosage-route').html('無');
+            }
 
-            $('#result-medication-dosage-rate').html(
-                `${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].code} (${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].system})`
-            );
+            if (medicationRequestResource.dosageInstruction && medicationRequestResource.dosageInstruction[0].doseAndRate) {
+                try {
+                    $('#result-medication-dosage-rate').html(
+                        `${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].code} (${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].system})`
+                    );
+                } catch {
+                    $('#result-medication-dosage-rate').html('無');
+                }
+            } else {
+                $('#result-medication-dosage-rate').html('無');
+            }
         } else {
             $('#result-medication-dosage-text').html('無');
 
@@ -630,41 +679,61 @@ async function doGenerateMedicationStatementRequest(trackServerEndpoint, oauthSe
             `${medicationStatementResource.status} (Medication Status Codes)`
         );
 
-        $('#result-medication-statement-category').html(
-            `${medicationStatementResource.category.text} (${medicationStatementResource.category.coding[0].system}#${medicationStatementResource.category.coding[0].code})`
-        );
+        try {
+            $('#result-medication-statement-category').html(
+                `${medicationStatementResource.category.text} (${medicationStatementResource.category.coding[0].system}#${medicationStatementResource.category.coding[0].code})`
+            );
+        } catch {
+            $('#result-medication-statement-category').html('無');
+        }
 
-        $('#result-medication-statement-med').html(
-            `${medicationStatementResource.medicationCodeableConcept.text}(${medicationStatementResource.medicationCodeableConcept.coding[0].display}) (${medicationStatementResource.medicationCodeableConcept.coding[0].system}#${medicationStatementResource.medicationCodeableConcept.coding[0].code})`
-        );
+        try {
+            $('#result-medication-statement-med').html(
+                `${medicationStatementResource.medicationCodeableConcept.text}(${medicationStatementResource.medicationCodeableConcept.coding[0].display}) (${medicationStatementResource.medicationCodeableConcept.coding[0].system}#${medicationStatementResource.medicationCodeableConcept.coding[0].code})`
+            );
+        } catch {
+            $('#result-medication-statement-med').html('無');
+        }
 
         $('#result-medication-statement-patient').html(
             `${medicationStatementResource.subject.reference}`
         );
 
         $('#result-medication-statement-use-datetime').html(
-            `${medicationStatementResource.effectiveDateTime}`
+            `${medicationStatementResource.effectiveDateTime || ''}`
         );
 
         $('#result-medication-statement-asserted').html(
-            `${medicationStatementResource.dateAsserted}`
+            `${medicationStatementResource.dateAsserted || ''}`
         );
 
-        $('#result-medication-statement-use-reason').html(
-            `${medicationStatementResource.reasonCode[0].text}(${medicationStatementResource.reasonCode[0].coding[0].display}) (${medicationStatementResource.reasonCode[0].coding[0].system}#${medicationStatementResource.reasonCode[0].coding[0].code})`
-        );
+        try {
+            $('#result-medication-statement-use-reason').html(
+                `${medicationStatementResource.reasonCode[0].text}(${medicationStatementResource.reasonCode[0].coding[0].display || ''}) (${medicationStatementResource.reasonCode[0].coding[0].system}#${medicationStatementResource.reasonCode[0].coding[0].code})`
+            );
+        } catch {
+            $('#result-medication-statement-use-reason').html('無');
+        }
 
-        $('#result-medication-statement-freq').html(
-            `${medicationStatementResource.dosage[0].text} (${medicationStatementResource.dosage[0].timing.repeat.frequency} per ${medicationStatementResource.dosage[0].timing.repeat.period} days)`
-        );
+        try {
+            $('#result-medication-statement-freq').html(
+                `${medicationStatementResource.dosage[0].text} (${medicationStatementResource.dosage[0].timing.repeat.frequency} per ${medicationStatementResource.dosage[0].timing.repeat.period} days)`
+            );
+        } catch {
+            $('#result-medication-statement-freq').html('無');
+        }
 
         $('#result-medication-statement-use-approach').html(
-            `${medicationStatementResource.dosage[0].route.text}(${medicationStatementResource.dosage[0].route.coding[0].display}) (${medicationStatementResource.dosage[0].route.coding[0].system}#${medicationStatementResource.dosage[0].route.coding[0].code})`
+            `${medicationStatementResource.dosage[0].route.text}(${medicationStatementResource.dosage[0].route.coding[0].display || ''}) (${medicationStatementResource.dosage[0].route.coding[0].system}#${medicationStatementResource.dosage[0].route.coding[0].code})`
         );
 
-        $('#result-medication-statement-note').html(
-            `${medicationStatementResource.note[0].text}`
-        );
+        try {
+            $('#result-medication-statement-note').html(
+                `${medicationStatementResource.note[0].text}`
+            );
+        } catch {
+            $('#result-medication-statement-note').html('無');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -733,9 +802,13 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
             `${procedureResource.status}`
         );
 
-        $('#result-procedure-coding').html(
-            `${procedureResource.code.text} (${procedureResource.code.coding[0].system}#${procedureResource.code.coding[0].code})`
-        );
+        try {
+            $('#result-procedure-coding').html(
+                `${procedureResource.code.text || ''} (${procedureResource.code.coding[0].system}#${procedureResource.code.coding[0].code})`
+            );
+        } catch {
+            $('#result-procedure-coding').html('');
+        }
 
         $('#result-procedure-patient').html(
             `${procedureResource.subject.reference}`
@@ -745,21 +818,37 @@ async function doGenerateProcedureRequest(trackServerEndpoint, oauthServerEndpoi
             `${procedureResource.performedDateTime}`
         );
 
-        $('#result-procedure-performed-asserter').html(
-            `${procedureResource.asserter.reference}`
-        );
+        try {
+            $('#result-procedure-performed-asserter').html(
+                `${procedureResource.asserter.reference}`
+            );
+        } catch {
+            $('#result-procedure-performed-asserter').html('');
+        }
 
-        $('#result-procedure-performed-body-site').html(
-            `${procedureResource.bodySite[0].coding[0].code} (${procedureResource.bodySite[0].coding[0].system})`
-        );
+        try {
+            $('#result-procedure-performed-body-site').html(
+                `${procedureResource.bodySite[0].coding[0].code} (${procedureResource.bodySite[0].coding[0].system})`
+            );
+        } catch {
+            $('#result-procedure-performed-body-site').html('');
+        }
 
-        $('#result-procedure-practitioner').html(
-            `${procedureResource.performer[0].actor.reference}`
-        );
+        try {
+            $('#result-procedure-practitioner').html(
+                `${procedureResource.performer[0].actor.reference}`
+            );
+        } catch {
+            $('#result-procedure-practitioner').html('');
+        }
 
-        $('#result-procedure-practitioner-org').html(
-            `${procedureResource.performer[0].onBehalfOf.reference}`
-        );
+        try {
+            $('#result-procedure-practitioner-org').html(
+                `${procedureResource.performer[0].onBehalfOf.reference}`
+            );
+        } catch {
+            $('#result-procedure-practitioner-org').html('');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -828,62 +917,90 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
             `${specimenResource.status} (SpecimenStatus)`
         );
 
-        $('#result-specimen-identifier').html(
-            `${specimenResource.identifier[0].value} (${specimenResource.identifier[0].system})`
-        );
+        try {
+            $('#result-specimen-identifier').html(
+                `${specimenResource.identifier[0].value} (${specimenResource.identifier[0].system})`
+            );
+        } catch {
+            $('#result-specimen-identifier').html('');
+        }
 
-        $('#result-specimen-lab').html(
-            `${specimenResource.accessionIdentifier.value}`
-        );
+        try {
+            $('#result-specimen-lab').html(
+                `${specimenResource.accessionIdentifier.value}`
+            );
+        } catch {
+            $('#result-specimen-lab').html('');
+        }
 
         $('#result-specimen-type').html(
             `${specimenResource.type.coding[0].display} (${specimenResource.type.coding[0].system}#${specimenResource.type.coding[0].code})`
         );
 
         $('#result-specimen-patient').html(
-            `${specimenResource.subject.reference} "${specimenResource.subject.display}"`
+            `${specimenResource.subject.reference} "${specimenResource.subject.display || ''}"`
         );
 
-        $('#result-specimen-clinical').html(
-            `${specimenResource.collection.fastingStatusCodeableConcept.coding[0].display} (${specimenResource.collection.fastingStatusCodeableConcept.coding[0].system}#${specimenResource.collection.fastingStatusCodeableConcept.coding[0].code})`
-        );
+        try {
+            $('#result-specimen-clinical').html(
+                `${specimenResource.collection.fastingStatusCodeableConcept.coding[0].display} (${specimenResource.collection.fastingStatusCodeableConcept.coding[0].system}#${specimenResource.collection.fastingStatusCodeableConcept.coding[0].code})`
+            );
+        } catch {
+            $('#result-specimen-clinical').html('');
+        }
 
         $('#result-specimen-collector').html(
-            `${specimenResource.collection.collector.reference} "${specimenResource.collection.collector.display}"`
+            `${specimenResource.collection.collector.reference} "${specimenResource.collection.collector.display || ''}"`
         );
 
         $('#result-specimen-received-datetime').html(
-            `${specimenResource.receivedTime}`
+            `${specimenResource.receivedTime || ''}`
         );
 
         $('#result-specimen-collected-datetime').html(
-            `${specimenResource.collection.collectedDateTime}`
+            `${specimenResource.collection.collectedDateTime || ''}`
         );
 
-        $('#result-specimen-collected-approach').html(
-            `${specimenResource.collection.method.coding[0].display} (${specimenResource.collection.method.coding[0].system}#${specimenResource.collection.method.coding[0].code})`
-        );
+        try {
+            $('#result-specimen-collected-approach').html(
+                `${specimenResource.collection.method.coding[0].display} (${specimenResource.collection.method.coding[0].system}#${specimenResource.collection.method.coding[0].code})`
+            );
+        } catch {
+            $('#result-specimen-collected-approach').html('');
+        }
 
-        $('#result-specimen-collected-body-site').html(
-            `${specimenResource.collection.bodySite.text} (${specimenResource.collection.bodySite.coding[0].system}#${specimenResource.collection.bodySite.coding[0].code})`
-        );
+        try {
+            $('#result-specimen-collected-body-site').html(
+                `${specimenResource.collection.bodySite.text} (${specimenResource.collection.bodySite.coding[0].system}#${specimenResource.collection.bodySite.coding[0].code})`
+            );
+        } catch {
+            $('#result-specimen-collected-body-site').html('');
+        }
 
-        $('#result-specimen-collected-value').html(
-            `${specimenResource.collection.quantity.value} ${specimenResource.collection.quantity.unit} (${specimenResource.collection.quantity.system}#${specimenResource.collection.quantity.code})`
-        );
+        try {
+            $('#result-specimen-collected-value').html(
+                `${specimenResource.collection.quantity.value} ${specimenResource.collection.quantity.unit} (${specimenResource.collection.quantity.system}#${specimenResource.collection.quantity.code})`
+            );
+        } catch {
+            $('#result-specimen-collected-value').html('');
+        }
 
         let processingSteps = '';
-        for (let index=0; index<specimenResource.processing.length; index++) {
-            processingSteps += `
-                <li>處理步驟(${index+1}): <span class="text-primary">${specimenResource.processing[index].description} (${specimenResource.processing[index].procedure.coding[0].system}#${specimenResource.processing[index].procedure.coding[0].code})</span></li>
-                <li>檢體處理的日期時間(${index+1}): <span class="text-primary">${specimenResource.processing[index].timeDateTime}</span></li>`;
+        try {
+            for (let index=0; index<specimenResource.processing.length; index++) {
+                processingSteps += `
+                    <li>處理步驟(${index+1}): <span class="text-primary">${specimenResource.processing[index].description} (${specimenResource.processing[index].procedure.coding[0].system}#${specimenResource.processing[index].procedure.coding[0].code})</span></li>
+                    <li>檢體處理的日期時間(${index+1}): <span class="text-primary">${specimenResource.processing[index].timeDateTime}</span></li>`;
+            }
+        } catch {
         }
 
         $('#processing-steps').html(processingSteps);
 
         let containerInfo = '';
-        for (let index=0; index<specimenResource.container.length; index++) {
-            containerInfo += `
+        try {
+            for (let index=0; index<specimenResource.container.length; index++) {
+                containerInfo += `
                 <ul class="card-text">
                     <li>容器類別: <span class="text-primary">${specimenResource.container[index].type.coding[0].display} (${specimenResource.container[index].type.coding[0].system}#${specimenResource.container[index].type.coding[0].code})</span></li>
                     <li>容器說明: <span class="text-primary">${specimenResource.container[index].description}</span></li>
@@ -891,13 +1008,19 @@ async function doGenerateSpecimenRequest(trackServerEndpoint, oauthServerEndpoin
                     <li>容器檢體量: <span class="text-primary">${specimenResource.container[index].specimenQuantity.value} ${specimenResource.container[index].specimenQuantity.unit} (${specimenResource.container[index].specimenQuantity.system}#${specimenResource.container[index].specimenQuantity.code})</span></li>
                 </ul>
             `;
+            }
+        } catch {
         }
 
         $('#containers').html(containerInfo);
 
-        $('#result-specimen-note').html(
-            `${specimenResource.note[0].text}`
-        );
+        try {
+            $('#result-specimen-note').html(
+                `${specimenResource.note[0].text}`
+            );
+        } catch {
+            $('#result-specimen-note').html('');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -996,6 +1119,13 @@ async function doGenerateObservationVitalBloodPressureRequest(trackServerEndpoin
                 </ul>
             `;
             }
+        }
+        if (observationResource.valueQuantity) {
+            observationResult += `
+                <ul class="card-text">
+                    <li>檢驗值: <span class="text-primary">${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit} (${observationResource.valueQuantity.system}#${observationResource.valueQuantity.code || ''})</span></li>
+                </ul>
+            `;
         }
 
         $('#observation-result').html(observationResult);

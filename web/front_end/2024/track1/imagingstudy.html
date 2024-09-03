@@ -533,9 +533,13 @@
                         `${ImagingStudyResource.status} (ImagingStudyStatus)`
                     );
 
-                    $('#result-imaging-identifier').html(
-                        `${ImagingStudyResource.identifier[0].value} (${ImagingStudyResource.identifier[0].use})`
-                    );
+                    if (ImagingStudyResource.identifier) {
+                        $('#result-imaging-identifier').html(
+                            `${ImagingStudyResource.identifier[0].value} (${ImagingStudyResource.identifier[0].use})`
+                        );
+                    } else {
+                        $('#result-imaging-identifier').html('無identifier');
+                    }
 
                     $('#result-imaging-start').html(
                         `${ImagingStudyResource.started}`
@@ -550,11 +554,11 @@
                     );
 
                     $('#result-imaging-series').html(
-                        `${ImagingStudyResource.numberOfSeries}`
+                        `${ImagingStudyResource.numberOfSeries || '無'}`
                     );
 
                     $('#result-imaging-instances').html(
-                        `${ImagingStudyResource.numberOfInstances}`
+                        `${ImagingStudyResource.numberOfInstances || '無'}`
                     );
 
                     if (ImagingStudyResource.procedureReference) {
@@ -565,7 +569,7 @@
                         $('#result-imaging-procedure').html('無');
                     }
 
-                    if (ImagingStudyResource.procedureCode) {
+                    if (ImagingStudyResource.procedureCode && ImagingStudyResource.procedureCode[0].coding) {
                         $('#result-imaging-procedure-code').html(
                             `${ImagingStudyResource.procedureCode[0].coding[0].display} (${ImagingStudyResource.procedureCode[0].coding[0].system}#${ImagingStudyResource.procedureCode[0].coding[0].code})`
                         );
@@ -574,7 +578,7 @@
                         $('#result-imaging-procedure-code').html('無');
                     }
 
-                    if (ImagingStudyResource.series) {
+                    if (ImagingStudyResource.series && ImagingStudyResource.series[0].performer) {
                         $('#result-imaging-dicom-uid').html(
                             `${ImagingStudyResource.series[0].uid}`
                         );

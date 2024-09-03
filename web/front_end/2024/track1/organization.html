@@ -429,9 +429,13 @@
 
                     $('#result-prn-name').html(organizationResource.name);
 
-                    $('#result-prn-identifier').html(
-                        `${organizationResource.identifier[0].type.coding[0].code} (${organizationResource.identifier[0].type.coding[0].system})`
-                    );
+                    try {
+                        $('#result-prn-identifier').html(
+                            `${organizationResource.identifier[0].type.coding[0].code} (${organizationResource.identifier[0].type.coding[0].system})`
+                        );
+                    } catch {
+                        $('#result-prn-identifier').html('無');
+                    }
 
                     $('#result-prn-number').html(
                         `${organizationResource.identifier[0].value} (${organizationResource.identifier[0].system})`

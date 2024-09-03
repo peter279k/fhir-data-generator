@@ -610,32 +610,56 @@
                         `${practitionerResource.telecom[0].period.start}至${practitionerResource.telecom[0].period.end}`
                     );
 
-                    $('#result-practitioner-address').html(
-                        `(${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code})${practitionerResource.address[0].text}`
-                    );
-                    $('#result-practitioner-postal').html(
-                        `${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code} (${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].system})`
-                    );
+                    try {
+                        $('#result-practitioner-address').html(
+                            `(${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code})${practitionerResource.address[0].text}`
+                        );
+                        $('#result-practitioner-postal').html(
+                            `${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].code} (${practitionerResource.address[0]._postalCode.extension[0].valueCodeableConcept.coding[0].system})`
+                        );
+                    } catch {
+                        $('#result-practitioner-address').html('');
+                        $('#result-practitioner-postal').html('');
+                    }
+
                     $('#result-practitioner-district').html(practitionerResource.address[0].district);
                     $('#result-practitioner-city').html(practitionerResource.address[0].city);
                     $('#result-practitioner-road').html(practitionerResource.address[0].line[0]);
-                    $('#result-practitioner-number').html(
-                        practitionerResource.address[0].extension[0].valueString
-                    );
+
+                    try {
+                        $('#result-practitioner-number').html(
+                            practitionerResource.address[0].extension[0].valueString
+                        );
+                    } catch {
+                        $('#result-practitioner-number').html('');
+                    }
 
                     $('#result-practitioner-country').html(practitionerResource.address[0].country);
 
-                    $('#result-practitioner-qualification').html(
-                        `${practitionerResource.qualification[0].code.coding[0].display} (${practitionerResource.qualification[0].code.coding[0].system}#${practitionerResource.qualification[0].code.coding[0].code})`
-                    );
-                    $('#result-practitioner-qualification-start').html(
-                        practitionerResource.qualification[0].period.start
-                    );
+                    try {
+                        $('#result-practitioner-qualification').html(
+                            `${practitionerResource.qualification[0].code.coding[0].display} (${practitionerResource.qualification[0].code.coding[0].system}#${practitionerResource.qualification[0].code.coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-practitioner-qualification').html('');
+                    }
 
-                    $('#result-practitioner-photo').attr(
-                        'src',
-                        `data:${practitionerResource.photo[0].contentType};base64, ${practitionerResource.photo[0].data}`
-                    );
+                    try {
+                        $('#result-practitioner-qualification-start').html(
+                            practitionerResource.qualification[0].period.start
+                        );
+                    } catch {
+                        $('#result-practitioner-qualification-start').html('');
+                    }
+
+                    try {
+                        $('#result-practitioner-photo').attr(
+                            'src',
+                            `data:${practitionerResource.photo[0].contentType};base64, ${practitionerResource.photo[0].data}`
+                        );
+                    } catch {
+                        $('#result-practitioner-photo').attr('src', '');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

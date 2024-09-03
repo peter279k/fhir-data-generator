@@ -651,62 +651,90 @@
                         `${specimenResource.status} (SpecimenStatus)`
                     );
 
-                    $('#result-specimen-identifier').html(
-                        `${specimenResource.identifier[0].value} (${specimenResource.identifier[0].system})`
-                    );
 
-                    $('#result-specimen-lab').html(
-                        `${specimenResource.accessionIdentifier.value}`
-                    );
+                    try {
+                        $('#result-specimen-identifier').html(
+                            `${specimenResource.identifier[0].value} (${specimenResource.identifier[0].system})`
+                        );
+                    } catch {
+                        $('#result-specimen-identifier').html('');
+                    }
+
+                    try {
+                        $('#result-specimen-lab').html(
+                            `${specimenResource.accessionIdentifier.value}`
+                        );
+                    } catch {
+                        $('#result-specimen-lab').html('');
+                    }
 
                     $('#result-specimen-type').html(
                         `${specimenResource.type.coding[0].display} (${specimenResource.type.coding[0].system}#${specimenResource.type.coding[0].code})`
                     );
 
                     $('#result-specimen-patient').html(
-                        `${specimenResource.subject.reference} "${specimenResource.subject.display}"`
+                        `${specimenResource.subject.reference} "${specimenResource.subject.display || ''}"`
                     );
 
-                    $('#result-specimen-clinical').html(
-                        `${specimenResource.collection.fastingStatusCodeableConcept.coding[0].display} (${specimenResource.collection.fastingStatusCodeableConcept.coding[0].system}#${specimenResource.collection.fastingStatusCodeableConcept.coding[0].code})`
-                    );
+                    try {
+                        $('#result-specimen-clinical').html(
+                            `${specimenResource.collection.fastingStatusCodeableConcept.coding[0].display} (${specimenResource.collection.fastingStatusCodeableConcept.coding[0].system}#${specimenResource.collection.fastingStatusCodeableConcept.coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-specimen-clinical').html('');
+                    }
 
                     $('#result-specimen-collector').html(
-                        `${specimenResource.collection.collector.reference} "${specimenResource.collection.collector.display}"`
+                        `${specimenResource.collection.collector.reference} "${specimenResource.collection.collector.display || ''}"`
                     );
 
                     $('#result-specimen-received-datetime').html(
-                        `${specimenResource.receivedTime}`
+                        `${specimenResource.receivedTime || ''}`
                     );
 
                     $('#result-specimen-collected-datetime').html(
-                        `${specimenResource.collection.collectedDateTime}`
+                        `${specimenResource.collection.collectedDateTime || ''}`
                     );
 
-                    $('#result-specimen-collected-approach').html(
-                        `${specimenResource.collection.method.coding[0].display} (${specimenResource.collection.method.coding[0].system}#${specimenResource.collection.method.coding[0].code})`
-                    );
-
-                    $('#result-specimen-collected-body-site').html(
-                        `${specimenResource.collection.bodySite.text} (${specimenResource.collection.bodySite.coding[0].system}#${specimenResource.collection.bodySite.coding[0].code})`
-                    );
-
-                    $('#result-specimen-collected-value').html(
-                        `${specimenResource.collection.quantity.value} ${specimenResource.collection.quantity.unit} (${specimenResource.collection.quantity.system}#${specimenResource.collection.quantity.code})`
-                    );
-
-                    let processingSteps = '';
-                    for (let index=0; index<specimenResource.processing.length; index++) {
-                        processingSteps += `
-                            <li>處理步驟(${index+1}): <span class="text-primary">${specimenResource.processing[index].description} (${specimenResource.processing[index].procedure.coding[0].system}#${specimenResource.processing[index].procedure.coding[0].code})</span></li>
-                            <li>檢體處理的日期時間(${index+1}): <span class="text-primary">${specimenResource.processing[index].timeDateTime}</span></li>`;
+                    try {
+                        $('#result-specimen-collected-approach').html(
+                            `${specimenResource.collection.method.coding[0].display} (${specimenResource.collection.method.coding[0].system}#${specimenResource.collection.method.coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-specimen-collected-approach').html('');
                     }
 
+                    try {
+                        $('#result-specimen-collected-body-site').html(
+                            `${specimenResource.collection.bodySite.text} (${specimenResource.collection.bodySite.coding[0].system}#${specimenResource.collection.bodySite.coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-specimen-collected-body-site').html('');
+                    }
+
+                    try {
+                        $('#result-specimen-collected-value').html(
+                            `${specimenResource.collection.quantity.value} ${specimenResource.collection.quantity.unit} (${specimenResource.collection.quantity.system}#${specimenResource.collection.quantity.code})`
+                        );
+                    } catch {
+                        $('#result-specimen-collected-value').html('');
+                    }
+
+                    let processingSteps = '';
+                    try {
+                        for (let index=0; index<specimenResource.processing.length; index++) {
+                            processingSteps += `
+                                <li>處理步驟(${index+1}): <span class="text-primary">${specimenResource.processing[index].description} (${specimenResource.processing[index].procedure.coding[0].system}#${specimenResource.processing[index].procedure.coding[0].code})</span></li>
+                                <li>檢體處理的日期時間(${index+1}): <span class="text-primary">${specimenResource.processing[index].timeDateTime}</span></li>`;
+                        }
+                    } catch {
+                    }
                     $('#processing-steps').html(processingSteps);
 
                     let containerInfo = '';
-                    for (let index=0; index<specimenResource.container.length; index++) {
-                        containerInfo += `
+                    try {
+                        for (let index=0; index<specimenResource.container.length; index++) {
+                            containerInfo += `
                             <ul class="card-text">
                                 <li>容器類別: <span class="text-primary">${specimenResource.container[index].type.coding[0].display} (${specimenResource.container[index].type.coding[0].system}#${specimenResource.container[index].type.coding[0].code})</span></li>
                                 <li>容器說明: <span class="text-primary">${specimenResource.container[index].description}</span></li>
@@ -714,13 +742,19 @@
                                 <li>容器檢體量: <span class="text-primary">${specimenResource.container[index].specimenQuantity.value} ${specimenResource.container[index].specimenQuantity.unit} (${specimenResource.container[index].specimenQuantity.system}#${specimenResource.container[index].specimenQuantity.code})</span></li>
                             </ul>
                         `;
+                        }
+                    } catch {
                     }
 
                     $('#containers').html(containerInfo);
 
-                    $('#result-specimen-note').html(
-                        `${specimenResource.note[0].text}`
-                    );
+                    try {
+                        $('#result-specimen-note').html(
+                            `${specimenResource.note[0].text}`
+                        );
+                    } catch {
+                        $('#result-specimen-note').html('');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

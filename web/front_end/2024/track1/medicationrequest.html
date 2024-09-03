@@ -564,17 +564,25 @@
                         `${medicationRequestResource.subject.reference}`
                     );
 
-                    $('#result-medication-request-encounter').html(
-                        `${medicationRequestResource.encounter.reference}`
-                    );
+                    if (medicationRequestResource.encounter) {
+                        $('#result-medication-request-encounter').html(
+                            `${medicationRequestResource.encounter.reference}`
+                        );
+                    } else {
+                        $('#result-medication-request-encounter').html('無');
+                    }
 
                     $('#result-medication-request-datetime').html(
-                        `${medicationRequestResource.authoredOn}`
+                        `${medicationRequestResource.authoredOn || ''}`
                     );
 
-                    $('#result-medication-request-requester').html(
-                        `${medicationRequestResource.requester.reference}`
-                    );
+                    if (medicationRequestResource.requester) {
+                        $('#result-medication-request-requester').html(
+                            `${medicationRequestResource.requester.reference}`
+                        );
+                    } else {
+                        $('#result-medication-request-requester').html('無');
+                    }
 
                     if (medicationRequestResource.reasonReference) {
                         $('#result-medication-request-reason').html(
@@ -586,20 +594,36 @@
 
                     if (medicationRequestResource.dosageInstruction) {
                         $('#result-medication-dosage-text').html(
-                            `${medicationRequestResource.dosageInstruction[0].text}`
+                            `${medicationRequestResource.dosageInstruction[0].text || ''}`
                         );
 
-                        $('#result-medication-dosage-timing').html(
-                            `${medicationRequestResource.dosageInstruction[0].timing.code.text} (${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].system}#${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].code})`
-                        );
+                        if (medicationRequestResource.dosageInstruction[0].timing && medicationRequestResource.dosageInstruction[0].timing.code) {
+                            $('#result-medication-dosage-timing').html(
+                                `${medicationRequestResource.dosageInstruction[0].timing.code.text} (${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].system}#${medicationRequestResource.dosageInstruction[0].timing.code.coding[0].code})`
+                            );
+                        } else {
+                            $('#result-medication-dosage-timing').html('無');
+                        }
 
-                        $('#result-medication-dosage-route').html(
-                            `${medicationRequestResource.dosageInstruction[0].route.coding[0].code} (${medicationRequestResource.dosageInstruction[0].route.coding[0].system})`
-                        );
+                        if (medicationRequestResource.dosageInstruction[0].route) {
+                            $('#result-medication-dosage-route').html(
+                                `${medicationRequestResource.dosageInstruction[0].route.coding[0].code} (${medicationRequestResource.dosageInstruction[0].route.coding[0].system})`
+                            );
+                        } else {
+                            $('#result-medication-dosage-route').html('無');
+                        }
 
-                        $('#result-medication-dosage-rate').html(
-                            `${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].code} (${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].system})`
-                        );
+                        if (medicationRequestResource.dosageInstruction && medicationRequestResource.dosageInstruction[0].doseAndRate) {
+                            try {
+                                $('#result-medication-dosage-rate').html(
+                                    `${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].code} (${medicationRequestResource.dosageInstruction[0].doseAndRate[0].type.coding[0].system})`
+                                );
+                            } catch {
+                                $('#result-medication-dosage-rate').html('無');
+                            }
+                        } else {
+                            $('#result-medication-dosage-rate').html('無');
+                        }
                     } else {
                         $('#result-medication-dosage-text').html('無');
 

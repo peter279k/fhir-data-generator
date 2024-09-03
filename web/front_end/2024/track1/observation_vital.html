@@ -544,6 +544,13 @@
                             `;
                         }
                     }
+                    if (observationResource.valueQuantity) {
+                        observationResult += `
+                            <ul class="card-text">
+                                <li>檢驗值: <span class="text-primary">${observationResource.valueQuantity.value} ${observationResource.valueQuantity.unit} (${observationResource.valueQuantity.system}#${observationResource.valueQuantity.code || ''})</span></li>
+                            </ul>
+                        `;
+                    }
 
                     $('#observation-result').html(observationResult);
                 });
