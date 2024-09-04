@@ -46,55 +46,83 @@ async function doGenerateLocationRequest(trackServerEndpoint, oauthServerEndpoin
             locationResource.mode
         );
 
-        $('#result-location-type').html(
-            `${locationResource.type[0].coding[0].display} (${locationResource.type[0].coding[0].system}#${locationResource.type[0].coding[0].code})`
-        );
-
-        $('#result-location-info').html(
-            `${locationResource.description}`
-        );
-
-        $('#result-location-organization').html(
-            `${locationResource.managingOrganization.reference}`
-        );
-
-        $('#result-location-phone').html(
-            `${locationResource.telecom[0].system} (ContactPointSystem)`
-        );
-
-        $('#result-location-phone-number').html(
-            `${locationResource.telecom[0].value} (${locationResource.telecom[0].use})`
-        );
-
-        $('#result-location-address').html(
-            `${locationResource.address.text} (${locationResource.address.use})`
-        );
-
-        let daysOfWeekMapping = {
-            'mon': '週一',
-            'tue': '週二',
-            'wed': '週三',
-            'thu': '週四',
-            'fri': '週五',
-            'sat': '週六',
-            'sun': '週日',
-        };
-        let weekString = '';
-        let daysOfWeek = locationResource.hoursOfOperation[0].daysOfWeek;
-        for (index in daysOfWeek) {
-            weekString += daysOfWeekMapping[daysOfWeek[index]] + '、';
+        try {
+            $('#result-location-type').html(
+                `${locationResource.type[0].coding[0].display} (${locationResource.type[0].coding[0].system}#${locationResource.type[0].coding[0].code})`
+            );
+        } catch {
+            $('#result-location-type').html('');
         }
 
-        let allDay = locationResource.hoursOfOperation[0].allDay;
-        if (allDay) {
-            allDay = '全天';
-        } else {
-            allDay = '非全天';
+        try {
+            $('#result-location-info').html(
+                `${locationResource.description}`
+            );
+        } catch {
+            $('#result-location-info').html('');
         }
 
-        $('#result-location-operation').html(
-            `${weekString.substring(0, weekString.length-1)}，${allDay}`
-        );
+        try {
+            $('#result-location-organization').html(
+                `${locationResource.managingOrganization.reference}`
+            );
+        } catch {
+            $('#result-location-organization').html('');
+        }
+
+        try {
+            $('#result-location-phone').html(
+                `${locationResource.telecom[0].system} (ContactPointSystem)`
+            );
+        } catch {
+            $('#result-location-phone').html('');
+        }
+
+        try {
+            $('#result-location-phone-number').html(
+                `${locationResource.telecom[0].value} (${locationResource.telecom[0].use})`
+            );
+        } catch {
+            $('#result-location-phone-number').html('');
+        }
+
+        try {
+            $('#result-location-address').html(
+                `${locationResource.address.text} (${locationResource.address.use})`
+            );
+        } catch {
+            $('#result-location-address').html('');
+        }
+
+        try {
+            let daysOfWeekMapping = {
+                'mon': '週一',
+                'tue': '週二',
+                'wed': '週三',
+                'thu': '週四',
+                'fri': '週五',
+                'sat': '週六',
+                'sun': '週日',
+            };
+            let weekString = '';
+            let daysOfWeek = locationResource.hoursOfOperation[0].daysOfWeek;
+            for (index in daysOfWeek) {
+                weekString += daysOfWeekMapping[daysOfWeek[index]] + '、';
+            }
+
+            let allDay = locationResource.hoursOfOperation[0].allDay;
+            if (allDay) {
+                allDay = '全天';
+            } else {
+                allDay = '非全天';
+            }
+
+            $('#result-location-operation').html(
+                `${weekString.substring(0, weekString.length-1)}，${allDay}`
+            );
+        } catch {
+            $('#result-location-operation').html('');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -552,65 +580,121 @@ async function doGenerateMedicationDispenseRequest(trackServerEndpoint, oauthSer
             `${medicationDispenseResource.status} (MedicationDispense Status Codes)`
         );
 
-        $('#result-medication-dispense-category').html(
-            `${medicationDispenseResource.category.coding[0].code} (${medicationDispenseResource.category.coding[0].system})`
-        );
-
-        $('#result-medication-dispense-type').html(
-            `${medicationDispenseResource.type.coding[0].display} (${medicationDispenseResource.type.coding[0].system}#${medicationDispenseResource.type.coding[0].code})`
-        );
-
-        $('#result-medication-dispense-med').html(
-            `${medicationDispenseResource.medicationReference.reference}`
-        );
-
-        $('#result-medication-dispense-patient').html(
-            `${medicationDispenseResource.subject.reference}`
-        );
-
-        $('#result-medication-dispense-encounter').html(
-            `${medicationDispenseResource.context.reference}`
-        );
-
-        $('#result-medication-dispense-practitioner').html(
-            `${medicationDispenseResource.performer[0].actor.reference}`
-        );
-
-        $('#result-medication-dispense-value').html(
-            `${medicationDispenseResource.quantity.value} ${medicationDispenseResource.quantity.unit} (${medicationDispenseResource.quantity.system}#${medicationDispenseResource.quantity.code})`
-        );
-
-        $('#result-medication-dispense-day').html(
-            `${medicationDispenseResource.daysSupply.value} 天`
-        );
-
-        $('#result-medication-dispense-text').html(
-            `${medicationDispenseResource.dosageInstruction[0].text}`
-        );
-
-        $('#result-medication-dispense-prepared').html(
-            `${medicationDispenseResource.whenPrepared}`
-        );
-
-        $('#result-medication-dispense-hand-over').html(
-            `${medicationDispenseResource.whenHandedOver}`
-        );
-
-        let mappingReplacement = {
-            'true': '是',
-            'false': '否',
+        try {
+            $('#result-medication-dispense-category').html(
+                `${medicationDispenseResource.category.coding[0].code} (${medicationDispenseResource.category.coding[0].system})`
+            );
+        } catch {
+            $('#result-medication-dispense-category').html('');
         }
-        $('#result-medication-dispense-replace').html(
-            `${mappingReplacement[String(medicationDispenseResource.substitution.wasSubstituted)]}`
-        );
 
-        $('#result-medication-dispense-diff').html(
-            `${medicationDispenseResource.substitution.type.coding[0].display} (${medicationDispenseResource.substitution.type.coding[0].system}#${medicationDispenseResource.substitution.type.coding[0].display})`
-        );
+        try {
+            $('#result-medication-dispense-type').html(
+                `${medicationDispenseResource.type.coding[0].display} (${medicationDispenseResource.type.coding[0].system}#${medicationDispenseResource.type.coding[0].code})`
+            );
+        } catch  {
+            $('#result-medication-dispense-type').html('');
+        }
 
-        $('#result-medication-dispense-replace-reason').html(
-            `${medicationDispenseResource.substitution.reason[0].coding[0].display} (${medicationDispenseResource.substitution.reason[0].coding[0].system}#${medicationDispenseResource.substitution.reason[0].coding[0].code})`
-        );
+        try {
+            $('#result-medication-dispense-med').html(
+                `${medicationDispenseResource.medicationReference.reference}`
+            );
+        } catch {
+            $('#result-medication-dispense-med').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-patient').html(
+                `${medicationDispenseResource.subject.reference}`
+            );
+        } catch {
+            $('#result-medication-dispense-patient').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-encounter').html(
+                `${medicationDispenseResource.context.reference}`
+            );
+        } catch {
+            $('#result-medication-dispense-encounter').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-practitioner').html(
+                `${medicationDispenseResource.performer[0].actor.reference}`
+            );
+        } catch {
+            $('#result-medication-dispense-practitioner').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-value').html(
+                `${medicationDispenseResource.quantity.value} ${medicationDispenseResource.quantity.unit} (${medicationDispenseResource.quantity.system}#${medicationDispenseResource.quantity.code})`
+            );
+        } catch {
+            $('#result-medication-dispense-value').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-day').html(
+                `${medicationDispenseResource.daysSupply.value} 天`
+            );
+        } catch {
+            $('#result-medication-dispense-day').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-text').html(
+                `${medicationDispenseResource.dosageInstruction[0].text}`
+            );
+        } catch {
+            $('#result-medication-dispense-text').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-prepared').html(
+                `${medicationDispenseResource.whenPrepared}`
+            );
+        } catch {
+            $('#result-medication-dispense-prepared').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-hand-over').html(
+                `${medicationDispenseResource.whenHandedOver}`
+            );
+        } catch {
+            $('#result-medication-dispense-hand-over').html('');
+        }
+
+        try {
+            let mappingReplacement = {
+                'true': '是',
+                'false': '否',
+            };
+            $('#result-medication-dispense-replace').html(
+                `${mappingReplacement[String(medicationDispenseResource.substitution.wasSubstituted)]}`
+            );
+        } catch {
+            $('#result-medication-dispense-replace').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-diff').html(
+                `${medicationDispenseResource.substitution.type.coding[0].display} (${medicationDispenseResource.substitution.type.coding[0].system}#${medicationDispenseResource.substitution.type.coding[0].display})`
+            );
+        } catch {
+            $('#result-medication-dispense-diff').html('');
+        }
+
+        try {
+            $('#result-medication-dispense-replace-reason').html(
+                `${medicationDispenseResource.substitution.reason[0].coding[0].display} (${medicationDispenseResource.substitution.reason[0].coding[0].system}#${medicationDispenseResource.substitution.reason[0].coding[0].code})`
+            );
+        } catch {
+            $('#result-medication-dispense-replace-reason').html('');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {

@@ -549,9 +549,13 @@
                         `${ImagingStudyResource.subject.reference}`
                     );
 
-                    $('#result-imaging-encounter').html(
-                        `${ImagingStudyResource.encounter.reference}`
-                    );
+                    try {
+                        $('#result-imaging-encounter').html(
+                            `${ImagingStudyResource.encounter.reference}`
+                        );
+                    } catch {
+                        $('#result-imaging-encounter').html('');
+                    }
 
                     $('#result-imaging-series').html(
                         `${ImagingStudyResource.numberOfSeries || '無'}`
@@ -591,17 +595,29 @@
                             `${ImagingStudyResource.series[0].bodySite.display} (${ImagingStudyResource.series[0].bodySite.system}#${ImagingStudyResource.series[0].bodySite.code})`
                         );
 
-                        $('#result-imaging-body-practitioner').html(
-                            `${ImagingStudyResource.series[0].performer[0].actor.reference}`
-                        );
+                        try {
+                            $('#result-imaging-body-practitioner').html(
+                                `${ImagingStudyResource.series[0].performer[0].actor.reference}`
+                            );
+                        } catch {
+                            $('#result-imaging-body-practitioner').html('');
+                        }
 
-                        $('#result-imaging-body-sop-uid').html(
-                            `${ImagingStudyResource.series[0].instance[0].uid}`
-                        );
+                        try {
+                            $('#result-imaging-body-sop-uid').html(
+                                `${ImagingStudyResource.series[0].instance[0].uid}`
+                            );
+                        } catch {
+                            $('#result-imaging-body-sop-uid').html('');
+                        }
 
-                        $('#result-imaging-body-sop-class').html(
-                            `${ImagingStudyResource.series[0].instance[0].sopClass.code}`
-                        );
+                        try {
+                            $('#result-imaging-body-sop-class').html(
+                                `${ImagingStudyResource.series[0].instance[0].sopClass.code}`
+                            );
+                        } catch {
+                            $('#result-imaging-body-sop-class').html('');
+                        }
                     } else {
                         $('#result-imaging-dicom-uid').html('無');
 

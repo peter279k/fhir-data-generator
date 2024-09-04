@@ -535,65 +535,121 @@
                         `${medicationDispenseResource.status} (MedicationDispense Status Codes)`
                     );
 
-                    $('#result-medication-dispense-category').html(
-                        `${medicationDispenseResource.category.coding[0].code} (${medicationDispenseResource.category.coding[0].system})`
-                    );
+                    try {
+                        $('#result-medication-dispense-category').html(
+                            `${medicationDispenseResource.category.coding[0].code} (${medicationDispenseResource.category.coding[0].system})`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-category').html('');
+                    }
 
-                    $('#result-medication-dispense-type').html(
-                        `${medicationDispenseResource.type.coding[0].display} (${medicationDispenseResource.type.coding[0].system}#${medicationDispenseResource.type.coding[0].code})`
-                    );
+                    try {
+                        $('#result-medication-dispense-type').html(
+                            `${medicationDispenseResource.type.coding[0].display} (${medicationDispenseResource.type.coding[0].system}#${medicationDispenseResource.type.coding[0].code})`
+                        );
+                    } catch  {
+                        $('#result-medication-dispense-type').html('');
+                    }
 
-                    $('#result-medication-dispense-med').html(
-                        `${medicationDispenseResource.medicationReference.reference}`
-                    );
+                    try {
+                        $('#result-medication-dispense-med').html(
+                            `${medicationDispenseResource.medicationReference.reference}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-med').html('');
+                    }
 
-                    $('#result-medication-dispense-patient').html(
-                        `${medicationDispenseResource.subject.reference}`
-                    );
+                    try {
+                        $('#result-medication-dispense-patient').html(
+                            `${medicationDispenseResource.subject.reference}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-patient').html('');
+                    }
 
-                    $('#result-medication-dispense-encounter').html(
-                        `${medicationDispenseResource.context.reference}`
-                    );
+                    try {
+                        $('#result-medication-dispense-encounter').html(
+                            `${medicationDispenseResource.context.reference}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-encounter').html('');
+                    }
 
-                    $('#result-medication-dispense-practitioner').html(
-                        `${medicationDispenseResource.performer[0].actor.reference}`
-                    );
+                    try {
+                        $('#result-medication-dispense-practitioner').html(
+                            `${medicationDispenseResource.performer[0].actor.reference}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-practitioner').html('');
+                    }
 
-                    $('#result-medication-dispense-value').html(
-                        `${medicationDispenseResource.quantity.value} ${medicationDispenseResource.quantity.unit} (${medicationDispenseResource.quantity.system}#${medicationDispenseResource.quantity.code})`
-                    );
+                    try {
+                        $('#result-medication-dispense-value').html(
+                            `${medicationDispenseResource.quantity.value} ${medicationDispenseResource.quantity.unit} (${medicationDispenseResource.quantity.system}#${medicationDispenseResource.quantity.code})`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-value').html('');
+                    }
 
-                    $('#result-medication-dispense-day').html(
-                        `${medicationDispenseResource.daysSupply.value} 天`
-                    );
+                    try {
+                        $('#result-medication-dispense-day').html(
+                            `${medicationDispenseResource.daysSupply.value} 天`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-day').html('');
+                    }
 
-                    $('#result-medication-dispense-text').html(
-                        `${medicationDispenseResource.dosageInstruction[0].text}`
-                    );
+                    try {
+                        $('#result-medication-dispense-text').html(
+                            `${medicationDispenseResource.dosageInstruction[0].text}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-text').html('');
+                    }
 
-                    $('#result-medication-dispense-prepared').html(
-                        `${medicationDispenseResource.whenPrepared}`
-                    );
+                    try {
+                        $('#result-medication-dispense-prepared').html(
+                            `${medicationDispenseResource.whenPrepared}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-prepared').html('');
+                    }
 
-                    $('#result-medication-dispense-hand-over').html(
-                        `${medicationDispenseResource.whenHandedOver}`
-                    );
+                    try {
+                        $('#result-medication-dispense-hand-over').html(
+                            `${medicationDispenseResource.whenHandedOver}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-hand-over').html('');
+                    }
 
-                    let mappingReplacement = {
-                        'true': '是',
-                        'false': '否',
-                    };
-                    $('#result-medication-dispense-replace').html(
-                        `${mappingReplacement[String(medicationDispenseResource.substitution.wasSubstituted)]}`
-                    );
+                    try {
+                        let mappingReplacement = {
+                            'true': '是',
+                            'false': '否',
+                        };
+                        $('#result-medication-dispense-replace').html(
+                            `${mappingReplacement[String(medicationDispenseResource.substitution.wasSubstituted)]}`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-replace').html('');
+                    }
 
-                    $('#result-medication-dispense-diff').html(
-                        `${medicationDispenseResource.substitution.type.coding[0].display} (${medicationDispenseResource.substitution.type.coding[0].system}#${medicationDispenseResource.substitution.type.coding[0].display})`
-                    );
+                    try {
+                        $('#result-medication-dispense-diff').html(
+                            `${medicationDispenseResource.substitution.type.coding[0].display} (${medicationDispenseResource.substitution.type.coding[0].system}#${medicationDispenseResource.substitution.type.coding[0].display})`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-diff').html('');
+                    }
 
-                    $('#result-medication-dispense-replace-reason').html(
-                        `${medicationDispenseResource.substitution.reason[0].coding[0].display} (${medicationDispenseResource.substitution.reason[0].coding[0].system}#${medicationDispenseResource.substitution.reason[0].coding[0].code})`
-                    );
+                    try {
+                        $('#result-medication-dispense-replace-reason').html(
+                            `${medicationDispenseResource.substitution.reason[0].coding[0].display} (${medicationDispenseResource.substitution.reason[0].coding[0].system}#${medicationDispenseResource.substitution.reason[0].coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-medication-dispense-replace-reason').html('');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

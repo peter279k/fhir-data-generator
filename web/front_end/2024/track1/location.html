@@ -549,56 +549,84 @@
                         locationResource.mode
                     );
 
-                    $('#result-location-type').html(
-                        `${locationResource.type[0].coding[0].display} (${locationResource.type[0].coding[0].system}#${locationResource.type[0].coding[0].code})`
-                    );
-
-                    $('#result-location-info').html(
-                        `${locationResource.description}`
-                    );
-
-                    $('#result-location-organization').html(
-                        `${locationResource.managingOrganization.reference}`
-                    );
-
-                    $('#result-location-phone').html(
-                        `${locationResource.telecom[0].system} (ContactPointSystem)`
-                    );
-
-                    $('#result-location-phone-number').html(
-                        `${locationResource.telecom[0].value} (${locationResource.telecom[0].use})`
-                    );
-
-                    $('#result-location-address').html(
-                        `${locationResource.address.text} (${locationResource.address.use})`
-                    );
-
-                    let daysOfWeekMapping = {
-                        'mon': '週一',
-                        'tue': '週二',
-                        'wed': '週三',
-                        'thu': '週四',
-                        'fri': '週五',
-                        'sat': '週六',
-                        'sun': '週日',
-                    };
-                    let weekString = '';
-                    let daysOfWeek = locationResource.hoursOfOperation[0].daysOfWeek;
-                    for (index in daysOfWeek) {
-                        weekString += daysOfWeekMapping[daysOfWeek[index]] + '、';
+                    try {
+                        $('#result-location-type').html(
+                            `${locationResource.type[0].coding[0].display} (${locationResource.type[0].coding[0].system}#${locationResource.type[0].coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-location-type').html('');
                     }
 
-                    let allDay = locationResource.hoursOfOperation[0].allDay;
-                    if (allDay) {
-                        allDay = '全天';
-                    } else {
-                        allDay = '非全天';
+                    try {
+                        $('#result-location-info').html(
+                            `${locationResource.description}`
+                        );
+                    } catch {
+                        $('#result-location-info').html('');
                     }
 
-                    $('#result-location-operation').html(
-                        `${weekString.substring(0, weekString.length-1)}，${allDay}`
-                    );
-                });
+                    try {
+                        $('#result-location-organization').html(
+                            `${locationResource.managingOrganization.reference}`
+                        );
+                    } catch {
+                        $('#result-location-organization').html('');
+                    }
+
+                    try {
+                        $('#result-location-phone').html(
+                            `${locationResource.telecom[0].system} (ContactPointSystem)`
+                        );
+                    } catch {
+                        $('#result-location-phone').html('');
+                    }
+
+                    try {
+                        $('#result-location-phone-number').html(
+                            `${locationResource.telecom[0].value} (${locationResource.telecom[0].use})`
+                        );
+                    } catch {
+                        $('#result-location-phone-number').html('');
+                    }
+
+                    try {
+                        $('#result-location-address').html(
+                            `${locationResource.address.text} (${locationResource.address.use})`
+                        );
+                    } catch {
+                        $('#result-location-address').html('');
+                    }
+
+                        try {
+                            let daysOfWeekMapping = {
+                                'mon': '週一',
+                                'tue': '週二',
+                                'wed': '週三',
+                                'thu': '週四',
+                                'fri': '週五',
+                                'sat': '週六',
+                                'sun': '週日',
+                            };
+                            let weekString = '';
+                            let daysOfWeek = locationResource.hoursOfOperation[0].daysOfWeek;
+                            for (index in daysOfWeek) {
+                                weekString += daysOfWeekMapping[daysOfWeek[index]] + '、';
+                            }
+
+                            let allDay = locationResource.hoursOfOperation[0].allDay;
+                            if (allDay) {
+                                allDay = '全天';
+                            } else {
+                                allDay = '非全天';
+                            }
+
+                            $('#result-location-operation').html(
+                                `${weekString.substring(0, weekString.length-1)}，${allDay}`
+                            );
+                        } catch {
+                            $('#result-location-operation').html('');
+                        }
+                    });
 
                 $('button[name="capture-image"]').click((e) => {
                     e.preventDefault();

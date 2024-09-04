@@ -532,11 +532,11 @@
                         `${encounterResource.subject.reference}`
                     );
 
-                    if (encounterResource.hospitalization) {
+                    try {
                         $('#result-encounter-hos').html(
                             `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
                         );
-                    } else {
+                    } catch {
                         $('#result-encounter-hos').html('');
                     }
 
@@ -548,25 +548,45 @@
                         $('#result-encounter-location').html('');
                     }
 
-                    $('#result-encounter-participant-performer').html(
-                        `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`
-                    );
+                    try {
+                        $('#result-encounter-participant-performer').html(
+                            `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`
+                        );
+                    } catch {
+                        $('#result-encounter-participant-performer').html('');
+                    }
 
-                    $('#result-encounter-participant-period').html(
-                        `${encounterResource.participant[0].period.start} --> ${encounterResource.participant[0].period.end}`
-                    );
+                    try {
+                        $('#result-encounter-participant-period').html(
+                            `${encounterResource.participant[0].period.start} --> ${encounterResource.participant[0].period.end}`
+                        );
+                    } catch {
+                        $('#result-encounter-participant-period').html('');
+                    }
 
-                    $('#result-encounter-participant').html(
-                        `${encounterResource.participant[0].individual.reference}`
-                    );
+                    try {
+                        $('#result-encounter-participant').html(
+                            `${encounterResource.participant[0].individual.reference}`
+                        );
+                    } catch {
+                        $('#result-encounter-participant').html('');
+                    }
 
-                    $('#result-encounter-hos-period').html(
-                        `${encounterResource.period.start} --> ${encounterResource.period.end}`
-                    );
+                    try {
+                        $('#result-encounter-hos-period').html(
+                            `${encounterResource.period.start} --> ${encounterResource.period.end}`
+                        );
+                    } catch {
+                        $('#result-encounter-hos-period').html('');
+                    }
 
-                    $('#result-encounter-reason').html(
-                        `${encounterResource.reasonCode[0].coding[0].display} (${encounterResource.reasonCode[0].coding[0].system}#${encounterResource.reasonCode[0].coding[0].code})`
-                    );
+                    try {
+                        $('#result-encounter-reason').html(
+                            `${encounterResource.reasonCode[0].coding[0].display} (${encounterResource.reasonCode[0].coding[0].system}#${encounterResource.reasonCode[0].coding[0].code})`
+                        );
+                    } catch {
+                        $('#result-encounter-reason').html('');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {

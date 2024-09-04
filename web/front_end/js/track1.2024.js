@@ -549,12 +549,16 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
         $('#result-practitioner-role-id').html(practitionerRoleResource.id);
         localStorage.setItem('created_practitioner_id', practitionerRoleResource.id);
 
-        let identifiers = practitionerRoleResource.identifier;
-        let identifierHtml = '';
-        identifierHtml += `<li>識別碼型別: <span name="result-practitioner-role-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
-        identifierHtml += `<li>員工編號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
+        try {
+            let identifiers = practitionerRoleResource.identifier;
+            let identifierHtml = '';
+            identifierHtml += `<li>識別碼型別: <span name="result-practitioner-role-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
+            identifierHtml += `<li>員工編號: <span name="result-practitioner-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
 
-        $('#result-practitioner-role-identifier1').html(identifierHtml);
+            $('#result-practitioner-role-identifier1').html(identifierHtml);
+        } catch {
+            $('#result-practitioner-role-identifier1').html('無');
+        }
 
         $('#result-practitioner-role-active').html(practitionerRoleResource.active);
 
@@ -566,50 +570,87 @@ async function doGeneratePractitionerRoleRequest(trackServerEndpoint, oauthServe
             `${practitionerRoleResource.practitioner.reference} "${practitionerRoleResource.practitioner.display}"`
         );
 
-        $('#result-practitioner-role-location').html(
-            `${practitionerRoleResource.location[0].reference} "${practitionerRoleResource.location[0].display}"`
-        );
+        try {
+            $('#result-practitioner-role-location').html(
+                `${practitionerRoleResource.location[0].reference} "${practitionerRoleResource.location[0].display}"`
+            );
+        } catch {
+            $('#result-practitioner-role-location').html('');
+        }
 
-        $('#result-practitioner-role').html(
-            `${practitionerRoleResource.code[0].coding[0].display} (${practitionerRoleResource.code[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
-        );
+        try {
+            $('#result-practitioner-role').html(
+                `${practitionerRoleResource.code[0].coding[0].display} (${practitionerRoleResource.code[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
+            );
+        } catch {
+            $('#result-practitioner-role').html('');
+        }
 
-        $('#result-practitioner-role-profession').html(
-            `${practitionerRoleResource.specialty[0].coding[0].display} (${practitionerRoleResource.specialty[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
-        );
+        try {
+            $('#result-practitioner-role-profession').html(
+                `${practitionerRoleResource.specialty[0].coding[0].display} (${practitionerRoleResource.specialty[0].coding[0].system}#${practitionerRoleResource.code[0].coding[0].code})`
+            );
+        } catch {
+            $('#result-practitioner-role-profession').html('');
+        }
 
-        $('#result-practitioner-role-phone').html(
-            `${practitionerRoleResource.telecom[0].system}`
-        );
-        $('#result-practitioner-role-phone-number').html(
-            `(${practitionerRoleResource.telecom[0].use}) ${practitionerRoleResource.telecom[0].value}`
-        );
+        try {
+            $('#result-practitioner-role-phone').html(
+                `${practitionerRoleResource.telecom[0].system}`
+            );
+        } catch {
+            $('#result-practitioner-role-phone').html('');
+        }
 
-        let daysOfWeek = practitionerRoleResource.availableTime[0].daysOfWeek;
-        let mappingWeeks = {
-            'mon': '一',
-            'tue': '二',
-            'wed': '三',
-            'thu': '四',
-            'fri': '五',
-            'sat': '六',
-            'sun': '日',
-        };
-        $('#result-practitioner-role-business-contact').html(
-            `週${mappingWeeks[daysOfWeek[0]]} ~ 週${mappingWeeks[daysOfWeek[daysOfWeek.length-1]]}，${practitionerRoleResource.availableTime[0].availableStartTime}-${practitionerRoleResource.availableTime[0].availableEndTime}`
-        );
+        try {
+            $('#result-practitioner-role-phone-number').html(
+                `(${practitionerRoleResource.telecom[0].use}) ${practitionerRoleResource.telecom[0].value}`
+            );
+        } catch {
+            $('#result-practitioner-role-phone-number').html('');
+        }
 
-        $('#result-practitioner-role-message').html(
-            practitionerRoleResource.availabilityExceptions
-        );
+        try {
+            let daysOfWeek = practitionerRoleResource.availableTime[0].daysOfWeek;
+            let mappingWeeks = {
+                'mon': '一',
+                'tue': '二',
+                'wed': '三',
+                'thu': '四',
+                'fri': '五',
+                'sat': '六',
+                'sun': '日',
+            };
+            $('#result-practitioner-role-business-contact').html(
+                `週${mappingWeeks[daysOfWeek[0]]} ~ 週${mappingWeeks[daysOfWeek[daysOfWeek.length-1]]}，${practitionerRoleResource.availableTime[0].availableStartTime}-${practitionerRoleResource.availableTime[0].availableEndTime}`
+            );
+        } catch {
+            $('#result-practitioner-role-business-contact').html('');
+        }
 
-        $('#result-practitioner-role-unavailable').html(
-            `${practitionerRoleResource.notAvailable[0].during.start} ~ ${practitionerRoleResource.notAvailable[0].during.end}`
-        );
+        try {
+            $('#result-practitioner-role-message').html(
+                practitionerRoleResource.availabilityExceptions
+            );
+        } catch {
+            $('#result-practitioner-role-message').html('');
+        }
 
-        $('#result-practitioner-role-unavailable-reason').html(
-            practitionerRoleResource.notAvailable[0].description
-        );
+        try {
+            $('#result-practitioner-role-unavailable').html(
+                `${practitionerRoleResource.notAvailable[0].during.start} ~ ${practitionerRoleResource.notAvailable[0].during.end}`
+            );
+        } catch {
+            $('#result-practitioner-role-unavailable').html('');
+        }
+
+        try {
+            $('#result-practitioner-role-unavailable-reason').html(
+                practitionerRoleResource.notAvailable[0].description
+            );
+        } catch {
+            $('#result-practitioner-role-unavailable-reason').html('');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -710,11 +751,11 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
             `${encounterResource.subject.reference}`
         );
 
-        if (encounterResource.hospitalization) {
+        try {
             $('#result-encounter-hos').html(
                 `${encounterResource.hospitalization.dischargeDisposition.coding[0].code}(${encounterResource.hospitalization.dischargeDisposition.coding[0].system})`
             );
-        } else {
+        } catch {
             $('#result-encounter-hos').html('');
         }
 
@@ -726,25 +767,45 @@ async function doGenerateEncounterRequest(trackServerEndpoint, oauthServerEndpoi
             $('#result-encounter-location').html('');
         }
 
-        $('#result-encounter-participant-performer').html(
-            `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`
-        );
+        try {
+            $('#result-encounter-participant-performer').html(
+                `${encounterResource.participant[0].type[0].coding[0].code} (${encounterResource.participant[0].type[0].coding[0].system})`
+            );
+        } catch {
+            $('#result-encounter-participant-performer').html('');
+        }
 
-        $('#result-encounter-participant-period').html(
-            `${encounterResource.participant[0].period.start} --> ${encounterResource.participant[0].period.end}`
-        );
+        try {
+            $('#result-encounter-participant-period').html(
+                `${encounterResource.participant[0].period.start} --> ${encounterResource.participant[0].period.end}`
+            );
+        } catch {
+            $('#result-encounter-participant-period').html('');
+        }
 
-        $('#result-encounter-participant').html(
-            `${encounterResource.participant[0].individual.reference}`
-        );
+        try {
+            $('#result-encounter-participant').html(
+                `${encounterResource.participant[0].individual.reference}`
+            );
+        } catch {
+            $('#result-encounter-participant').html('');
+        }
 
-        $('#result-encounter-hos-period').html(
-            `${encounterResource.period.start} --> ${encounterResource.period.end}`
-        );
+        try {
+            $('#result-encounter-hos-period').html(
+                `${encounterResource.period.start} --> ${encounterResource.period.end}`
+            );
+        } catch {
+            $('#result-encounter-hos-period').html('');
+        }
 
-        $('#result-encounter-reason').html(
-            `${encounterResource.reasonCode[0].coding[0].display} (${encounterResource.reasonCode[0].coding[0].system}#${encounterResource.reasonCode[0].coding[0].code})`
-        );
+        try {
+            $('#result-encounter-reason').html(
+                `${encounterResource.reasonCode[0].coding[0].display} (${encounterResource.reasonCode[0].coding[0].system}#${encounterResource.reasonCode[0].coding[0].code})`
+            );
+        } catch {
+            $('#result-encounter-reason').html('');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -1158,21 +1219,37 @@ async function doGenerateDocumentReferenceRequest(trackServerEndpoint, oauthServ
             `${documentReferenceResource.date}`
         );
 
-        $('#result-document-practitioner').html(
-            `${documentReferenceResource.author[0].reference}`
-        );
+        try {
+            $('#result-document-practitioner').html(
+                `${documentReferenceResource.author[0].reference}`
+            );
+        } catch {
+            $('#result-document-practitioner').html('');
+        }
 
-        $('#result-document-organization').html(
-            `${documentReferenceResource.custodian.reference}`
-        );
+        try {
+            $('#result-document-organization').html(
+                `${documentReferenceResource.custodian.reference}`
+            );
+        } catch {
+            $('#result-document-organization').html('');
+        }
 
-        $('#result-document-content-file-type').html(
-            `${documentReferenceResource.content[0].attachment.contentType}`
-        );
+        try {
+            $('#result-document-content-file-type').html(
+                `${documentReferenceResource.content[0].attachment.contentType}`
+            );
+        } catch {
+            $('#result-document-content-file-type').html('');
+        }
 
-        $('#result-document-content-file').html(
-            `${documentReferenceResource.content[0].attachment.url} (${documentReferenceResource.content[0].attachment.title})`
-        );
+        try {
+            $('#result-document-content-file').html(
+                `${documentReferenceResource.content[0].attachment.url} (${documentReferenceResource.content[0].attachment.title})`
+            );
+        } catch {
+            $('#result-document-content-file').html('');
+        }
 
         $('#search-result-card').removeClass('d-none');
     }).fail((error) => {
@@ -1257,9 +1334,13 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
             `${ImagingStudyResource.subject.reference}`
         );
 
-        $('#result-imaging-encounter').html(
-            `${ImagingStudyResource.encounter.reference}`
-        );
+        try {
+            $('#result-imaging-encounter').html(
+                `${ImagingStudyResource.encounter.reference}`
+            );
+        } catch {
+            $('#result-imaging-encounter').html('');
+        }
 
         $('#result-imaging-series').html(
             `${ImagingStudyResource.numberOfSeries || '無'}`
@@ -1299,17 +1380,29 @@ async function doGenerateImagingStudyRequest(trackServerEndpoint, oauthServerEnd
                 `${ImagingStudyResource.series[0].bodySite.display} (${ImagingStudyResource.series[0].bodySite.system}#${ImagingStudyResource.series[0].bodySite.code})`
             );
 
-            $('#result-imaging-body-practitioner').html(
-                `${ImagingStudyResource.series[0].performer[0].actor.reference}`
-            );
+            try {
+                $('#result-imaging-body-practitioner').html(
+                    `${ImagingStudyResource.series[0].performer[0].actor.reference}`
+                );
+            } catch {
+                $('#result-imaging-body-practitioner').html('');
+            }
 
-            $('#result-imaging-body-sop-uid').html(
-                `${ImagingStudyResource.series[0].instance[0].uid}`
-            );
+            try {
+                $('#result-imaging-body-sop-uid').html(
+                    `${ImagingStudyResource.series[0].instance[0].uid}`
+                );
+            } catch {
+                $('#result-imaging-body-sop-uid').html('');
+            }
 
-            $('#result-imaging-body-sop-class').html(
-                `${ImagingStudyResource.series[0].instance[0].sopClass.code}`
-            );
+            try {
+                $('#result-imaging-body-sop-class').html(
+                    `${ImagingStudyResource.series[0].instance[0].sopClass.code}`
+                );
+            } catch {
+                $('#result-imaging-body-sop-class').html('');
+            }
         } else {
             $('#result-imaging-dicom-uid').html('無');
 

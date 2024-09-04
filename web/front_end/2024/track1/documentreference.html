@@ -427,9 +427,13 @@
                         `${documentReferenceResource.status} (DocumentReferenceStatus)`
                     );
 
-                    $('#result-document-type').html(
-                        `${documentReferenceResource.type.text}(${documentReferenceResource.type.coding[0].display}) ${documentReferenceResource.type.coding[0].system}#${documentReferenceResource.type.coding[0].code}`
-                    );
+                    try {
+                        $('#result-document-type').html(
+                            `${documentReferenceResource.type.text}(${documentReferenceResource.type.coding[0].display}) ${documentReferenceResource.type.coding[0].system}#${documentReferenceResource.type.coding[0].code}`
+                        );
+                    } catch {
+                        $('#result-document-type').html('無');
+                    }
 
                     $('#result-document-patient').html(
                         `${documentReferenceResource.subject.reference}`
@@ -439,21 +443,37 @@
                         `${documentReferenceResource.date}`
                     );
 
-                    $('#result-document-practitioner').html(
-                        `${documentReferenceResource.author[0].reference}`
-                    );
+                    try {
+                        $('#result-document-practitioner').html(
+                            `${documentReferenceResource.author[0].reference}`
+                        );
+                    } catch {
+                        $('#result-document-practitioner').html('');
+                    }
 
-                    $('#result-document-organization').html(
-                        `${documentReferenceResource.custodian.reference}`
-                    );
+                    try {
+                        $('#result-document-organization').html(
+                            `${documentReferenceResource.custodian.reference}`
+                        );
+                    } catch {
+                        $('#result-document-organization').html('');
+                    }
 
-                    $('#result-document-content-file-type').html(
-                        `${documentReferenceResource.content[0].attachment.contentType}`
-                    );
+                    try {
+                        $('#result-document-content-file-type').html(
+                            `${documentReferenceResource.content[0].attachment.contentType}`
+                        );
+                    } catch {
+                        $('#result-document-content-file-type').html('');
+                    }
 
-                    $('#result-document-content-file').html(
-                        `${documentReferenceResource.content[0].attachment.url} (${documentReferenceResource.content[0].attachment.title})`
-                    );
+                    try {
+                        $('#result-document-content-file').html(
+                            `${documentReferenceResource.content[0].attachment.url} (${documentReferenceResource.content[0].attachment.title})`
+                        );
+                    } catch {
+                        $('#result-document-content-file').html('');
+                    }
                 });
 
                 $('button[name="capture-image"]').click((e) => {
