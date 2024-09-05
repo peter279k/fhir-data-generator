@@ -431,20 +431,17 @@
                     let birthDate = $('#birth-date').val();
                     let gender = $('#gender').val();
 
-                    if (patientId === '') {
-                        patientId = $('#_id').attr('placeholder');
+                    if (patientId !== '') {
+                        searchParameters += `_id=${patientId}&`;
                     }
-                    searchParameters += `_id=${patientId}&`;
 
-                    if (birthDate === '') {
-                        birthDate = $('#birth-date').attr('placeholder');
+                    if (birthDate !== '') {
+                        searchParameters += `birthdate=${birthDate}&`;
                     }
-                    searchParameters += `birthdate=${birthDate}&`;
 
-                    if (gender === '') {
-                        gender = $('#gender').attr('placeholder');
+                    if (gender !== '') {
+                        searchParameters += `gender=${gender}&`;
                     }
-                    searchParameters += `gender=${gender}&`;
 
                     searchParameters = searchParameters.substring(0, searchParameters.length-1);
 
