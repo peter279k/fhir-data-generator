@@ -8,7 +8,7 @@ fastapi = "*"
 uvicorn = "[standard]"
 gunicorn = "[standard]"
 python-dotenv = "*"
-fhir_data_generator = "*"
+fhir-data-generator = "*"
 
 [dev-packages]
 pytest = "*"

@@ -47,7 +47,7 @@ async function doSubmitRequest(currentFormName, warningMessage, errorMessage, tr
                         identifier['type']['coding'][0]['system'],
                         identifier['type']['coding'][0]['code'],
                     ];
-                    identifierHtml += `<li>病患識別碼identifier: <span name="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1]})</span></li>`;
+                    identifierHtml += `<li>病患識別碼identifier: <span name="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1] || '無提供'})</span></li>`;
                 } else {
                     identifierHtml += `<li>病患識別碼identifier: <span name="result-patient-identifier" class="text-primary">${identifier['value']}</span></li>`;
                 }
@@ -180,7 +180,7 @@ async function doMetaVersionRequest(currentFormName, trackServerEndpoint, oauthS
                     identifier['type']['coding'][0]['system'],
                     identifier['type']['coding'][0]['code'],
                 ];
-                identifierHtml += `<li>病患識別碼identifier: <span name="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1]})</span></li>`;
+                identifierHtml += `<li>病患識別碼identifier: <span name="result-patient-identifier" class="text-primary">${identifier['value']}(代碼系統：${codingSystem[0]}, ${codingSystem[1] || '無提供'})</span></li>`;
             } else {
                 identifierHtml += `<li>病患識別碼identifier: <span name="result-patient-identifier" class="text-primary">${identifier['value']}</span></li>`;
             }
