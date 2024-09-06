@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fhir-data-generator"
-version = "1.6.0"
+version = "1.6.1"
 description = "The quick FHIR data generator for Python."
 authors = ["Peter Li <peter279k@gmail.com>"]
 license = "MIT"
