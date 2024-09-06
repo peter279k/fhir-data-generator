@@ -27,7 +27,6 @@ class ClientCredentials:
         return response
 
     def retrieve_token(self):
-        print(self.response.text)
         if self.response.status_code != 200:
             raise Exception(f'The response status code is {self.response.status_code}')
 
