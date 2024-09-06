@@ -40,8 +40,8 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
 
         let identifiers = patientResource.identifier;
         let identifierHtml = '';
-        identifierHtml += `<li>病患識別碼型別: <span name="result-patient-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
-        identifierHtml += `<li>身份證字號: <span name="result-patient-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
+        identifierHtml += `<li>識別碼型別: <span name="result-patient-identifier" class="text-primary">${identifiers[0].type.coding[0].system}#${identifiers[0].type.coding[0].code}</span></li>`;
+        identifierHtml += `<li>身份證字號(健身會員編號): <span name="result-patient-identifier" class="text-primary">${identifiers[0].value}</span></li>`;
 
         $('#result-patient-identifier1').html(identifierHtml);
 
