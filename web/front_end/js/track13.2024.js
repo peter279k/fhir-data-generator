@@ -45,6 +45,14 @@ async function doGenerateRequest(trackServerEndpoint, oauthServerEndpoint, patie
 
         $('#result-patient-identifier1').html(identifierHtml);
 
+        identifierHtml = '';
+        if (identifiers[1]) {
+            identifierHtml += `<li>識別碼型別: <span name="result-patient-identifier" class="text-primary">${identifiers[1].type.coding[0].system}#${identifiers[1].type.coding[0].code}</span></li>`;
+            identifierHtml += `<li>病歷號碼(MR): <span name="result-patient-identifier" class="text-primary">${identifiers[1].value}</span></li>`;
+        }
+
+        $('#result-patient-identifier2').html(identifierHtml);
+
         $('#result-patient-active').html(patientResource.active);
         $('#result-patient-name').html(`${patientResource.name[0].text}`);
 

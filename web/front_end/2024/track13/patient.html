@@ -120,6 +120,10 @@
                                         <label for="tw-identifier" class="form-label">請輸入身份證字號(NNXXX)</label>
                                         <input type="text" class="form-control" placeholder="A123456789" id="tw-identifier">
                                     </div>
+                                    <div name="mr-identifier" class="mb-3">
+                                        <label for="mr-identifier" class="form-label">請輸入病歷號碼(MR)</label>
+                                        <input type="text" class="form-control" placeholder="8862168" id="mr-identifier">
+                                    </div>
                                     <div name="fit" class="d-none mb-3">
                                         <label for="fit-member" class="form-label">請輸入健身會員編號</label>
                                         <input type="text" class="form-control" placeholder="0938110330" id="fit-member">
@@ -198,6 +202,7 @@
                                 <p class="card-text">id: <span id="result-patient-id" class="text-primary"></span></p>
 
                                 <ul id="result-patient-identifier1" class="card-text"></ul>
+                                <ul id="result-patient-identifier2" class="card-text"></ul>
 
                                 <p name="result-text" class="card-text">病人紀錄active: <span id="result-patient-active" class="text-primary"></span></p>
                                 <p name="result-text" class="card-text">病人名稱name(official): <span id="result-patient-name" class="text-primary"></span></p>
@@ -241,9 +246,11 @@
                     let patientType = $('#patient-type :selected').val();
                     if (patientType === 'patient') {
                         $('div[name="identifier"]').removeClass('d-none');
+                        $('div[name="mr-identifier"]').removeClass('d-none');
                         $('div[name="fit"]').addClass('d-none');
                     } else {
                         $('div[name="identifier"]').addClass('d-none');
+                        $('div[name="mr-identifier"]').addClass('d-none');
                         $('div[name="fit"]').removeClass('d-none');
                     }
                 });
@@ -294,6 +301,7 @@
                         'patient-birth-date',
                         'fit-member',
                         'fit-website',
+                        'mr-identifier',
                     ];
 
                     let field = null;
@@ -367,6 +375,19 @@
                                 },
                                 'system': 'http://www.moi.gov.tw',
                                 'value': fields[0],
+                            },
+                            {
+                                'use' : 'official',
+                                'type': {
+                                    'coding': [
+                                        {
+                                            'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                                            'code' : 'MR',
+                                        }
+                                    ],
+                                },
+                                'system' : 'https://www.tph.mohw.gov.tw/',
+                                'value' : fields[7],
                             },
                         ],
                         'active': Boolean(active),
