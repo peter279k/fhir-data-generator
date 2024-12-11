@@ -18,6 +18,7 @@ MITW Track API
 ## Features功能特性
 
 1. MITW 2024 Track #1, #2, and #13
+2. FHIR Authentication Service for Golden Smart Home
 
 '''
 
@@ -58,6 +59,7 @@ app.mount('/front_end', StaticFiles(directory='front_end'), name='front_end')
 app.include_router(info_router)
 app.include_router(track_router)
 app.include_router(resource_log_router)
+app.include_router(fhir_sport_data_router)
 
 app.add_middleware(
     CORSMiddleware,

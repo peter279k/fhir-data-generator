@@ -1,6 +1,7 @@
 from .info import *
 from .track import *
 from .resource import *
+from .fhir_auth import *
 from fastapi import APIRouter
 
 
@@ -21,3 +22,7 @@ track_router.add_api_route('/track13/2024/consumer/{resource_name}', track13_con
 resource_log_router = APIRouter(tags=['Resource log'])
 resource_log_router.add_api_route('/resources/option_lists', resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')
 resource_log_router.add_api_route('/resources/query/', query_resource_handler, methods=['GET'], description='取得聯測松年度列表', summary='Resource log')
+
+fhir_sport_data_router = APIRouter(tags=['FHIR authenticate service'])
+fhir_sport_data_router.add_api_route('/fhir/{resource}', handle_request, methods=['GET'], description='FHIR應用加值模組', summary='FHIR sport data service for Golden Smart Home')
+fhir_sport_data_router.add_api_route('/fhir/{resource}/{resource_id}', handle_request_on_resource_id, methods=['GET'], description='FHIR應用加值模組', summary='FHIR sport data service for Golden Smart Home')
