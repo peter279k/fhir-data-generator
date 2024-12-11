@@ -15,7 +15,7 @@ auth_scheme = HTTPBearer()
 
 async def handle_request(request: Request, resource: str, token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     auth_response = auth_sport_data_jwt(token.credentials)
-    if auth_response.ok is False:
+    if auth_response.status_code != 200:
         return JSONResponse({
             'status': auth_response.status_code,
             'message': 'Authenticating JWT is failed.',
@@ -28,7 +28,7 @@ async def handle_request(request: Request, resource: str, token: HTTPAuthorizati
 
 async def handle_request_on_resource_id(request: Request, resource: str, resource_id: str, token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     auth_response = auth_sport_data_jwt(token.credentials)
-    if auth_response.ok is False:
+    if auth_response.status_code != 200:
         return JSONResponse({
             'status': auth_response.status_code,
             'message': 'Authenticating JWT is failed.',
