@@ -1,11 +1,10 @@
 import os
 import requests
-from typing import Optional
 from dotenv import load_dotenv
 from fastapi import Path, Depends
 from urllib.parse import urlencode
 from fastapi.requests import Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import Response, JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 
@@ -70,12 +69,16 @@ def by_pass_to_fhir_server(method: str, resource: str, resource_id: str, query_p
         }
         response = requests.get(fhir_server_url, headers=headers)
 
-        return response.json()
+        return Response(
+            content=response.text,
+            status_code=response.status_code,
+            media_type='application/fhir+json'
+        )
     else:
         status_code = 405
 
-        return JSONResponse({
+        return Response(content={
             'status': status_code,
             'message': f'The {method.upper()} method is not allowed',
             'data': [],
-        }, status_code=status_code)
+        }, status_code=status_code, media_type='application/json')
