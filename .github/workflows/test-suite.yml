@@ -37,7 +37,7 @@ jobs:
           quay.io/keycloak/keycloak:latest start-dev
 
       - name: Keycloak Admin CLI
-        uses: carlosthe19916/keycloak-action@0.6
+        uses: carlosthe19916/keycloak-action@0.7
         with:
           version: latest
           server: http://localhost:8080
