@@ -3,24 +3,32 @@ import requests
 
 
 client_id = 'admin-cli'
-username = 'admin'
-password = 'admin'
-grant_type = 'password'
 
-req_url = 'http://localhost:8080/realms/master/protocol/openid-connect/token'
+def password_login():
+    client_id = 'admin-cli'
+    username = 'admin'
+    password = 'admin'
+    grant_type = 'password'
 
-headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'}
-payload = f'client_id={client_id}&username={username}&password={password}&grant_type={grant_type}'
+    req_url = 'http://localhost:8080/realms/master/protocol/openid-connect/token'
 
-print('Retrieving the legacy access token with the grant_type password...')
+    headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'}
+    payload = f'client_id={client_id}&username={username}&password={password}&grant_type={grant_type}'
 
-response = requests.post(req_url, headers=headers, data=payload)
-if response.status_code != 200:
-    raise Exception(f'{response.text}')
+    print('Retrieving the legacy access token with the grant_type password...')
+
+    response = requests.post(req_url, headers=headers, data=payload)
+
+    if response.status_code != 200:
+        raise Exception(f'{response.text}')
 
 
-legacy_access_token = response.json()['access_token']
+    legacy_access_token = response.json()['access_token']
 
+    return legacy_access_token
+
+
+legacy_access_token = password_login()
 req_url = 'http://localhost:8080/admin/realms/master/clients?first=0&max=11'
 headers = {'Accept': 'application/json', 'Authorization': f'Bearer {legacy_access_token}'}
 
@@ -67,7 +75,7 @@ payload = {
     'consentRequired': False,
     'standardFlowEnabled': True,
     'implicitFlowEnabled': False,
-    'directAccessGrantsEnabled': False,
+    'directAccessGrantsEnabled': True,
     'serviceAccountsEnabled': True,
     'publicClient': False,
     'frontchannelLogout': False,

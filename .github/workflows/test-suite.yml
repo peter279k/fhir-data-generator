@@ -39,7 +39,7 @@ jobs:
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@0.7
         with:
-          version: 23.0.7
+          version: latest
           server: http://localhost:8080
           username: admin
           password: admin
