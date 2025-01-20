@@ -29,6 +29,13 @@ jobs:
           python -m pipenv install -d
           python -m pipenv run poetry install
 
+      - name: Init Keycloak
+        run: |
+          docker run -d --name keycloak -p 8080:8080 \
+          -e KEYCLOAK_ADMIN=admin \
+          -e KEYCLOAK_ADMIN_PASSWORD=admin \
+          quay.io/keycloak/keycloak:25.0.6 start-dev
+
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@0.7
         with:
