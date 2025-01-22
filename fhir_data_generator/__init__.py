@@ -36,6 +36,7 @@ from fhir_data_generator.tw_core_ig.medication_statement.medication_statement im
 from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import AllergyIntoleranceNut as TWCoreAllergyIntoleranceNut
 
 from fhir_data_generator.iclaim.patient import Patient as PatientIclaimC1
+from fhir_data_generator.iclaim.observation import Observation as ObservationIclaimC1
 
 from fhir_data_generator.simple_client.simple_client import SimpleClient
 from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
@@ -83,6 +84,7 @@ __all__ = [
     'TWCoreSpecimen',
 
     'PatientIclaimC1',
+    'ObservationIclaimC1',
 
     'SimpleClient',
     'VerifyToken',
