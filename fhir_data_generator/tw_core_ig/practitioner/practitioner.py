@@ -14,7 +14,7 @@ class Practitioner:
                 'profile': [],
             },
             'identifier' : [],
-            'active': True,
+            'active': None,
             'name': [],
             'telecom': [],
             'address': [],
@@ -58,6 +58,21 @@ class Practitioner:
         self.payload_template['qualification'] = qualification
 
     def create(self):
+        if self.payload_template['active'] is None:
+            del self.payload_template['active']
+        if len(self.payload_template['address']) == 0:
+            del self.payload_template['address']
+        if self.payload_template['birthDate'] == '':
+            del self.payload_template['birthDate']
+        if self.payload_template['gender'] == '':
+            del self.payload_template['gender']
+        if len(self.payload_template['photo']) == 0:
+            del self.payload_template['photo']
+        if len(self.payload_template['qualification']) == 0:
+            del self.payload_template['qualification']
+        if len(self.payload_template['telecom']) == 0:
+            del self.payload_template['telecom']
+
         return self.payload_template
 
     def build_practitioner_id_query(self, practitioner_id: str):
