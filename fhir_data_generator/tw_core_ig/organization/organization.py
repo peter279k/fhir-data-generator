@@ -40,6 +40,9 @@ class Organization:
         self.payload_template['telecom'] = telecom
 
     def create(self):
+        if len(self.payload_template['telecom']) == 0:
+            del self.payload_template['telecom']
+
         return self.payload_template
 
     def build_organization_id_query(self, organization_id: str):
