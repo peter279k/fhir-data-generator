@@ -14,7 +14,7 @@ class PractitionerRole:
                 'profile': [],
             },
             'identifier' : [],
-            'active': True,
+            'active': None,
             'period': {},
             'practitioner': {},
             'code': [],
@@ -68,6 +68,25 @@ class PractitionerRole:
         self.payload_template['availabilityExceptions'] = availability_exception
 
     def create(self):
+        if self.payload_template['active'] is None:
+            del self.payload_template['active']
+        if self.payload_template['availabilityExceptions'] == '':
+            del self.payload_template['availabilityExceptions']
+        if len(self.payload_template['availableTime']) == 0:
+            del self.payload_template['availableTime']
+        if len(self.payload_template['identifier']) == 0:
+            del self.payload_template['identifier']
+        if len(self.payload_template['location']) == 0:
+            del self.payload_template['location']
+        if len(self.payload_template['notAvailable']) == 0:
+            del self.payload_template['notAvailable']
+        if self.payload_template['period'] == {}:
+            del self.payload_template['period']
+        if self.payload_template['specialty'] == [{'coding': []}]:
+            del self.payload_template['specialty']
+        if len(self.payload_template['telecom']) == 0:
+            del self.payload_template['telecom']
+
         return self.payload_template
 
     def build_practitioner_role_id_query(self, practitioner_role_id: str):
