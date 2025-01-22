@@ -35,6 +35,8 @@ from fhir_data_generator.tw_core_ig.medication_dispense.medication_dispense impo
 from fhir_data_generator.tw_core_ig.medication_statement.medication_statement import MedicationStatement as TWCoreMedicationStatement
 from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import AllergyIntoleranceNut as TWCoreAllergyIntoleranceNut
 
+from fhir_data_generator.iclaim.patient import Patient as PatientIclaimC1
+
 from fhir_data_generator.simple_client.simple_client import SimpleClient
 from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
 from fhir_data_generator.simple_client.keycloak_client_credentials import ClientCredentials
@@ -79,6 +81,8 @@ __all__ = [
     'TWCorePractitionerRole',
     'TWCoreProcedure',
     'TWCoreSpecimen',
+
+    'PatientIclaimC1',
 
     'SimpleClient',
     'VerifyToken',
