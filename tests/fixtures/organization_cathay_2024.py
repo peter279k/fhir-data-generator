@@ -18,12 +18,12 @@ def identifiers():
         'use': 'official',
         'type': {
             'coding': [{
-                'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSysytem/v2-0203',
+                'system': 'https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/v2-0203',
                 'code': 'UBN'
             }]
         },
         'system': 'https://gcis.nat.gov.tw',
-        'value': '0337407'
+        'value': '03374707'
     }]
 
 @pytest.fixture
