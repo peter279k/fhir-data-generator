@@ -13,6 +13,7 @@ class Encounter:
             'meta': {
                 'profile': [],
             },
+            'extension': [],
             'identifier': [],
             'status': '',
             'class': {},
@@ -32,6 +33,7 @@ class Encounter:
                 'individual': {},
             }],
             'period': {},
+            'length': {},
             'reasonCode': [{
                 'coding': [],
             }],
@@ -50,6 +52,9 @@ class Encounter:
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
+
+    def set_extension(self, extension: list):
+        self.payload_template['extension'] = extension
 
     def set_identifier(self, identifier: list):
         self.payload_template['identifier'] = identifier
@@ -84,6 +89,9 @@ class Encounter:
     def set_period(self, period: dict):
         self.payload_template['period'] = period
 
+    def set_length(self, length: dict):
+        self.payload_template['length'] = length
+
     def set_reason_code_coding(self, reason_code_coding: list):
         self.payload_template['reasonCode'][0]['coding'] = reason_code_coding
 
@@ -94,6 +102,27 @@ class Encounter:
         self.payload_template['location'][0]['location'] = location_location
 
     def create(self):
+        if len(self.payload_template['extension']) == 0:
+            del self.payload_template['extension']
+
+        if self.payload_template['reasonCode'] == [{'coding': []}]:
+            del self.payload_template['reasonCode']
+        if self.payload_template['location'] == [{'location': {}}]:
+            del self.payload_template['location']
+        if self.payload_template['length'] == {}:
+            del self.payload_template['length']
+        if self.payload_template['hospitalization'] == {'dischargeDisposition': {'coding': []}}:
+            del self.payload_template['hospitalization']
+        if self.payload_template['type'] == [{'coding': []}]:
+            del self.payload_template['type']
+        if self.payload_template['serviceType']['text'] == '':
+            del self.payload_template['serviceType']['text']
+
+        if self.payload_template['participant'][0]['period'] == {}:
+            del self.payload_template['participant'][0]['period']
+        if self.payload_template['participant'][0]['type'] == [{'coding': []}]:
+            del self.payload_template['participant'][0]['type']
+
         return self.payload_template
 
     def build_encounter_id_query(self, encounter_id: str):
