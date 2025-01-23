@@ -66,6 +66,17 @@ class DiagnosticReport:
         self.payload_template['result'] = result
 
     def create(self):
+        if self.payload_template['category'] == [{'coding': [], 'text': ''}]:
+            del self.payload_template['category']
+        if self.payload_template['code']['text'] == '':
+            del self.payload_template['code']['text']
+        if self.payload_template['performer'] == []:
+            del self.payload_template['performer']
+        if self.payload_template['issued'] == '':
+            del self.payload_template['issued']
+        if self.payload_template['effectiveDateTime'] == '':
+            del self.payload_template['effectiveDateTime']
+
         return self.payload_template
 
     def build_diagnostic_report_id_query(self, diagnostic_report_id: str):
