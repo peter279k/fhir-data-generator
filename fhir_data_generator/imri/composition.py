@@ -56,6 +56,9 @@ class Composition:
         self.payload_template['section'] = section
 
     def create(self):
+        if self.payload_template['encounter'] == {}:
+            del self.payload_template['encounter']
+
         return self.payload_template
 
     def build_composition_id_query(self, composition_id: str):
