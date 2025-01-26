@@ -40,6 +40,8 @@ from fhir_data_generator.iclaim.observation import Observation as ObservationIcl
 from fhir_data_generator.iclaim.coverage import Coverage as CoverageC1
 from fhir_data_generator.iclaim.claim import Claim
 
+from fhir_data_generator.imri.location import Location as LocationImri
+
 from fhir_data_generator.simple_client.simple_client import SimpleClient
 from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
 from fhir_data_generator.simple_client.keycloak_client_credentials import ClientCredentials
@@ -89,6 +91,8 @@ __all__ = [
     'ObservationIclaimC1',
     'CoverageC1',
     'Claim',
+
+    'LocationImri',
 
     'SimpleClient',
     'VerifyToken',
