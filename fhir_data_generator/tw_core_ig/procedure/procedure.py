@@ -14,11 +14,15 @@ class Procedure:
                 'profile': [],
             },
             'status': '',
+            'category': {
+                'coding': [],
+            },
             'code': {
                 'coding': [],
                 'text': '',
             },
             'subject': {},
+            'encounter': {},
             'performedDateTime': '',
             'asserter': {},
             'performer': [],
@@ -36,6 +40,9 @@ class Procedure:
     def set_status(self, status: str):
         self.payload_template['status'] = status
 
+    def set_category(self, category: dict):
+        self.payload_template['category'] = category
+
     def set_code_coding(self, coding: list):
         self.payload_template['code']['coding'] = coding
 
@@ -44,6 +51,9 @@ class Procedure:
 
     def set_subject(self, subject: dict):
         self.payload_template['subject'] = subject
+
+    def set_encounter(self, encounter: dict):
+        self.payload_template['encounter'] = encounter
 
     def set_performed_date_time(self, performed_date_time: str):
         self.payload_template['performedDateTime'] = performed_date_time
@@ -58,6 +68,17 @@ class Procedure:
         self.payload_template['bodySite'][0]['coding'] = body_site_coding
 
     def create(self):
+        if self.payload_template['category'] == {'coding': []}:
+            del self.payload_template['category']
+        if self.payload_template['encounter'] == {}:
+            del self.payload_template['encounter']
+        if self.payload_template['asserter'] == {}:
+            del self.payload_template['asserter']
+        if self.payload_template['performer'] == []:
+            del self.payload_template['performer']
+        if self.payload_template['bodySite'] == [{'coding': []}]:
+            del self.payload_template['bodySite']
+
         return self.payload_template
 
     def build_procedure_role_id_query(self, procedure_id: str):
