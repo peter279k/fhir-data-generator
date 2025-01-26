@@ -19,14 +19,17 @@ class MedicationRequest:
                 'coding': [],
             },
             'intent': '',
+            'medicationCodeableConcept': {},
             'category': [{
                 'coding': [],
             }],
             'medicationReference': {},
             'subject': {},
             'encounter': {},
-            'authoredOn': '',
+            'authoredOn': {},
             'requester': {},
+            'performer': {},
+            'basedOn': [],
             'reasonReference': [],
             'dosageInstruction': [{
                 'text': '',
@@ -71,6 +74,9 @@ class MedicationRequest:
     def set_intent(self, intent: str):
         self.payload_template['intent'] = intent
 
+    def set_medication_codeable_concept(self, medication_codeable_concept: dict):
+        self.payload_template['medicationCodeableConcept'] = medication_codeable_concept
+
     def set_category_coding(self, category_coding: list):
         self.payload_template['category'][0]['coding'] = category_coding
 
@@ -88,6 +94,12 @@ class MedicationRequest:
 
     def set_requester(self, requester: dict):
         self.payload_template['requester'] = requester
+
+    def set_performer(self, performer: dict):
+        self.payload_template['performer'] = performer
+
+    def set_based_on(self, based_on: list):
+        self.payload_template['basedOn'] = based_on
 
     def set_reason_reference(self, reason_reference: list):
         self.payload_template['reasonReference'] = reason_reference
@@ -114,6 +126,45 @@ class MedicationRequest:
         self.payload_template['dispenseRequest']['validityPeriod']['end'] = validity_period_end
 
     def create(self):
+        if self.payload_template['identifier'] == []:
+            del self.payload_template['identifier']
+        if self.payload_template['statusReason'] == {'coding': []}:
+            del self.payload_template['statusReason']
+        if self.payload_template['category'] == [{'coding': []}]:
+            del self.payload_template['category']
+        if self.payload_template['medicationCodeableConcept'] == {}:
+            del self.payload_template['medicationCodeableConcept']
+        if self.payload_template['medicationReference'] == {}:
+            del self.payload_template['medicationReference']
+        if self.payload_template['authoredOn'] == {}:
+            del self.payload_template['authoredOn']
+        if self.payload_template['reasonReference'] == []:
+            del self.payload_template['reasonReference']
+        if self.payload_template['performer'] == {}:
+            del self.payload_template['performer']
+        if self.payload_template['basedOn'] == []:
+            del self.payload_template['basedOn']
+        if self.payload_template['dosageInstruction'] == [{
+                'text': '',
+                'timing': {
+                    'code': {
+                        'coding': [],
+                        'text': '',
+                    },
+                },
+                'route': {
+                    'coding': [],
+                },
+                'doseAndRate': [{
+                    'type': {
+                        'coding': [],
+                    },
+                }],
+            }]:
+            del self.payload_template['dosageInstruction']
+        if self.payload_template['dispenseRequest'] == {'validityPeriod': {'start': '', 'end': ''}}:
+            del self.payload_template['dispenseRequest']
+
         return self.payload_template
 
     def build_medication_request_id_query(self, medication_request_id: str):
