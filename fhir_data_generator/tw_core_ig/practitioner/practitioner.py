@@ -72,6 +72,8 @@ class Practitioner:
             del self.payload_template['qualification']
         if len(self.payload_template['telecom']) == 0:
             del self.payload_template['telecom']
+        if len(self.payload_template['identifier']) == 0:
+            del self.payload_template['identifier']
 
         return self.payload_template
 
