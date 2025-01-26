@@ -13,6 +13,7 @@ class Condition:
             'meta': {
                 'profile': [],
             },
+            'identifier': [],
             'clinicalStatus': {
                 'coding': [],
             },
@@ -30,6 +31,11 @@ class Condition:
                 'text': '',
             },
             'subject': {},
+            'encounter': {},
+            'recordedDate': '',
+            'recorder': {},
+            'stage': [],
+            'note': [],
             'onsetDateTime': '',
             'abatementDateTime': '',
             'asserter': {},
@@ -40,6 +46,9 @@ class Condition:
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
+
+    def set_identifier(self, identifier: list):
+        self.payload_template['identifier'] = identifier
 
     def set_clinical_status_coding(self, clinical_status_coding: list):
         self.payload_template['clinicalStatus']['coding'] = clinical_status_coding
@@ -62,6 +71,21 @@ class Condition:
     def set_subject(self, subject: dict):
         self.payload_template['subject'] = subject
 
+    def set_encounter(self, encounter: dict):
+        self.payload_template['encounter'] = encounter
+
+    def set_recorded_date(self, recorded_date: str):
+        self.payload_template['recordedDate'] = recorded_date
+
+    def set_recorder(self, recorder: dict):
+        self.payload_template['recorder'] = recorder
+
+    def set_stage(self, stage: list):
+        self.payload_template['stage'] = stage
+
+    def set_note(self, note: list):
+        self.payload_template['note'] = note
+
     def set_onset_datetime(self, onset_datetime: str):
         self.payload_template['onsetDateTime'] = onset_datetime
 
@@ -72,6 +96,29 @@ class Condition:
         self.payload_template['asserter'] = asserter
 
     def create(self):
+        if self.payload_template['identifier'] == []:
+            del self.payload_template['identifier']
+        if self.payload_template['verificationStatus'] == {'coding': []}:
+            del self.payload_template['verificationStatus']
+        if self.payload_template['severity'] == {'coding': []}:
+            del self.payload_template['severity']
+        if self.payload_template['code']['text'] == '':
+            del self.payload_template['code']['text']
+        if self.payload_template['encounter'] == {}:
+            del self.payload_template['encounter']
+        if self.payload_template['recordedDate'] == '':
+            del self.payload_template['recordedDate']
+        if self.payload_template['recorder'] == {}:
+            del self.payload_template['recorder']
+        if self.payload_template['stage'] == []:
+            del self.payload_template['stage']
+        if self.payload_template['note'] == []:
+            del self.payload_template['note']
+        if self.payload_template['onsetDateTime'] == '':
+            del self.payload_template['onsetDateTime']
+        if self.payload_template['abatementDateTime'] == '':
+            del self.payload_template['abatementDateTime']
+
         return self.payload_template
 
     def build_condition_id_query(self, condition_id: str):
