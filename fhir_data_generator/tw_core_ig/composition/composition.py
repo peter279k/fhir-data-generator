@@ -13,6 +13,7 @@ class Composition:
             'meta': {
                 'profile': [],
             },
+            'identifier': {},
             'status': '',
             'type': {
                 'coding': [],
@@ -30,6 +31,8 @@ class Composition:
                 'period': {},
             }],
             'section': [{
+                'title': '',
+                'code': {},
                 'entry': [],
             }],
         }
@@ -39,6 +42,9 @@ class Composition:
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
+
+    def set_identifier(self, identifier: dict):
+        self.payload_template['identifier'] = identifier
 
     def set_status(self, status: str):
         self.payload_template['status'] = status
@@ -76,10 +82,33 @@ class Composition:
     def set_event_period(self, period: dict):
         self.payload_template['event'][0]['period'] = period
 
+    def set_section_title(self, title: str):
+        self.payload_template['section'][0]['title'] = title
+
+    def set_section_code(self, code: dict):
+        self.payload_template['section'][0]['code'] = code
+
     def set_section_entry(self, entry: list):
         self.payload_template['section'][0]['entry'] = entry
 
     def create(self):
+        if self.payload_template['identifier'] == {}:
+            del self.payload_template['identifier']
+        if self.payload_template['category'] == []:
+            del self.payload_template['category']
+        if self.payload_template['confidentiality'] == '':
+            del self.payload_template['confidentiality']
+        if self.payload_template['attester'] == []:
+            del self.payload_template['attester']
+        if self.payload_template['custodian'] == {}:
+            del self.payload_template['custodian']
+        if self.payload_template['event'] == [{'code': [], 'period': {}}]:
+            del self.payload_template['event']
+        if self.payload_template['section'][0]['title'] == '':
+            del self.payload_template['section'][0]['title']
+        if self.payload_template['section'][0]['code'] == {}:
+            del self.payload_template['section'][0]['code']
+
         return self.payload_template
 
     def build_composition_id_query(self, composition_id: str):
