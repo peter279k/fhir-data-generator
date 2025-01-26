@@ -38,6 +38,7 @@ from fhir_data_generator.tw_core_ig.allergyintolerance.allergyintolerance import
 from fhir_data_generator.iclaim.patient import Patient as PatientIclaimC1
 from fhir_data_generator.iclaim.observation import Observation as ObservationIclaimC1
 from fhir_data_generator.iclaim.coverage import Coverage as CoverageC1
+from fhir_data_generator.iclaim.claim import Claim
 
 from fhir_data_generator.simple_client.simple_client import SimpleClient
 from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
@@ -87,6 +88,7 @@ __all__ = [
     'PatientIclaimC1',
     'ObservationIclaimC1',
     'CoverageC1',
+    'Claim',
 
     'SimpleClient',
     'VerifyToken',
