@@ -50,6 +50,11 @@ class Patient:
         self.payload_template['address'] = address
 
     def create(self):
+        if self.payload_template['extension'] == []:
+            del self.payload_template['extension']
+        if self.payload_template['address'] == []:
+            del self.payload_template['address']
+
         return self.payload_template
 
     def build_patient_id_query(self, patient_id: str):
