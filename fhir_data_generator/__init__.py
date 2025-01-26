@@ -41,6 +41,7 @@ from fhir_data_generator.iclaim.coverage import Coverage as CoverageC1
 from fhir_data_generator.iclaim.claim import Claim
 
 from fhir_data_generator.imri.location import Location as LocationImri
+from fhir_data_generator.imri.encounter import Encounter as EncounterImri
 from fhir_data_generator.imri.imaging_study import ImagingStudy as ImagingStudyImri
 
 from fhir_data_generator.simple_client.simple_client import SimpleClient
@@ -94,6 +95,7 @@ __all__ = [
     'Claim',
 
     'LocationImri',
+    'EncounterImri',
     'ImagingStudyImri',
 
     'SimpleClient',
