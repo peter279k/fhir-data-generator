@@ -25,6 +25,7 @@ class Observation:
             'issued': '',
             'effectiveDateTime': '',
             'performer': [],
+            'valueCodeableConcept': {},
             'valueQuantity': {},
             'interpretation': [],
             'note': [],
@@ -64,6 +65,9 @@ class Observation:
     def set_performer(self, performer: list):
         self.payload_template['performer'] = performer
 
+    def set_value_codeable_concept(self, value_codeable_concept: dict):
+        self.payload_template['valueCodeableConcept'] = value_codeable_concept
+
     def set_value_quantity(self, value_quantity: dict):
         self.payload_template['valueQuantity'] = value_quantity
 
@@ -80,6 +84,23 @@ class Observation:
         self.payload_template['referenceRange'] = reference_range
 
     def create(self):
+        if self.payload_template['identifier'] == []:
+            del self.payload_template['identifier']
+        if self.payload_template['issued'] == '':
+            del self.payload_template['issued']
+        if self.payload_template['valueQuantity'] == {}:
+            del self.payload_template['valueQuantity']
+        if self.payload_template['interpretation'] == []:
+            del self.payload_template['interpretation']
+        if self.payload_template['note'] == []:
+            del self.payload_template['note']
+        if self.payload_template['bodySite'] == {'coding': []}:
+            del self.payload_template['bodySite']
+        if self.payload_template['referenceRange'] == []:
+            del self.payload_template['referenceRange']
+        if self.payload_template['valueCodeableConcept'] == {}:
+            del self.payload_template['valueCodeableConcept']
+
         return self.payload_template
 
     def build_observation_id_query(self, observation_id: str):
