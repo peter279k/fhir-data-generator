@@ -43,6 +43,7 @@ from fhir_data_generator.iclaim.claim import Claim
 from fhir_data_generator.imri.location import Location as LocationImri
 from fhir_data_generator.imri.encounter import Encounter as EncounterImri
 from fhir_data_generator.imri.imaging_study import ImagingStudy as ImagingStudyImri
+from fhir_data_generator.imri.document_reference import DocumentReference as DocumentReferenceImri
 
 from fhir_data_generator.simple_client.simple_client import SimpleClient
 from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
@@ -97,6 +98,7 @@ __all__ = [
     'LocationImri',
     'EncounterImri',
     'ImagingStudyImri',
+    'DocumentReferenceImri',
 
     'SimpleClient',
     'VerifyToken',
