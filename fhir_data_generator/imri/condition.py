@@ -69,6 +69,8 @@ class Condition:
     def create(self):
         if self.payload_template['clinicalStatus']['text'] == '':
             del self.payload_template['clinicalStatus']['text']
+        if self.payload_template['code']['text'] == '':
+            del self.payload_template['code']['text']
         if self.payload_template['recordedDate'] == '':
             del self.payload_template['recordedDate']
         if self.payload_template['note'] == []:
