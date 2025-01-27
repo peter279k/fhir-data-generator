@@ -29,6 +29,10 @@ class Procedure:
             'bodySite': [{
                 'coding': [],
             }],
+            'reasonReference': [],
+            'report': [],
+            'note': [],
+            'usedCode': [],
         }
 
         if procedure_id == '':
@@ -67,6 +71,18 @@ class Procedure:
     def set_body_site_coding(self, body_site_coding: list):
         self.payload_template['bodySite'][0]['coding'] = body_site_coding
 
+    def set_reason_reference(self, reason_reference: list):
+        self.payload_template['reasonReference'] = reason_reference
+
+    def set_report(self, report: list):
+        self.payload_template['report'] = report
+
+    def set_note(self, note: list):
+        self.payload_template['note'] = note
+
+    def set_used_code(self, used_code: list):
+        self.payload_template['usedCode'] = used_code
+
     def create(self):
         if self.payload_template['category'] == {'coding': []}:
             del self.payload_template['category']
@@ -78,6 +94,16 @@ class Procedure:
             del self.payload_template['performer']
         if self.payload_template['bodySite'] == [{'coding': []}]:
             del self.payload_template['bodySite']
+        if self.payload_template['report'] == []:
+            del self.payload_template['report']
+        if self.payload_template['note'] == []:
+            del self.payload_template['note']
+        if self.payload_template['usedCode'] == []:
+            del self.payload_template['usedCode']
+        if self.payload_template['reasonReference'] == []:
+            del self.payload_template['reasonReference']
+        if self.payload_template['code']['text'] == '':
+            del self.payload_template['code']['text']
 
         return self.payload_template
 
