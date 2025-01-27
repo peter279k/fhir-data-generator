@@ -88,6 +88,8 @@ class Procedure:
             del self.payload_template['category']
         if self.payload_template['encounter'] == {}:
             del self.payload_template['encounter']
+        if self.payload_template['performedDateTime'] == '':
+            del self.payload_template['performedDateTime']
         if self.payload_template['asserter'] == {}:
             del self.payload_template['asserter']
         if self.payload_template['performer'] == []:
