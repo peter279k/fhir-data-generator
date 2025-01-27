@@ -13,6 +13,7 @@ class Procedure:
             'meta': {
                 'profile': [],
             },
+            'partOf': [],
             'status': '',
             'category': {
                 'coding': [],
@@ -40,6 +41,9 @@ class Procedure:
 
     def set_profile_urls(self, profile_urls: list):
         self.payload_template['meta']['profile'] = profile_urls
+
+    def set_part_of(self, part_of: list):
+        self.payload_template['partOf'] = part_of
 
     def set_status(self, status: str):
         self.payload_template['status'] = status
@@ -84,6 +88,8 @@ class Procedure:
         self.payload_template['usedCode'] = used_code
 
     def create(self):
+        if self.payload_template['partOf'] == []:
+            del self.payload_template['partOf']
         if self.payload_template['category'] == {'coding': []}:
             del self.payload_template['category']
         if self.payload_template['encounter'] == {}:
