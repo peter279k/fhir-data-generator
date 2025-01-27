@@ -17,6 +17,7 @@ class Observation:
             'status': '',
             'category': [{
                 'coding': [],
+                'text': '',
             }],
             'code': {
                 'coding': [],
@@ -51,8 +52,14 @@ class Observation:
     def set_category_coding(self, category_coding: list):
         self.payload_template['category'][0]['coding'] = category_coding
 
+    def set_category_text(self, category_text: str):
+        self.payload_template['category'][0]['text'] = category_text
+
     def set_code_coding(self, code_coding: list):
         self.payload_template['code']['coding'] = code_coding
+
+    def set_code_text(self, code_text: str):
+        self.payload_template['code']['text'] = code_text
 
     def set_subject(self, subject: dict):
         self.payload_template['subject'] = subject
@@ -108,6 +115,10 @@ class Observation:
             del self.payload_template['valueString']
         if self.payload_template['performer'] == []:
             del self.payload_template['performer']
+        if self.payload_template['category'][0]['text'] == '':
+            del self.payload_template['category'][0]['text']
+        if self.payload_template['code']['coding'] == []:
+            del self.payload_template['code']['coding']
 
         return self.payload_template
 
