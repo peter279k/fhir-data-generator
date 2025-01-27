@@ -73,6 +73,8 @@ class Condition:
             del self.payload_template['code']['text']
         if self.payload_template['recordedDate'] == '':
             del self.payload_template['recordedDate']
+        if self.payload_template['encounter'] == {}:
+            del self.payload_template['encounter']
         if self.payload_template['note'] == []:
             del self.payload_template['note']
 
