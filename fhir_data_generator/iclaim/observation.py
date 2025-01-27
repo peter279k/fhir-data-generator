@@ -33,6 +33,7 @@ class Observation:
                 'coding': [],
             },
             'referenceRange': [],
+            'valueString': '',
         }
 
         if observation_id == '':
@@ -83,6 +84,9 @@ class Observation:
     def set_reference_range(self, reference_range: list):
         self.payload_template['referenceRange'] = reference_range
 
+    def set_value_string(self, value_string: str):
+        self.payload_template['valueString'] = value_string
+
     def create(self):
         if self.payload_template['identifier'] == []:
             del self.payload_template['identifier']
@@ -100,6 +104,10 @@ class Observation:
             del self.payload_template['referenceRange']
         if self.payload_template['valueCodeableConcept'] == {}:
             del self.payload_template['valueCodeableConcept']
+        if self.payload_template['valueString'] == '':
+            del self.payload_template['valueString']
+        if self.payload_template['performer'] == []:
+            del self.payload_template['performer']
 
         return self.payload_template
 
