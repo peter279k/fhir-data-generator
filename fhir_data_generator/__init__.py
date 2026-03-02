@@ -48,6 +48,8 @@ from fhir_data_generator.imri.composition import Composition as CompositionImri
 from fhir_data_generator.imri.imaging_study import ImagingStudy as ImagingStudyImri
 from fhir_data_generator.imri.document_reference import DocumentReference as DocumentReferenceImri
 
+from fhir_data_generator.tw_ltc.observation import Observation as ObservationLtc
+
 from fhir_data_generator.simple_client.simple_client import SimpleClient
 from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
 from fhir_data_generator.simple_client.keycloak_client_credentials import ClientCredentials
@@ -105,6 +107,8 @@ __all__ = [
     'CompositionImri',
     'ImagingStudyImri',
     'DocumentReferenceImri',
+
+    'ObservationLtc',
 
     'SimpleClient',
     'VerifyToken',

@@ -1,0 +1,136 @@
+from urllib.parse import urlencode
+
+
+class Observation:
+    def __init__(self, observation_id=''):
+        self.observation_id = observation_id
+
+        self.profile_urls = []
+
+        self.payload_template = {
+            'resourceType': 'Observation',
+            'id': observation_id,
+            'meta': {
+                'profile': [],
+            },
+            'status': '',
+            'category': [{
+                'coding': [],
+            }],
+            'code': {
+                'coding': [],
+                'text': '',
+            },
+            'subject': {},
+            'effectiveDateTime': '',
+            'performer': [],
+            'valueQuantity': {},
+            'interpretation': [],
+            'note': [],
+            'derivedFrom': [],
+            'bodySite': {
+                'coding': [],
+            },
+            'method': {
+                'coding': [],
+            },
+            'device': {},
+            'referenceRange': [],
+            'component': [],
+        }
+
+        if observation_id == '':
+            del self.payload_template['id']
+
+    def set_observation_id(self, observation_id):
+        self.observation_id = observation_id
+
+    def set_profile_urls(self, profile_urls: list):
+        self.payload_template['meta']['profile'] = profile_urls
+
+    def set_status(self, status: str):
+        self.payload_template['status'] = status
+
+    def set_category_coding(self, coding: list):
+        self.payload_template['category'][0]['coding'] = coding
+
+    def set_code_coding(self, coding: list):
+        self.payload_template['code']['coding'] = coding
+
+    def set_code_text(self, text: str):
+        self.payload_template['code']['text'] = text
+
+    def set_subject(self, subject: dict):
+        self.payload_template['subject'] = subject
+
+    def set_effective_datetime(self, effective_datetime: str):
+        self.payload_template['effectiveDateTime'] = effective_datetime
+
+    def set_performer(self, performer: list):
+        self.payload_template['performer'] = performer
+
+    def set_value_quantity(self, value_quantity: dict):
+        self.payload_template['valueQuantity'] = value_quantity
+
+    def set_interpretation(self, interpretation: list):
+        self.payload_template['interpretation'] = interpretation
+
+    def set_note(self, note: list):
+        self.payload_template['note'] = note
+
+    def set_derived_from(self, derived_form: list):
+        self.payload_template['derivedFrom'] = derived_form
+
+    def set_body_site_coding(self, coding: list):
+        self.payload_template['bodySite']['coding'] = coding
+
+    def set_method_coding(self, method_coding: list):
+        self.payload_template['method']['coding'] = method_coding
+
+    def set_device(self, device: dict):
+        self.payload_template['device'] = device
+
+    def set_reference_range(self, reference_range: list):
+        self.payload_template['referenceRange'] = reference_range
+
+    def set_component(self, component: list):
+        self.payload_template['component'] = component
+
+    def create(self):
+        if len(self.payload_template['interpretation']) == 0:
+            del self.payload_template['interpretation']
+
+        if len(self.payload_template['note']) == 0:
+            del self.payload_template['note']
+
+        if len(self.payload_template['method']['coding']) == 0:
+            del self.payload_template['method']
+
+        if self.payload_template['device'] == {}:
+            del self.payload_template['device']
+
+        if len(self.payload_template['referenceRange']) == 0:
+            del self.payload_template['referenceRange']
+
+        if len(self.payload_template['component']) == 0:
+            del self.payload_template['component']
+
+        if self.payload_template['valueQuantity'] == {}:
+            del self.payload_template['valueQuantity']
+
+        if len(self.payload_template['bodySite']['coding']) == 0:
+            del self.payload_template['bodySite']
+
+        if (self.payload_template['code']['text'] == ''):
+           del self.payload_template['code']['text']
+
+        if len(self.payload_template['derivedFrom']) == 0:
+            del self.payload_template['derivedFrom']
+
+        return self.payload_template
+
+    def build_observation_id_query(self, observation_id: str):
+        return urlencode({'_id': observation_id})
+
+    def build_search_param(self, query_params: dict):
+        return urlencode(query_params)
