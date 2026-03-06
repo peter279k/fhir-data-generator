@@ -37,6 +37,7 @@ class Observation:
             'device': {},
             'referenceRange': [],
             'component': [],
+            'hasMember': [],
         }
 
         if observation_id == '':
@@ -96,6 +97,9 @@ class Observation:
     def set_component(self, component: list):
         self.payload_template['component'] = component
 
+    def set_has_member(self, has_member: list):
+        self.payload_template['hasMember'] = has_member
+
     def create(self):
         if len(self.payload_template['interpretation']) == 0:
             del self.payload_template['interpretation']
@@ -114,6 +118,9 @@ class Observation:
 
         if len(self.payload_template['component']) == 0:
             del self.payload_template['component']
+
+        if len(self.payload_template['hasMember']) == 0:
+            del self.payload_template['hasMember']
 
         if self.payload_template['valueQuantity'] == {}:
             del self.payload_template['valueQuantity']
