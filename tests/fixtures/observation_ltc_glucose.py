@@ -25,12 +25,24 @@ def category_coding():
     }]
 
 @pytest.fixture
-def code_coding():
-    return [{
-        'system': 'http://loinc.org',
-        'code': '2339-0',
-        'display': 'Glucose [Mass/volume] in blood'
-    }]
+def code_codings():
+    return [
+        [{
+            'system': 'http://loinc.org',
+            'code': '2339-0',
+            'display': 'Glucose [Mass/volume] in blood'
+        }],
+        [{
+            'system': 'http://loinc.org',
+            'code': '87422-2',
+            'display': 'Glucose [Mass/volume] in Blood --post meal'
+        }],
+        [{
+            'system': 'http://loinc.org',
+            'code': '88365-2',
+            'display': 'Glucose [Mass/volume] in Blood --pre-meal'
+        }],
+    ]
 
 @pytest.fixture
 def subject():
@@ -74,11 +86,7 @@ def expected_payload():
             }]
         }],
         'code': {
-            'coding': [{
-                'system': 'http://loinc.org',
-                'code': '2339-0',
-                'display': 'Glucose [Mass/volume] in blood'
-            }]
+            'coding': []
         },
         'subject': {
             'reference': 'Patient/ltc-patient-chen-ming-hui'
