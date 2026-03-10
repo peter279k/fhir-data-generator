@@ -48,6 +48,7 @@ from fhir_data_generator.imri.composition import Composition as CompositionImri
 from fhir_data_generator.imri.imaging_study import ImagingStudy as ImagingStudyImri
 from fhir_data_generator.imri.document_reference import DocumentReference as DocumentReferenceImri
 
+from fhir_data_generator.tw_ltc.location import Location as LocationLtc
 from fhir_data_generator.tw_ltc.procedure import Procedure as ProcedureLtc
 from fhir_data_generator.tw_ltc.observation import Observation as ObservationLtc
 from fhir_data_generator.tw_ltc.questionnaire_response import QuestionnaireResponse
@@ -112,6 +113,7 @@ __all__ = [
     'DocumentReferenceImri',
 
     'ObservationLtc',
+    'LocationLtc',
     'ProcedureLtc',
     'QuestionnaireResponse',
     'MedicationAdministration',
