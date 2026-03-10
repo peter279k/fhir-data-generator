@@ -50,6 +50,7 @@ from fhir_data_generator.imri.document_reference import DocumentReference as Doc
 
 from fhir_data_generator.tw_ltc.procedure import Procedure as ProcedureLtc
 from fhir_data_generator.tw_ltc.observation import Observation as ObservationLtc
+from fhir_data_generator.tw_ltc.questionnaire_response import QuestionnaireResponse
 from fhir_data_generator.tw_ltc.medication_administration import MedicationAdministration
 
 from fhir_data_generator.simple_client.simple_client import SimpleClient
@@ -112,6 +113,7 @@ __all__ = [
 
     'ObservationLtc',
     'ProcedureLtc',
+    'QuestionnaireResponse',
     'MedicationAdministration',
 
     'SimpleClient',
