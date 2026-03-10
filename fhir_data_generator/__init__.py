@@ -51,8 +51,9 @@ from fhir_data_generator.imri.document_reference import DocumentReference as Doc
 from fhir_data_generator.tw_ltc.location import Location as LocationLtc
 from fhir_data_generator.tw_ltc.procedure import Procedure as ProcedureLtc
 from fhir_data_generator.tw_ltc.observation import Observation as ObservationLtc
-from fhir_data_generator.tw_ltc.questionnaire_response import QuestionnaireResponse
-from fhir_data_generator.tw_ltc.medication_administration import MedicationAdministration
+from fhir_data_generator.tw_ltc.adverse_event import AdverseEvent as AdverseEventLtc
+from fhir_data_generator.tw_ltc.questionnaire_response import QuestionnaireResponse as QuestionnaireResponseLtc
+from fhir_data_generator.tw_ltc.medication_administration import MedicationAdministration as MedicationAdministrationLtc
 
 from fhir_data_generator.simple_client.simple_client import SimpleClient
 from fhir_data_generator.simple_client.keycloak_verify_token import VerifyToken
@@ -112,11 +113,12 @@ __all__ = [
     'ImagingStudyImri',
     'DocumentReferenceImri',
 
-    'ObservationLtc',
     'LocationLtc',
     'ProcedureLtc',
-    'QuestionnaireResponse',
-    'MedicationAdministration',
+    'AdverseEventLtc',
+    'ObservationLtc',
+    'QuestionnaireResponseLtc',
+    'MedicationAdministrationLtc',
 
     'SimpleClient',
     'VerifyToken',

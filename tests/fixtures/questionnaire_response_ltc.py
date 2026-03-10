@@ -1,5 +1,5 @@
 import pytest
-from fhir_data_generator import QuestionnaireResponse
+from fhir_data_generator import QuestionnaireResponseLtc as QuestionnaireResponse
 
 
 @pytest.fixture

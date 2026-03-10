@@ -1,5 +1,5 @@
 import pytest
-from fhir_data_generator import MedicationAdministration
+from fhir_data_generator import MedicationAdministrationLtc as MedicationAdministration
 
 
 @pytest.fixture
