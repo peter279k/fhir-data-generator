@@ -1,6 +1,7 @@
 dist/
 build/
 .coverage
+__pycache__
 poetry.lock
 Pipfile.lock
 /web/*.sqlite3
