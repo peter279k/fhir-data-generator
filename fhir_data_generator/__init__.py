@@ -52,6 +52,7 @@ from fhir_data_generator.tw_ltc.patient import Patient as PatientLtc
 from fhir_data_generator.tw_ltc.location import Location as LocationLtc
 from fhir_data_generator.tw_ltc.procedure import Procedure as ProcedureLtc
 from fhir_data_generator.tw_ltc.observation import Observation as ObservationLtc
+from fhir_data_generator.tw_ltc.organization import Organization as OrganizationLtc
 from fhir_data_generator.tw_ltc.adverse_event import AdverseEvent as AdverseEventLtc
 from fhir_data_generator.tw_ltc.questionnaire_response import QuestionnaireResponse as QuestionnaireResponseLtc
 from fhir_data_generator.tw_ltc.medication_administration import MedicationAdministration as MedicationAdministrationLtc
@@ -117,6 +118,7 @@ __all__ = [
     'PatientLtc',
     'LocationLtc',
     'ProcedureLtc',
+    'OrganizationLtc',
     'AdverseEventLtc',
     'ObservationLtc',
     'QuestionnaireResponseLtc',
