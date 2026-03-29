@@ -53,6 +53,8 @@ class Patient:
         self.payload_template['managingOrganization'] = managing
 
     def create(self):
+        if len(self.payload_template['meta']['profile']) == 0:
+            del self.payload_template['meta']
         if self.payload_template['active'] is None:
             del self.payload_template['active']
         if len(self.payload_template['telecom']) == 0:
