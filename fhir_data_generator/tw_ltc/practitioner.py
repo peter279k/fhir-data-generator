@@ -14,10 +14,13 @@ class Practitioner:
                 'profile': [],
             },
             'identifier' : [],
-            'active': True,
-            'name': [{
-                'text': '',
-            }],
+            'active': None,
+            'name': [],
+            'telecom': [],
+            'address': [],
+            'gender': '',
+            'birthDate': '',
+            'qualification': [],
         }
 
         if practitioner_id == '':
@@ -32,10 +35,37 @@ class Practitioner:
     def set_active(self, active: bool):
         self.payload_template['active'] = active
 
-    def set_name_text(self, name_text: str):
-        self.payload_template['name'][0]['text'] = name_text
+    def set_name(self, name: list):
+        self.payload_template['name'] = name
+
+    def set_telecom(self, telecom: list):
+        self.payload_template['telecom'] = telecom
+
+    def set_address(self, address: list):
+        self.payload_template['address'] = address
+
+    def set_gender(self, gender: str):
+        self.payload_template['gender'] = gender
+
+    def set_birth_date(self, birth_date: str):
+        self.payload_template['birthDate'] = birth_date
+
+    def set_qualification(self, qualification: list):
+        self.payload_template['qualification'] = qualification
 
     def create(self):
+        if self.payload_template['active'] is None:
+            del self.payload_template['active']
+
+        if len(self.payload_template['qualification']) == 0:
+            del self.payload_template['qualification']
+
+        if len(self.payload_template['address']) == 0:
+            del self.payload_template['address']
+
+        if self.payload_template['birthDate'] == '':
+            del self.payload_template['birthDate']
+
         return self.payload_template
 
     def build_practitioner_id_query(self, practitioner_id: str):
