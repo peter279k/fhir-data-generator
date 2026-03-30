@@ -1,4 +1,4 @@
-from fixtures.observation_ltc_medication_administration import *
+from fixtures.ltc_medication_administration import *
 
 
 def test_create(medication_administration_class, profile_urls, status, medication_codeable_concept_coding, medication_codeable_concept_text, subject, effective_date_time, performer, note, dosage, expected_payload):
